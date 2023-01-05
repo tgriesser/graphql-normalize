@@ -1,0 +1,31 @@
+fragment PostsFrag on QueryPostsConnection {
+  nodes {
+    id
+    author {
+      id
+    }
+  }
+  edges {
+    node {
+      id
+      author {
+        id
+      }
+    }
+  }
+}
+
+query OperationWithFrag($first: Int = 100, $nodeId: ID! = "", $hasNode: Boolean = false) {
+  posts(first: $first) {
+    ...PostsFrag
+  }
+  currentNode: node(id: $nodeId) @include(if: $hasNode) {
+    ... on User {
+      id
+      name
+    }
+    ... on Post {
+      id
+    }
+  }
+}

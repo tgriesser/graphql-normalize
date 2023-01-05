@@ -1,0 +1,8 @@
+query Operation2 {
+  posts(first: 100) {
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}

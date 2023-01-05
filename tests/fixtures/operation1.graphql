@@ -1,0 +1,44 @@
+query Operation1($first: Int = 12, $nodeId: ID! = "", $hasNode: Boolean = false) {
+  posts(first: $first) {
+    nodes {
+      id
+      author {
+        id
+      }
+    }
+    edges {
+      node {
+        id
+        author {
+          id
+        }
+      }
+    }
+  }
+  first10Posts: posts(first: 10) {
+    nodes {
+      id
+    }
+  }
+  currentNode: node(id: $nodeId) @include(if: $hasNode) {
+    ... on User {
+      __typename
+      name
+    }
+    ... on Post {
+      id
+    }
+  }
+  homeItems(first: 10) {
+    nodes {
+      ... on Post {
+        __typename
+        id
+      }
+      ... on Blog {
+        id
+        name
+      }
+    }
+  }
+}

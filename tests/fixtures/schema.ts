@@ -1,0 +1,128 @@
+import SchemaBuilder from '@pothos/core';
+import pluginRelay, { resolveArrayConnection } from '@pothos/plugin-relay';
+import pluginSimpleObjects from '@pothos/plugin-simple-objects';
+import { lexicographicSortSchema, printSchema } from 'graphql';
+import fs from 'fs';
+import path from 'path';
+
+import {
+  BlogShape,
+  CommentShape,
+  PostShape,
+  UserShape,
+  commentsFixtures,
+  findBlog,
+  findUser,
+  interleavedNodes,
+  postsFixtures,
+} from './fixtures';
+
+const builder = new SchemaBuilder<{
+  Context: {};
+  Objects: {
+    Post: PostShape;
+    User: UserShape;
+    Comment: CommentShape;
+    Blog: BlogShape;
+  };
+}>({
+  plugins: [pluginRelay, pluginSimpleObjects],
+  relayOptions: {
+    // These will become the defaults in the next major version
+    clientMutationId: 'omit',
+    cursorType: 'String',
+    nodesOnConnection: true,
+  },
+});
+
+builder.queryType({});
+
+builder.queryFields((t) => ({
+  posts: t.connection({
+    type: Post,
+    resolve: (source, args) => {
+      return resolveArrayConnection({ args }, postsFixtures);
+    },
+  }),
+  homeItems: t.connection({
+    type: HomeFeedItem,
+    resolve: (source, args) => resolveArrayConnection({ args }, interleavedNodes),
+  }),
+}));
+
+const Post = builder.node('Post', {
+  id: {
+    resolve: (o) => o.id,
+  },
+  fields: (t) => ({
+    blog: t.field({
+      type: Blog,
+      nullable: true,
+      resolve: (o) => findBlog(o.blogId),
+    }),
+    author: t.field({
+      type: 'User',
+      nullable: true,
+      resolve: (o) => findUser(o.authorId),
+    }),
+    comments: t.field({
+      type: t.listRef(Comment),
+      args: {
+        first: t.arg.int({ required: true, defaultValue: 10 }),
+        offset: t.arg.int(),
+      },
+      resolve: (source, args) => {
+        return commentsFixtures.slice(args.offset ?? 0, args.first);
+      },
+    }),
+  }),
+});
+
+const User = builder.node('User', {
+  id: {
+    resolve: (o) => o.id,
+  },
+  fields: (t) => ({
+    name: t.exposeString('name'),
+    email: t.exposeString('name'),
+  }),
+});
+
+const Comment = builder.node('Comment', {
+  id: {
+    resolve: (o) => o.id,
+  },
+  fields: (t) => ({
+    author: t.field({
+      type: User,
+      nullable: true,
+      resolve: (source) => findUser(source.authorId),
+    }),
+  }),
+});
+
+const Blog = builder.node('Blog', {
+  id: {
+    resolve: (o) => o.id,
+  },
+  fields: (t) => ({
+    name: t.exposeString('name'),
+    posts: t.connection({
+      type: 'Post',
+      resolve: (source, args) =>
+        resolveArrayConnection(
+          { args },
+          postsFixtures.filter((p) => p.blogId === source.id)
+        ),
+    }),
+  }),
+});
+
+const HomeFeedItem = builder.unionType('HomeFeedItem', {
+  types: ['Blog', 'Comment', 'Post', 'User'],
+});
+
+export const schema = builder.toSchema();
+const printedSchema = printSchema(lexicographicSortSchema(schema));
+
+fs.writeFileSync(path.join(__dirname, 'schema.gql'), printedSchema);

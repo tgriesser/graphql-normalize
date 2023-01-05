@@ -1,0 +1,76 @@
+type Blog implements Node {
+  id: ID!
+  name: String!
+  posts(after: String, before: String, first: Int, last: Int): BlogPostsConnection!
+}
+
+type BlogPostsConnection {
+  edges: [BlogPostsConnectionEdge]!
+  nodes: [Post]!
+  pageInfo: PageInfo!
+}
+
+type BlogPostsConnectionEdge {
+  cursor: String!
+  node: Post!
+}
+
+type Comment implements Node {
+  author: User
+  id: ID!
+}
+
+union HomeFeedItem = Blog | Comment | Post | User
+
+interface Node {
+  id: ID!
+}
+
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+}
+
+type Post implements Node {
+  author: User
+  blog: Blog
+  comments(first: Int! = 10, offset: Int): [Comment!]!
+  id: ID!
+}
+
+type Query {
+  homeItems(after: String, before: String, first: Int, last: Int): QueryHomeItemsConnection!
+  node(id: ID!): Node
+  nodes(ids: [ID!]!): [Node]!
+  posts(after: String, before: String, first: Int, last: Int): QueryPostsConnection!
+}
+
+type QueryHomeItemsConnection {
+  edges: [QueryHomeItemsConnectionEdge]!
+  nodes: [HomeFeedItem]!
+  pageInfo: PageInfo!
+}
+
+type QueryHomeItemsConnectionEdge {
+  cursor: String!
+  node: HomeFeedItem!
+}
+
+type QueryPostsConnection {
+  edges: [QueryPostsConnectionEdge]!
+  nodes: [Post]!
+  pageInfo: PageInfo!
+}
+
+type QueryPostsConnectionEdge {
+  cursor: String!
+  node: Post!
+}
+
+type User implements Node {
+  email: String!
+  id: ID!
+  name: String!
+}
