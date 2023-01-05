@@ -7,12 +7,20 @@ export interface ArgDef {
   [replaceKey: `$${string}`]: string;
 }
 
-export interface NormalizeMeta {
-  aliasField?: string;
+type Depth = number;
+
+export interface UnionMeta {
+  fields: FieldDef[];
+  cacheKey?: CacheKey;
+}
+
+export interface FieldMeta {
+  name: string;
+  alias?: string;
   cacheKey?: CacheKey;
   args?: ArgDef | string;
-  list?: boolean;
-  possible?: string[];
+  list?: Depth;
+  possible?: Record<string, UnionMeta>;
   fields?: FieldDef[];
   skip?: ArgDef | string;
   include?: ArgDef | string;
@@ -20,12 +28,6 @@ export interface NormalizeMeta {
 
 interface ExtensionsShape {
   graphqlNormalize: NormalizedDoc;
-}
-
-export interface FieldMeta {
-  name: string;
-  alias?: string;
-  args?: ArgDef | string;
 }
 
 export type FieldDef = string | FieldMeta;
@@ -38,5 +40,5 @@ export interface VariableMeta {
 export interface NormalizedDoc {
   operation: OperationTypeNode;
   variables: VariableMeta[];
-  selectionSet: Record<string, NormalizeMeta>;
+  fields: FieldDef[];
 }

@@ -1,5 +1,5 @@
 import { execute } from 'graphql';
-import { describe, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { generateNormalizedOperation } from '../src/generateNormalizedOperation';
 import { schema } from './fixtures/schema';
 import { operation1Doc } from './fixtures/ops';
@@ -10,10 +10,12 @@ describe('buildCache', () => {
   //
   it('builds a cache of values', async () => {
     const meta = generateNormalizedMetadata(schema, operation1Doc);
-    const data = await execute({
+    const variableValues = {};
+    const result = await execute({
       schema,
+      variableValues,
       document: generateNormalizedOperation(schema, operation1Doc),
     });
-    buildCache(data, meta);
+    expect(buildCache({ meta, result, variableValues })).toMatchSnapshot();
   });
 });

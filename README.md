@@ -11,6 +11,4 @@ Schema driven normalized caching, geared for persisted queries
 
 ## Non-Goals:
 
-**Preventing fetches for unfetched queries.**
-
-If we have not fetched data yet for a query, we do not want to
+- Preventing fetches for fully unfetched queries

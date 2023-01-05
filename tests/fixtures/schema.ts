@@ -38,6 +38,9 @@ const builder = new SchemaBuilder<{
 builder.queryType({});
 
 builder.queryFields((t) => ({
+  num: t.int({
+    resolve: () => 1,
+  }),
   posts: t.connection({
     type: Post,
     resolve: (source, args) => {

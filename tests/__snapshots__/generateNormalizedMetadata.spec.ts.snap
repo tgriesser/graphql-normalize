@@ -2,126 +2,117 @@
 
 exports[`generateNormalizedMetadata > should generate the necessary metadata 1`] = `
 {
-  "operation": "query",
-  "selectionSet": {
-    "currentNode": {
-      "aliasField": "node",
-      "args": {
-        "$id": "id",
-      },
-      "fields": [],
-      "possible": [
-        "Blog",
-        "Comment",
-        "Post",
-        "User",
-      ],
-    },
-    "currentNode.$type_Post": {
-      "fields": [
-        "id",
-      ],
-    },
-    "currentNode.$type_User": {
-      "fields": [
-        "__typename",
-        "name",
-      ],
-    },
-    "first10Posts": {
-      "aliasField": "posts",
-      "args": "{\\"first\\":\\"10\\"}",
-      "fields": [
-        "nodes",
-      ],
-    },
-    "first10Posts.nodes": {
-      "list": true,
-    },
-    "first10Posts.nodes.$idx": {
-      "cacheKey": "Post:id",
-      "fields": [
-        "id",
-      ],
-    },
-    "homeItems": {
-      "args": "{\\"first\\":\\"10\\"}",
-      "fields": [
-        "nodes",
-      ],
-    },
-    "homeItems.nodes": {
-      "list": true,
-    },
-    "homeItems.nodes.$idx": {
-      "fields": [],
-      "possible": [
-        "Blog",
-        "Comment",
-        "Post",
-        "User",
-      ],
-    },
-    "homeItems.nodes.$idx.$type_Blog": {
-      "fields": [
-        "id",
-        "name",
-      ],
-    },
-    "homeItems.nodes.$idx.$type_Post": {
-      "fields": [
-        "__typename",
-        "id",
-      ],
-    },
-    "posts": {
+  "fields": [
+    {
       "args": {
         "$first": "first",
       },
       "fields": [
-        "nodes",
-        "edges",
+        {
+          "cacheKey": "Post:id",
+          "fields": [
+            "id",
+            {
+              "cacheKey": "User:id",
+              "fields": [
+                "id",
+              ],
+              "name": "author",
+            },
+          ],
+          "list": 1,
+          "name": "nodes",
+        },
+        {
+          "cacheKey": "QueryPostsConnectionEdge:cursor",
+          "fields": [
+            {
+              "cacheKey": "Post:id",
+              "fields": [
+                "id",
+                {
+                  "cacheKey": "User:id",
+                  "fields": [
+                    "id",
+                  ],
+                  "name": "author",
+                },
+              ],
+              "name": "node",
+            },
+          ],
+          "list": 1,
+          "name": "edges",
+        },
       ],
+      "name": "posts",
     },
-    "posts.edges": {
-      "list": true,
-    },
-    "posts.edges.$idx": {
-      "cacheKey": "QueryPostsConnectionEdge:cursor",
+    {
+      "alias": "first10Posts",
+      "args": "{\\"first\\":\\"10\\"}",
       "fields": [
-        "node",
+        {
+          "cacheKey": "Post:id",
+          "fields": [
+            "id",
+          ],
+          "list": 1,
+          "name": "nodes",
+        },
       ],
+      "name": "posts",
     },
-    "posts.edges.$idx.node": {
-      "cacheKey": "Post:id",
+    {
+      "alias": "currentNode",
+      "args": {
+        "$nodeId": "id",
+      },
+      "name": "node",
+      "possible": {
+        "Post": {
+          "cacheKey": "Post:id",
+          "fields": [
+            "id",
+          ],
+        },
+        "User": {
+          "cacheKey": "User:id",
+          "fields": [
+            "__typename",
+            "name",
+          ],
+        },
+      },
+    },
+    {
+      "args": "{\\"first\\":\\"10\\"}",
       "fields": [
-        "id",
-        "author",
+        {
+          "list": 1,
+          "name": "nodes",
+          "possible": {
+            "Blog": {
+              "cacheKey": "Blog:id",
+              "fields": [
+                "id",
+                "name",
+              ],
+            },
+            "Post": {
+              "cacheKey": "Post:id",
+              "fields": [
+                "__typename",
+                "id",
+              ],
+            },
+          },
+        },
       ],
+      "name": "homeItems",
     },
-    "posts.edges.$idx.node.author": {
-      "cacheKey": "User:id",
-      "fields": [
-        "id",
-      ],
-    },
-    "posts.nodes": {
-      "list": true,
-    },
-    "posts.nodes.$idx": {
-      "cacheKey": "Post:id",
-      "fields": [
-        "id",
-        "author",
-      ],
-    },
-    "posts.nodes.$idx.author": {
-      "cacheKey": "User:id",
-      "fields": [
-        "id",
-      ],
-    },
-  },
+    "num",
+  ],
+  "operation": "query",
   "variables": [
     {
       "defaultValue": "12",
