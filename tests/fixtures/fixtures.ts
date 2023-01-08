@@ -35,6 +35,7 @@ export function findUser(id: number) {
 export interface PostShape {
   __typename: 'Post';
   id: number;
+  title: string;
   blogId: number;
   authorId: number;
   coordinates: number[];
@@ -43,6 +44,7 @@ export interface PostShape {
 export const postsFixtures: PostShape[] = new Array(100).fill(1).map((o, idx) => ({
   __typename: 'Post',
   id: idx + 1,
+  title: `Some Blog post ${idx + 1}`,
   blogId: (idx % 2) + 1,
   authorId: (idx % 2) + 1,
   coordinates: [90.0, 135.0],

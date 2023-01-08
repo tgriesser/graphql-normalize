@@ -1,32 +1,5 @@
 import produce, { immerable } from 'immer';
-
-const enum t {
-  FALSE = 0,
-  TRUE = 1,
-  FIELD,
-  TYPE,
-  ARGS,
-  ARG,
-  VALUE,
-  SELECTIONS,
-  VARIABLE,
-  UNION,
-  REF,
-  ALIAS,
-  SKIP,
-  INCLUDE,
-  LIST,
-  NON_NULL,
-  OPERATION_HASH,
-  OPERATION_NAME,
-  OPERATION_TYPE,
-  VARIABLE_DEFINITIONS,
-  QUERY,
-  MUTATION,
-  NO_ARGS,
-}
-
-const NO_ARGS = '^NO_ARGS' as const;
+import type { NormalizeMetaShape } from './metadataShapes';
 
 class ListIndex {
   constructor(public index: number, public length: number) {}
@@ -40,16 +13,16 @@ class CacheRef {
   }
 }
 
-function isCacheRef(val: any): val is CacheRef {
-  return val instanceof CacheRef;
-}
-
 class CacheValue {
   [immerable] = true;
   constructor(public value: unknown) {}
   isEqual(val: any) {
     return isCacheValue(val) && this.value === val.value;
   }
+}
+
+function isCacheRef(val: any): val is CacheRef {
+  return val instanceof CacheRef;
 }
 
 function isCacheValue(val: any): val is CacheValue {
@@ -61,7 +34,6 @@ type FieldName = string;
 type CacheRefOrValue = CacheRef | CacheValue;
 
 interface FieldCacheShape {
-  [idx: number]: FieldCacheShape | Record<FieldName, FieldCacheShape> | CacheRefOrValue;
   [serializedArgs: string]: FieldCacheShape | Record<FieldName, FieldCacheShape> | CacheRefOrValue;
 }
 
@@ -94,7 +66,7 @@ export class QueryContainer {
   refs = new Set<CacheRef>();
 
   constructor(
-    readonly operationShape: OperationShape,
+    readonly operationShape: NormalizeMetaShape,
     private getState: () => CacheShaped,
     private setState: (fn: (draft: CacheShaped) => void) => void,
     initialValue?: unknown,
@@ -102,8 +74,8 @@ export class QueryContainer {
   ) {
     // If we have an initial value, set it as the "last query shape",
     // and assume it's good, since we just set it
-    this.lastQueryShape = initialValue ? produce(() => initialValue) : undefined;
-    this.lastVariablesShape = initialVariables ? produce(() => initialVariables ?? {}) : undefined;
+    this.lastQueryShape = initialValue ? produce({}, () => initialValue) : undefined;
+    this.lastVariablesShape = initialVariables ? produce({}, () => initialVariables ?? {}) : undefined;
 
     // We also want to write it into the root cache
     if (this.lastQueryShape) {
@@ -116,23 +88,12 @@ export class QueryContainer {
   }
 
   getValue() {
-    if (this.lastState === this.getState()) {
+    const currentState = this.getState();
+    if (this.lastState === currentState) {
       return this.lastQueryShape;
     }
   }
 
-  /**
-   * CacheSelectionNode<path: ['Viewer'], selections: [
-   *   CacheValueNode<path: ['countFormsActive', NO_ARGS], value: CacheValue<0>>,
-   *   CacheValueNode<path: ['countFormsArchived', NO_ARGS], value: CacheValue<1>>,
-   *   CacheValueNode<path: ['countFormsArchived', NO_ARGS], value: CacheValue<0>>,
-   *   CacheValueNode<path: ['projects', '{first: 10}', 'nodes', NO_ARGS, Idx<index: 0, length: 1>], value: CacheRef('Project', 'ba34de34d...')>
-   * ]>
-   *
-   * CacheSelectionNode<path: ['Project:ba34de34d', selections: [
-   *   CacheValueNode<path: ['id'], value: CacheValue<'ba34de34d'>>
-   * ]]>
-   */
   #mergeResult(result: any) {
     this.setState((draft) => {
       this.#visitObject(result, (node) => {
@@ -201,26 +162,24 @@ export class QueryContainer {
   }
 
   #visitObject(result: any, visitFn: VisitFn, path: Array<string | number> = [], definitionPath: string[] = []) {
-    const operationShape = this.operationShape;
-    const baseSelections = operationShape[t.SELECTIONS];
-
-    // Get the current selection set
-    const selectionSet: Record<string, SelectionShape> = definitionPath.reduce((result, key) => {
-      if (!result[key]) {
-        throw new Error(`Unexpected key ${key}`);
-      }
-      const nextShape = result[key];
-      assertsHasSelections(nextShape);
-      return nextShape[t.SELECTIONS];
-    }, baseSelections);
-
-    for (const [key, val] of Object.entries(result)) {
-      const fieldShape = selectionSet[key];
-      const currentPath = path.concat(key);
-      visitFn();
-      for (const p of currentDefPath) {
-      }
-    }
+    // const operationShape = this.operationShape;
+    // const baseSelections = operationShape[t.SELECTIONS];
+    // // Get the current selection set
+    // const selectionSet: Record<string, SelectionShape> = definitionPath.reduce((result, key) => {
+    //   if (!result[key]) {
+    //     throw new Error(`Unexpected key ${key}`);
+    //   }
+    //   const nextShape = result[key];
+    //   assertsHasSelections(nextShape);
+    //   return nextShape[t.SELECTIONS];
+    // }, baseSelections);
+    // for (const [key, val] of Object.entries(result)) {
+    //   const fieldShape = selectionSet[key];
+    //   const currentPath = path.concat(key);
+    //   visitFn();
+    //   for (const p of currentDefPath) {
+    //   }
+    // }
   }
 
   #visitList(result: any, visitFn: VisitFn, path: Array<string | number>, definitionPath: string[]) {
@@ -265,80 +224,7 @@ function isCacheSelectionNode(v: CacheNode): v is CacheSelectionNode {
 
 type VisitFn = (node: CacheNode) => void;
 
-/**
- * Given an operation, normalizes the result in the cache, accounting for
- * the cyclical nature of GraphQL objects.
- */
-export function normalizeData() {
-  /**
-   * fragment FormsListTableRows on FormDefinitionConnection {
-   *   nodes {
-   *     id
-   *     uuid
-   *     name
-   *     submissionCount
-   *     fieldCount
-   *     status
-   *   }
-   * }
-   *
-   * query CreateForm {
-   *   viewer {
-   *     forms(first: 100, after: $after) {
-   *       ...FormsListTableRows
-   *     }
-   *   }
-   * }
-   */
-}
-
 export interface UseQueryOpts {
   operationName: string;
   operationHash: string;
-}
-
-type SelectionSet = Record<FieldName, SelectionShape>;
-
-type TypeShape = {
-  [t.NON_NULL]: t.FALSE | t.TRUE;
-  [t.LIST]?: boolean;
-  [t.VALUE]?: TypeShape | string;
-};
-
-interface SelectionShape {
-  [t.TYPE]: TypeShape;
-  [t.ALIAS]?: string;
-  [t.INCLUDE]?: string;
-  [t.SKIP]?: string;
-  [t.SELECTIONS]?: SelectionSet;
-}
-
-interface VariableDefinitionShape {
-  [t.VARIABLE]: string;
-}
-
-interface OperationShape {
-  [t.OPERATION_HASH]: string;
-  [t.OPERATION_NAME]: string;
-  [t.OPERATION_TYPE]: t.QUERY | t.MUTATION;
-  [t.SELECTIONS]: SelectionSet;
-  [t.VARIABLE_DEFINITIONS]: Array<VariableDefinitionShape>;
-}
-
-function hasSelectionSet(shape: SelectionShape): shape is SelectionShape & { [t.SELECTIONS]: SelectionSet } {
-  return Boolean(shape[t.SELECTIONS]);
-}
-
-function assertsHasSelections(
-  shape: SelectionShape
-): asserts shape is SelectionShape & { [t.SELECTIONS]: SelectionSet } {
-  if (!hasSelectionSet(shape)) {
-    throw new Error(`Expected shape to have a selectionSet`);
-  }
-}
-
-function assertIsNumber(key: string | number): asserts key is number {
-  if (typeof key !== 'number') {
-    throw new Error(`Expected key to be a number`);
-  }
 }

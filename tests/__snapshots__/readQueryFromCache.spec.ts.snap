@@ -1,0 +1,227 @@
+// Vitest Snapshot v1
+
+exports[`readQueryFromCache > builds a cache of values 1`] = `
+{
+  "currentNode": undefined,
+  "first10Posts": {
+    "nodes": [
+      {
+        "id": "UG9zdDox",
+        "title": "Some Blog post 1",
+      },
+      {
+        "id": "UG9zdDoy",
+        "title": "Some Blog post 2",
+      },
+      {
+        "id": "UG9zdDoz",
+        "title": "Some Blog post 3",
+      },
+      {
+        "id": "UG9zdDo0",
+        "title": "Some Blog post 4",
+      },
+      {
+        "id": "UG9zdDo1",
+        "title": "Some Blog post 5",
+      },
+      {
+        "id": "UG9zdDo2",
+        "title": "Some Blog post 6",
+      },
+      {
+        "id": "UG9zdDo3",
+        "title": "Some Blog post 7",
+      },
+      {
+        "id": "UG9zdDo4",
+        "title": "Some Blog post 8",
+      },
+      {
+        "id": "UG9zdDo5",
+        "title": "Some Blog post 9",
+      },
+      {
+        "id": "UG9zdDoxMA==",
+        "title": "Some Blog post 10",
+      },
+    ],
+  },
+  "homeItems": {},
+  "num": 1,
+  "posts": {
+    "edges": [
+      {
+        "node": {
+          "author": {
+            "id": "VXNlcjox",
+          },
+          "id": "UG9zdDox",
+        },
+      },
+      {
+        "node": {
+          "author": {
+            "id": "VXNlcjoy",
+          },
+          "id": "UG9zdDoy",
+        },
+      },
+      {
+        "node": {
+          "author": {
+            "id": "VXNlcjox",
+          },
+          "id": "UG9zdDoz",
+        },
+      },
+      {
+        "node": {
+          "author": {
+            "id": "VXNlcjoy",
+          },
+          "id": "UG9zdDo0",
+        },
+      },
+      {
+        "node": {
+          "author": {
+            "id": "VXNlcjox",
+          },
+          "id": "UG9zdDo1",
+        },
+      },
+      {
+        "node": {
+          "author": {
+            "id": "VXNlcjoy",
+          },
+          "id": "UG9zdDo2",
+        },
+      },
+      {
+        "node": {
+          "author": {
+            "id": "VXNlcjox",
+          },
+          "id": "UG9zdDo3",
+        },
+      },
+      {
+        "node": {
+          "author": {
+            "id": "VXNlcjoy",
+          },
+          "id": "UG9zdDo4",
+        },
+      },
+      {
+        "node": {
+          "author": {
+            "id": "VXNlcjox",
+          },
+          "id": "UG9zdDo5",
+        },
+      },
+      {
+        "node": {
+          "author": {
+            "id": "VXNlcjoy",
+          },
+          "id": "UG9zdDoxMA==",
+        },
+      },
+      {
+        "node": {
+          "author": {
+            "id": "VXNlcjox",
+          },
+          "id": "UG9zdDoxMQ==",
+        },
+      },
+      {
+        "node": {
+          "author": {
+            "id": "VXNlcjoy",
+          },
+          "id": "UG9zdDoxMg==",
+        },
+      },
+    ],
+    "nodes": [
+      {
+        "author": {
+          "id": "VXNlcjox",
+        },
+        "id": "UG9zdDox",
+      },
+      {
+        "author": {
+          "id": "VXNlcjoy",
+        },
+        "id": "UG9zdDoy",
+      },
+      {
+        "author": {
+          "id": "VXNlcjox",
+        },
+        "id": "UG9zdDoz",
+      },
+      {
+        "author": {
+          "id": "VXNlcjoy",
+        },
+        "id": "UG9zdDo0",
+      },
+      {
+        "author": {
+          "id": "VXNlcjox",
+        },
+        "id": "UG9zdDo1",
+      },
+      {
+        "author": {
+          "id": "VXNlcjoy",
+        },
+        "id": "UG9zdDo2",
+      },
+      {
+        "author": {
+          "id": "VXNlcjox",
+        },
+        "id": "UG9zdDo3",
+      },
+      {
+        "author": {
+          "id": "VXNlcjoy",
+        },
+        "id": "UG9zdDo4",
+      },
+      {
+        "author": {
+          "id": "VXNlcjox",
+        },
+        "id": "UG9zdDo5",
+      },
+      {
+        "author": {
+          "id": "VXNlcjoy",
+        },
+        "id": "UG9zdDoxMA==",
+      },
+      {
+        "author": {
+          "id": "VXNlcjox",
+        },
+        "id": "UG9zdDoxMQ==",
+      },
+      {
+        "author": {
+          "id": "VXNlcjoy",
+        },
+        "id": "UG9zdDoxMg==",
+      },
+    ],
+  },
+}
+`;

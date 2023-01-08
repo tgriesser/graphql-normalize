@@ -1,23 +1,36 @@
 import type { FormattedExecutionResult } from 'graphql';
-import type { ArgDef, FieldDef, FieldMeta, NormalizedDoc } from './extensionShape';
-import { stringifyVariables } from './stringifyVariables';
+import type { FieldDef, FieldMeta, NormalizeMetaShape } from './metadataShapes';
+import type { CacheShape } from './cache';
+import { NO_ARGS, printArgs } from './printArgs';
+import { makeCacheKey } from './makeCacheKey';
+import { __typename } from './constants';
 
 interface BuildCacheObj {
-  meta: NormalizedDoc;
+  meta: NormalizeMetaShape;
   result: FormattedExecutionResult;
   variableValues: Record<string, any>;
 }
 
-const NO_ARGS = '^NO_ARGS';
+interface IterateFieldsConfig {
+  into: any;
+  existing: any;
+  resultData: any;
+  fields: FieldDef[];
+  cachePath: Array<string | number>;
+  resultPath: Array<string | number>;
+}
 
 /**
  * Write values into the cache, given the values, the existing cache,
  * and the new values that need to be written
  */
-export function buildCache(obj: BuildCacheObj) {
+export function writeIntoCache(cacheFields: CacheShape['fields'], obj: BuildCacheObj) {
+  const additions: Array<string[]> = [];
+  const updates: Array<string[]> = [];
+
   const { meta, result, variableValues } = obj;
 
-  const normalizedData: Record<string, any> = {};
+  const normalizedData = cacheFields;
 
   const currentDataStack: any[] = [];
   let currentData: any = result.data ?? {};
@@ -25,50 +38,72 @@ export function buildCache(obj: BuildCacheObj) {
   const currentCacheStack: any[] = [];
   let currentCache = normalizedData;
 
-  function setCurrentData(data: any) {
+  const setCurrentData = (data: any) => {
     currentDataStack.push(currentData);
-    currentData = data;
-  }
-  function popCurrentData() {
+    return (currentData = data);
+  };
+  const popCurrentData = () => {
     currentData = currentDataStack.pop();
-  }
-  function setCurrentCache(obj: any) {
+  };
+  const setCurrentCache = (obj: any) => {
     currentCacheStack.push(currentCache);
-    currentCache = obj;
-  }
-  function popCurrentCache() {
+    return (currentCache = obj);
+  };
+  const popCurrentCache = () => {
     currentCache = currentCacheStack.pop();
-  }
+  };
+
+  const updateInCache = (path: Array<string | number>, data: any) => {
+    //
+  };
 
   function getValue(key: string) {
     return currentData[key];
   }
 
-  function getArgValue(key: string) {
-    return variableValues[key] ?? meta.variables.find((k) => k.name === key)?.defaultValue;
-  }
+  function traverseFields(config: IterateFieldsConfig) {
+    const {} = config;
+    let updates: string[] = [];
+    let additions: string[] = [];
 
-  function printArgs(args: string | ArgDef | undefined) {
-    if (args === undefined) return NO_ARGS;
-    if (typeof args === 'string') return args;
-    const argsObj: Record<string, any> = {};
-    for (const key of Object.keys(args).sort()) {
-      if (key.startsWith('$')) {
-        argsObj[args[key]] = getArgValue(key.slice(1));
+    //
+    const getVal = (config: IterateFieldsConfig, field: string) => {
+      //
+    };
+
+    //
+    const setValue = (config: IterateFieldsConfig, path: Array<string | number>, value: unknown) => {
+      //
+    };
+
+    const getField = (path: Array<string | number>) => {
+      return resultPath.concat(path).reduce((acc, key) => acc?.[key], cacheFields);
+    };
+
+    const { fields, into, existing, cachePath, resultPath } = config;
+    for (const field of fields) {
+      if (field === __typename) {
+        setValue(existing, [__typename]);
+      } else if (typeof field === 'string') {
+        setValue(config, [field, NO_ARGS], getVal(config, field));
+      } else {
+        const argsKey = printArgs(field.args, meta, variableValues);
+        const resultName = field.alias ?? field.name;
+        const fieldData = getField(resultName);
       }
     }
-    return stringifyVariables(argsObj);
   }
 
   // We want to iterate the known structure of the response shape, setting the values
   // in the result cache
   function iterateFields(fields: FieldDef[]) {
+    if (getValue('__typename')) currentCache['__typename'] = getValue('__typename');
     for (const field of fields) {
       if (field === '__typename') {
         currentCache[field] = getValue(field);
       } else if (typeof field === 'string') {
         currentCache[field] ??= {};
-        currentCache[field]['^NO_ARGS'] = getValue(field);
+        currentCache[field][NO_ARGS] = getValue(field);
       } else {
         _writeField(field);
       }
@@ -79,7 +114,7 @@ export function buildCache(obj: BuildCacheObj) {
     setCurrentData(currentData[field.alias ?? field.name]);
     currentCache[field.name] ??= {};
 
-    const fieldArgs = printArgs(field.args);
+    const fieldArgs = printArgs(field.args, meta, variableValues);
 
     keyPath ??= [field.name, fieldArgs];
 
@@ -115,10 +150,15 @@ export function buildCache(obj: BuildCacheObj) {
     popCurrentData();
   }
 
+  // list: 1 --- ['abc', 'def']
+  // list: 2 --- [['abc', 'def'], ['ghi']]
+  // list: 3 --- [[['abc', 'def'], ['ded']], [['ded', 'ded2'], ['a']]]
+
   function _handleList(field: FieldMeta, fieldArgs: string) {
-    const { list, ...rest } = field;
+    const { list = 1, ...rest } = field;
     const listItem = (currentCache[field.name][fieldArgs] ??= []);
 
+    let currentListData = currentData;
     for (const [idx, value] of (currentData as Array<any>).entries()) {
       if (value === null) {
         listItem.push(value);
@@ -137,6 +177,7 @@ export function buildCache(obj: BuildCacheObj) {
         popCurrentCache();
       }
 
+      // If we have a union type, determine the shape of the type and manage accordingly
       if (field.possible) {
         if (field.possible[currentData.__typename]) {
           const unionMeta = field.possible[currentData.__typename];
@@ -161,15 +202,10 @@ export function buildCache(obj: BuildCacheObj) {
 
   iterateFields(meta.fields);
 
-  return normalizedData;
-}
-
-function makeCacheKey(key: string, obj: any) {
-  const [type, fields] = key.split(':');
-  if (fields.indexOf(',') !== -1) {
-    return `${type}:${stringifyVariables(fields.split(',').map((k) => obj[k]))}`;
-  }
-  return `${type}:${obj[fields]}`;
+  return {
+    additions,
+    updates,
+  };
 }
 
 function getContainer(field: FieldMeta) {

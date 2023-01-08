@@ -18,9 +18,9 @@ import {
   getNamedType,
   assertObjectType,
 } from 'graphql';
-import type { FieldDef, FieldMeta, NormalizedDoc, UnionMeta, VariableMeta } from './extensionShape';
-import { TypePolicies, getCacheKey } from './typePolicies';
-import { stringifyVariables } from './stringifyVariables';
+import type { FieldDef, FieldMeta, NormalizeMetaShape, UnionMeta, VariableMeta } from '../metadataShapes';
+import { TypePolicies, getCacheKey } from '../typePolicies';
+import { stringifyVariables } from '../stringifyVariables';
 
 /**
  * Given an operation and a schema, generates the metadata necessary to
@@ -30,7 +30,7 @@ export function generateNormalizedMetadata(
   schema: GraphQLSchema,
   operation: DocumentNode,
   typePolicies: TypePolicies = {}
-): NormalizedDoc {
+): NormalizeMetaShape {
   let finalOperation = operation;
   if (operation.definitions.some((d) => d.kind === Kind.FRAGMENT_DEFINITION)) {
     finalOperation = optimizeDocuments(schema, [operation], {
@@ -39,14 +39,14 @@ export function generateNormalizedMetadata(
   }
 
   const typeInfo = new TypeInfo(schema);
-  const normalizedDoc: NormalizedDoc = {
+  const normalizedDoc: NormalizeMetaShape = {
     operation: OperationTypeNode.QUERY,
     variables: [],
     fields: [],
   };
 
-  let parentStack: Array<FieldMeta | UnionMeta | NormalizedDoc> = [];
-  let parentFieldDef: FieldMeta | NormalizedDoc | UnionMeta = normalizedDoc;
+  let parentStack: Array<FieldMeta | UnionMeta | NormalizeMetaShape> = [];
+  let parentFieldDef: FieldMeta | NormalizeMetaShape | UnionMeta = normalizedDoc;
 
   function popStack() {
     const parent = parentStack.pop();
@@ -116,6 +116,15 @@ export function generateNormalizedMetadata(
         if (node.arguments?.length) {
           fieldMeta.args = normalizeArgs(node.arguments);
         }
+
+        const skipDirective = node.directives?.find((d) => d.name.value === 'skip');
+        const includeDirective = node.directives?.find((d) => d.name.value === 'include');
+        if (skipDirective) {
+          fieldMeta.skip = normalizeArgs(skipDirective.arguments ?? []);
+        }
+        if (includeDirective) {
+          fieldMeta.include = normalizeArgs(includeDirective.arguments ?? []);
+        }
       },
       leave(node) {
         // Pop things back into place
@@ -177,7 +186,13 @@ function unpackType(typeInfo: TypeInfo) {
 
 function isBoringScalar(node: FieldNode, typeInfo: TypeInfo) {
   const { gqlType, listDepth } = unpackType(typeInfo);
-  return isScalarType(gqlType) && !listDepth && !node.alias && !node.arguments?.length;
+  return (
+    isScalarType(gqlType) &&
+    !listDepth &&
+    !node.alias &&
+    !node.arguments?.length &&
+    !node.directives?.some((d) => d.name.value === 'skip' || d.name.value === 'includes')
+  );
 }
 
 function noFragments() {
@@ -194,6 +209,6 @@ function isConcreteAbstract(node: InlineFragmentNode, typeInfo: TypeInfo, schema
   return false;
 }
 
-function parentIsFieldMeta(parent: FieldMeta | NormalizedDoc | UnionMeta): parent is FieldMeta {
+function parentIsFieldMeta(parent: FieldMeta | NormalizeMetaShape | UnionMeta): parent is FieldMeta {
   return 'name' in parent;
 }

@@ -42,5 +42,9 @@ exports[`generateNormalizedOperation > adds the necessary fields to properly nor
       }
     }
   }
+  nestedUserList {
+    id
+    __typename
+  }
 }"
 `;

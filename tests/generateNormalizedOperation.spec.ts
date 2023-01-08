@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { schema } from './fixtures/schema';
-import { generateNormalizedOperation } from '../src/generateNormalizedOperation';
+import { generateNormalizedOperation } from '../src/codegen/generateNormalizedOperation';
 import { printAddedFields } from './utils/printAddedFields';
 import { operation1Doc } from './fixtures/ops';
 

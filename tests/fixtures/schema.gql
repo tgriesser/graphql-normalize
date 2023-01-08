@@ -38,10 +38,13 @@ type Post implements Node {
   blog: Blog
   comments(first: Int! = 10, offset: Int): [Comment!]!
   id: ID!
+  title: String!
 }
 
 type Query {
   homeItems(after: String, before: String, first: Int, last: Int): QueryHomeItemsConnection!
+  nestedString: [[String!]!]!
+  nestedUserList: [[User!]!]!
   node(id: ID!): Node
   nodes(ids: [ID!]!): [Node]!
   num: Int!

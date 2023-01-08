@@ -12,7 +12,7 @@ import {
   visit,
   visitWithTypeInfo,
 } from 'graphql';
-import type { TypePolicies } from './typePolicies';
+import type { TypePolicies } from '../typePolicies';
 
 /**
  * Adds the fields necessary to normalize the result on the client. Simpler

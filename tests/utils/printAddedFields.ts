@@ -22,7 +22,7 @@ export function printAddedFields(original: DocumentNode, changed: DocumentNode) 
         },
       },
       Field: {
-        enter(node, key, parent, path) {
+        enter(node) {
           fieldPath.push(node.alias?.value ?? node.name.value);
         },
         leave(node) {

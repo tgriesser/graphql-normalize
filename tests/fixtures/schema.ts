@@ -15,6 +15,7 @@ import {
   findUser,
   interleavedNodes,
   postsFixtures,
+  usersFixtures,
 } from './fixtures';
 
 const builder = new SchemaBuilder<{
@@ -41,6 +42,14 @@ builder.queryFields((t) => ({
   num: t.int({
     resolve: () => 1,
   }),
+  nestedString: t.field({
+    type: t.listRef(t.listRef('String')),
+    resolve: () => [['a', 'b'], ['foo']],
+  }),
+  nestedUserList: t.field({
+    type: t.listRef(t.listRef('User')),
+    resolve: () => [[usersFixtures[0]], [usersFixtures[1]]],
+  }),
   posts: t.connection({
     type: Post,
     resolve: (source, args) => {
@@ -58,6 +67,7 @@ const Post = builder.node('Post', {
     resolve: (o) => o.id,
   },
   fields: (t) => ({
+    title: t.exposeString('title'),
     blog: t.field({
       type: Blog,
       nullable: true,

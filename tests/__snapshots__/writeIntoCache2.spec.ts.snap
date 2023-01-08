@@ -1,0 +1,414 @@
+// Vitest Snapshot v1
+
+exports[`writeIntoCache > builds a cache of values 1`] = `
+{
+  "homeItems": {
+    "{\\"first\\":\\"10\\"}": {
+      "nodes": [
+        {
+          "__typename": "Comment",
+        },
+        {
+          "__typename": "Blog",
+          "id": "QmxvZzox",
+          "name": "My Cool #1",
+        },
+        {
+          "__typename": "Post",
+          "id": "UG9zdDox",
+        },
+        {
+          "__typename": "User",
+        },
+        {
+          "__typename": "Comment",
+        },
+        {
+          "__typename": "Blog",
+          "id": "QmxvZzoy",
+          "name": "My Cool #2",
+        },
+        {
+          "__typename": "Post",
+          "id": "UG9zdDoy",
+        },
+        {
+          "__typename": "User",
+        },
+        {
+          "__typename": "Comment",
+        },
+        {
+          "__typename": "Blog",
+          "id": "QmxvZzoz",
+          "name": "My Cool #3",
+        },
+      ],
+    },
+  },
+  "name": {},
+  "nestedString": {
+    "$": [
+      [
+        "a",
+        "b",
+      ],
+      [
+        "foo",
+      ],
+    ],
+  },
+  "nestedUserList": {
+    "$": [
+      [
+        {
+          "$ref": "User:VXNlcjox",
+        },
+      ],
+      [
+        {
+          "$ref": "User:VXNlcjoy",
+        },
+      ],
+    ],
+  },
+  "node": {},
+  "num": {
+    "$": 1,
+  },
+  "posts": {
+    "{\\"first\\":\\"10\\"}": {
+      "nodes": [
+        {
+          "__typename": "Post",
+          "id": "UG9zdDox",
+          "title": "Some Blog post 1",
+        },
+        {
+          "__typename": "Post",
+          "id": "UG9zdDoy",
+          "title": "Some Blog post 2",
+        },
+        {
+          "__typename": "Post",
+          "id": "UG9zdDoz",
+          "title": "Some Blog post 3",
+        },
+        {
+          "__typename": "Post",
+          "id": "UG9zdDo0",
+          "title": "Some Blog post 4",
+        },
+        {
+          "__typename": "Post",
+          "id": "UG9zdDo1",
+          "title": "Some Blog post 5",
+        },
+        {
+          "__typename": "Post",
+          "id": "UG9zdDo2",
+          "title": "Some Blog post 6",
+        },
+        {
+          "__typename": "Post",
+          "id": "UG9zdDo3",
+          "title": "Some Blog post 7",
+        },
+        {
+          "__typename": "Post",
+          "id": "UG9zdDo4",
+          "title": "Some Blog post 8",
+        },
+        {
+          "__typename": "Post",
+          "id": "UG9zdDo5",
+          "title": "Some Blog post 9",
+        },
+        {
+          "__typename": "Post",
+          "id": "UG9zdDoxMA==",
+          "title": "Some Blog post 10",
+        },
+      ],
+    },
+    "{\\"first\\":\\"12\\"}": {
+      "edges": [
+        {
+          "__typename": "QueryPostsConnectionEdge",
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjow",
+          "node": {
+            "__typename": "Post",
+            "author": {
+              "__typename": "User",
+              "id": "VXNlcjox",
+            },
+            "id": "UG9zdDox",
+          },
+        },
+        {
+          "__typename": "QueryPostsConnectionEdge",
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjox",
+          "node": {
+            "__typename": "Post",
+            "author": {
+              "__typename": "User",
+              "id": "VXNlcjoy",
+            },
+            "id": "UG9zdDoy",
+          },
+        },
+        {
+          "__typename": "QueryPostsConnectionEdge",
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjoy",
+          "node": {
+            "__typename": "Post",
+            "author": {
+              "__typename": "User",
+              "id": "VXNlcjox",
+            },
+            "id": "UG9zdDoz",
+          },
+        },
+        {
+          "__typename": "QueryPostsConnectionEdge",
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjoz",
+          "node": {
+            "__typename": "Post",
+            "author": {
+              "__typename": "User",
+              "id": "VXNlcjoy",
+            },
+            "id": "UG9zdDo0",
+          },
+        },
+        {
+          "__typename": "QueryPostsConnectionEdge",
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjo0",
+          "node": {
+            "__typename": "Post",
+            "author": {
+              "__typename": "User",
+              "id": "VXNlcjox",
+            },
+            "id": "UG9zdDo1",
+          },
+        },
+        {
+          "__typename": "QueryPostsConnectionEdge",
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjo1",
+          "node": {
+            "__typename": "Post",
+            "author": {
+              "__typename": "User",
+              "id": "VXNlcjoy",
+            },
+            "id": "UG9zdDo2",
+          },
+        },
+        {
+          "__typename": "QueryPostsConnectionEdge",
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjo2",
+          "node": {
+            "__typename": "Post",
+            "author": {
+              "__typename": "User",
+              "id": "VXNlcjox",
+            },
+            "id": "UG9zdDo3",
+          },
+        },
+        {
+          "__typename": "QueryPostsConnectionEdge",
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjo3",
+          "node": {
+            "__typename": "Post",
+            "author": {
+              "__typename": "User",
+              "id": "VXNlcjoy",
+            },
+            "id": "UG9zdDo4",
+          },
+        },
+        {
+          "__typename": "QueryPostsConnectionEdge",
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjo4",
+          "node": {
+            "__typename": "Post",
+            "author": {
+              "__typename": "User",
+              "id": "VXNlcjox",
+            },
+            "id": "UG9zdDo5",
+          },
+        },
+        {
+          "__typename": "QueryPostsConnectionEdge",
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjo5",
+          "node": {
+            "__typename": "Post",
+            "author": {
+              "__typename": "User",
+              "id": "VXNlcjoy",
+            },
+            "id": "UG9zdDoxMA==",
+          },
+        },
+        {
+          "__typename": "QueryPostsConnectionEdge",
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjoxMA==",
+          "node": {
+            "__typename": "Post",
+            "author": {
+              "__typename": "User",
+              "id": "VXNlcjox",
+            },
+            "id": "UG9zdDoxMQ==",
+          },
+        },
+        {
+          "__typename": "QueryPostsConnectionEdge",
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjoxMQ==",
+          "node": {
+            "__typename": "Post",
+            "author": {
+              "__typename": "User",
+              "id": "VXNlcjoy",
+            },
+            "id": "UG9zdDoxMg==",
+          },
+        },
+      ],
+      "nodes": [
+        {
+          "__typename": "Post",
+          "author": {
+            "__typename": "User",
+            "id": "VXNlcjox",
+          },
+          "id": "UG9zdDox",
+        },
+        {
+          "__typename": "Post",
+          "author": {
+            "__typename": "User",
+            "id": "VXNlcjoy",
+          },
+          "id": "UG9zdDoy",
+        },
+        {
+          "__typename": "Post",
+          "author": {
+            "__typename": "User",
+            "id": "VXNlcjox",
+          },
+          "id": "UG9zdDoz",
+        },
+        {
+          "__typename": "Post",
+          "author": {
+            "__typename": "User",
+            "id": "VXNlcjoy",
+          },
+          "id": "UG9zdDo0",
+        },
+        {
+          "__typename": "Post",
+          "author": {
+            "__typename": "User",
+            "id": "VXNlcjox",
+          },
+          "id": "UG9zdDo1",
+        },
+        {
+          "__typename": "Post",
+          "author": {
+            "__typename": "User",
+            "id": "VXNlcjoy",
+          },
+          "id": "UG9zdDo2",
+        },
+        {
+          "__typename": "Post",
+          "author": {
+            "__typename": "User",
+            "id": "VXNlcjox",
+          },
+          "id": "UG9zdDo3",
+        },
+        {
+          "__typename": "Post",
+          "author": {
+            "__typename": "User",
+            "id": "VXNlcjoy",
+          },
+          "id": "UG9zdDo4",
+        },
+        {
+          "__typename": "Post",
+          "author": {
+            "__typename": "User",
+            "id": "VXNlcjox",
+          },
+          "id": "UG9zdDo5",
+        },
+        {
+          "__typename": "Post",
+          "author": {
+            "__typename": "User",
+            "id": "VXNlcjoy",
+          },
+          "id": "UG9zdDoxMA==",
+        },
+        {
+          "__typename": "Post",
+          "author": {
+            "__typename": "User",
+            "id": "VXNlcjox",
+          },
+          "id": "UG9zdDoxMQ==",
+        },
+        {
+          "__typename": "Post",
+          "author": {
+            "__typename": "User",
+            "id": "VXNlcjoy",
+          },
+          "id": "UG9zdDoxMg==",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`writeIntoCache > builds a cache of values 2`] = `
+{
+  "additions": [
+    [
+      "posts",
+      "{\\"first\\":\\"12\\"}",
+    ],
+    [
+      "posts",
+      "{\\"first\\":\\"10\\"}",
+    ],
+    [
+      "homeItems",
+      "{\\"first\\":\\"10\\"}",
+    ],
+    [
+      "num",
+      "$",
+    ],
+    [
+      "nestedString",
+      "$",
+    ],
+    [
+      "nestedUserList",
+      "$",
+    ],
+  ],
+  "updates": [],
+}
+`;

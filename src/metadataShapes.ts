@@ -14,6 +14,9 @@ export interface UnionMeta {
   cacheKey?: CacheKey;
 }
 
+/**
+ * All of the necessary metadata needed
+ */
 export interface FieldMeta {
   name: string;
   alias?: string;
@@ -26,10 +29,6 @@ export interface FieldMeta {
   include?: ArgDef | string;
 }
 
-interface ExtensionsShape {
-  graphqlNormalize: NormalizedDoc;
-}
-
 export type FieldDef = string | FieldMeta;
 
 export interface VariableMeta {
@@ -37,7 +36,7 @@ export interface VariableMeta {
   defaultValue?: unknown;
 }
 
-export interface NormalizedDoc {
+export interface NormalizeMetaShape {
   operation: OperationTypeNode;
   variables: VariableMeta[];
   fields: FieldDef[];

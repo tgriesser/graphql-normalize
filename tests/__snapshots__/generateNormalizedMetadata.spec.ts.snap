@@ -55,6 +55,7 @@ exports[`generateNormalizedMetadata > should generate the necessary metadata 1`]
           "cacheKey": "Post:id",
           "fields": [
             "id",
+            "title",
           ],
           "list": 1,
           "name": "nodes",
@@ -66,6 +67,9 @@ exports[`generateNormalizedMetadata > should generate the necessary metadata 1`]
       "alias": "currentNode",
       "args": {
         "$nodeId": "id",
+      },
+      "include": {
+        "$hasNode": "if",
       },
       "name": "node",
       "possible": {
@@ -111,6 +115,18 @@ exports[`generateNormalizedMetadata > should generate the necessary metadata 1`]
       "name": "homeItems",
     },
     "num",
+    {
+      "list": 2,
+      "name": "nestedString",
+    },
+    {
+      "cacheKey": "User:id",
+      "fields": [
+        "name",
+      ],
+      "list": 2,
+      "name": "nestedUserList",
+    },
   ],
   "operation": "query",
   "variables": [

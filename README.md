@@ -1,6 +1,6 @@
 ## GraphQL Normalize
 
-Schema driven normalized caching, geared for persisted queries
+Standalone, schema driven normalized caching, geared specifically for persisted queries
 
 ## Goals:
 
@@ -12,3 +12,5 @@ Schema driven normalized caching, geared for persisted queries
 ## Non-Goals:
 
 - Preventing fetches for fully unfetched queries
+
+### Algorithm

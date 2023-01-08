@@ -18,6 +18,7 @@ query Operation1($first: Int = 12, $nodeId: ID! = "", $hasNode: Boolean = false)
   first10Posts: posts(first: 10) {
     nodes {
       id
+      title
     }
   }
   currentNode: node(id: $nodeId) @include(if: $hasNode) {
@@ -43,5 +44,9 @@ query Operation1($first: Int = 12, $nodeId: ID! = "", $hasNode: Boolean = false)
   }
   ... on Query {
     num
+  }
+  nestedString
+  nestedUserList {
+    name
   }
 }
