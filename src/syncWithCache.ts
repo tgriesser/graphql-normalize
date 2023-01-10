@@ -7,7 +7,7 @@ import { makeCacheKey } from './makeCacheKey';
 
 type Path = Array<string | number>;
 
-interface SyncWithCacheOptions {
+export interface SyncWithCacheOptions {
   // read = cache overwrites result
   // write = result overwrites cache
   action: 'read' | 'write';
@@ -27,27 +27,21 @@ interface SyncWithCacheOptions {
   isEqual?: (a: any, b: any) => boolean;
 }
 
-interface WriteFieldConfig {
+export interface WriteFieldConfig {
   cacheVal: any;
   targetVal: any;
   resultVal: any;
 }
 
-interface WriteListFieldConfig {
+export interface WriteListFieldConfig extends WriteFieldConfig {
   atIndex: number;
-  cacheVal: any;
-  targetVal: any;
-  resultVal: any;
 }
 
-interface SyncTraverseOptions {
+export interface SyncTraverseOptions extends WriteFieldConfig {
   fields: FieldDef[];
-  cacheVal: any;
-  targetVal: any;
-  resultVal: any;
 }
 
-interface CopyListConfig {
+export interface CopyListConfig {
   cacheVal: Array<any>;
   targetVal: Array<any>;
   resultVal: Array<any>;
@@ -185,23 +179,44 @@ export function syncWithCache(options: SyncWithCacheOptions) {
       }
     };
 
+    const writeFieldMeta = (val: any) => {
+      const { possible, cacheKey, fields } = field;
+      const typename = val?.[__typename];
+      if (possible && val) {
+        const possibleInfo = possible[typename];
+        if (possibleInfo) {
+          return {
+            typename,
+            fields: possibleInfo.fields.concat(fields ?? []),
+            cacheKeyVal: possibleInfo.cacheKey ? makeCacheKey(possibleInfo.cacheKey, val) : undefined,
+          };
+        }
+      }
+      return {
+        typename,
+        fields: fields,
+        cacheKeyVal: cacheKey ? makeCacheKey(cacheKey, val) : undefined,
+      };
+    };
+
     const writeListField = (writeConfig: WriteListFieldConfig) => {
       const { cacheVal, resultVal, targetVal, atIndex } = writeConfig;
-      const cacheKey = field.cacheKey ? makeCacheKey(field.cacheKey, resultVal[atIndex]) : null;
+      const { cacheKeyVal, fields, typename } = writeFieldMeta(resultVal[atIndex]);
       if (isWrite) {
-        if (cacheKey) {
-          set(cacheVal, atIndex, { $ref: cacheKey });
+        if (cacheKeyVal) {
+          set(cacheVal, atIndex, { $ref: cacheKeyVal });
+          setIn(cache.fields, [cacheKeyVal, __typename], typename);
         } else {
           set(cacheVal, atIndex, resultVal[atIndex]);
         }
       }
-      if (field.fields) {
+      if (fields) {
         ensure(targetVal, [atIndex], {});
         traverseFields({
-          fields: field.fields,
+          fields,
           targetVal: ensure(targetVal, [atIndex], {}),
           resultVal: resultVal[atIndex],
-          cacheVal: cacheKey ? ensure(cache.fields, [cacheKey], {}) : ensure(cacheVal, [atIndex], {}),
+          cacheVal: cacheKeyVal ? ensure(cache.fields, [cacheKeyVal], {}) : ensure(cacheVal, [atIndex], {}),
         });
       } else {
         set(targetVal, atIndex, resultVal[atIndex]);
@@ -210,18 +225,17 @@ export function syncWithCache(options: SyncWithCacheOptions) {
 
     const writeField = (writeConfig: WriteFieldConfig) => {
       const { cacheVal, resultVal, targetVal } = writeConfig;
-      const cacheKey = field.cacheKey ? makeCacheKey(field.cacheKey, resultVal[resultName]) : null;
-
+      const { cacheKeyVal, fields, typename } = writeFieldMeta(resultVal[resultName]);
       if (isWrite) {
-        if (cacheKey) {
-          setIn(cacheVal, [field.name, argsKey], { $ref: cacheKey });
-          setIn(cache.fields, [cacheKey, __typename], resultVal[resultName][__typename]);
+        if (cacheKeyVal) {
+          setIn(cacheVal, [field.name, argsKey], { $ref: cacheKeyVal });
+          setIn(cache.fields, [cacheKeyVal, __typename], typename);
         }
       }
-      if (field.fields) {
+      if (fields) {
         traverseFields({
-          fields: field.fields,
-          cacheVal: cacheKey ? getIn(cache.fields, [cacheKey]) : ensure(cacheVal, [field.name, argsKey], {}),
+          fields: fields,
+          cacheVal: cacheKeyVal ? getIn(cache.fields, [cacheKeyVal]) : ensure(cacheVal, [field.name, argsKey], {}),
           targetVal: ensure(targetVal, [resultName], {}),
           resultVal: resultVal[resultName],
         });
@@ -230,11 +244,6 @@ export function syncWithCache(options: SyncWithCacheOptions) {
           setIn(cacheVal, [field.name, argsKey], resultVal[resultName]);
         }
         setIn(targetVal, [resultName], resultVal[resultName]);
-      }
-
-      if (field.possible) {
-        // const typeInfo = field.possible[]
-        // set(targetVal, key, 'possible');
       }
     };
 
@@ -251,7 +260,7 @@ export function syncWithCache(options: SyncWithCacheOptions) {
         depth: field.list,
         resultVal: resultVal[resultName],
         targetVal: targetVal[resultName],
-        cacheVal: cacheVal[field.name][argsKey],
+        cacheVal: ensure(cacheVal, [field.name, argsKey], []),
       });
     } else {
       writeField({

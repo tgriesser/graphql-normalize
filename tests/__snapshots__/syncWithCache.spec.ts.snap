@@ -3,6 +3,33 @@
 exports[`syncWithCache > syncs the query result with the cache 1`] = `
 {
   "fields": {
+    "Blog:QmxvZzox": {
+      "__typename": "Blog",
+      "id": {
+        "$": "QmxvZzox",
+      },
+      "name": {
+        "$": "My Cool #1",
+      },
+    },
+    "Blog:QmxvZzoy": {
+      "__typename": "Blog",
+      "id": {
+        "$": "QmxvZzoy",
+      },
+      "name": {
+        "$": "My Cool #2",
+      },
+    },
+    "Blog:QmxvZzoz": {
+      "__typename": "Blog",
+      "id": {
+        "$": "QmxvZzoz",
+      },
+      "name": {
+        "$": "My Cool #3",
+      },
+    },
     "Post:UG9zdDo0": {
       "__typename": "Post",
       "author": {
@@ -166,6 +193,7 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
       },
     },
     "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo0": {
+      "__typename": "QueryPostsConnectionEdge",
       "node": {
         "$": {
           "$ref": "Post:UG9zdDo1",
@@ -173,6 +201,7 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
       },
     },
     "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo1": {
+      "__typename": "QueryPostsConnectionEdge",
       "node": {
         "$": {
           "$ref": "Post:UG9zdDo2",
@@ -180,6 +209,7 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
       },
     },
     "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo2": {
+      "__typename": "QueryPostsConnectionEdge",
       "node": {
         "$": {
           "$ref": "Post:UG9zdDo3",
@@ -187,6 +217,7 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
       },
     },
     "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo3": {
+      "__typename": "QueryPostsConnectionEdge",
       "node": {
         "$": {
           "$ref": "Post:UG9zdDo4",
@@ -194,6 +225,7 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
       },
     },
     "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo4": {
+      "__typename": "QueryPostsConnectionEdge",
       "node": {
         "$": {
           "$ref": "Post:UG9zdDo5",
@@ -201,6 +233,7 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
       },
     },
     "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo5": {
+      "__typename": "QueryPostsConnectionEdge",
       "node": {
         "$": {
           "$ref": "Post:UG9zdDoxMA==",
@@ -208,6 +241,7 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
       },
     },
     "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjow": {
+      "__typename": "QueryPostsConnectionEdge",
       "node": {
         "$": {
           "$ref": "Post:UG9zdDox",
@@ -215,6 +249,7 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
       },
     },
     "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjox": {
+      "__typename": "QueryPostsConnectionEdge",
       "node": {
         "$": {
           "$ref": "Post:UG9zdDoy",
@@ -222,6 +257,7 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
       },
     },
     "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoxMA==": {
+      "__typename": "QueryPostsConnectionEdge",
       "node": {
         "$": {
           "$ref": "Post:UG9zdDoxMQ==",
@@ -229,6 +265,7 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
       },
     },
     "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoxMQ==": {
+      "__typename": "QueryPostsConnectionEdge",
       "node": {
         "$": {
           "$ref": "Post:UG9zdDoxMg==",
@@ -236,6 +273,7 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
       },
     },
     "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoy": {
+      "__typename": "QueryPostsConnectionEdge",
       "node": {
         "$": {
           "$ref": "Post:UG9zdDoz",
@@ -243,6 +281,7 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
       },
     },
     "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoz": {
+      "__typename": "QueryPostsConnectionEdge",
       "node": {
         "$": {
           "$ref": "Post:UG9zdDo0",
@@ -275,13 +314,10 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
               "__typename": "Comment",
             },
             {
-              "__typename": "Blog",
-              "id": "QmxvZzox",
-              "name": "My Cool #1",
+              "$ref": "Blog:QmxvZzox",
             },
             {
-              "__typename": "Post",
-              "id": "UG9zdDox",
+              "$ref": "Post:UG9zdDox",
             },
             {
               "__typename": "User",
@@ -290,13 +326,10 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
               "__typename": "Comment",
             },
             {
-              "__typename": "Blog",
-              "id": "QmxvZzoy",
-              "name": "My Cool #2",
+              "$ref": "Blog:QmxvZzoy",
             },
             {
-              "__typename": "Post",
-              "id": "UG9zdDoy",
+              "$ref": "Post:UG9zdDoy",
             },
             {
               "__typename": "User",
@@ -305,9 +338,7 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
               "__typename": "Comment",
             },
             {
-              "__typename": "Blog",
-              "id": "QmxvZzoz",
-              "name": "My Cool #3",
+              "$ref": "Blog:QmxvZzoz",
             },
           ],
         },
@@ -469,9 +500,36 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
 
 exports[`syncWithCache > syncs the query result with the cache 2`] = `
 {
-  "added": 65,
+  "added": 86,
   "cache": {
     "fields": {
+      "Blog:QmxvZzox": {
+        "__typename": "Blog",
+        "id": {
+          "$": "QmxvZzox",
+        },
+        "name": {
+          "$": "My Cool #1",
+        },
+      },
+      "Blog:QmxvZzoy": {
+        "__typename": "Blog",
+        "id": {
+          "$": "QmxvZzoy",
+        },
+        "name": {
+          "$": "My Cool #2",
+        },
+      },
+      "Blog:QmxvZzoz": {
+        "__typename": "Blog",
+        "id": {
+          "$": "QmxvZzoz",
+        },
+        "name": {
+          "$": "My Cool #3",
+        },
+      },
       "Post:UG9zdDo0": {
         "__typename": "Post",
         "author": {
@@ -635,6 +693,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
         },
       },
       "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo0": {
+        "__typename": "QueryPostsConnectionEdge",
         "node": {
           "$": {
             "$ref": "Post:UG9zdDo1",
@@ -642,6 +701,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
         },
       },
       "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo1": {
+        "__typename": "QueryPostsConnectionEdge",
         "node": {
           "$": {
             "$ref": "Post:UG9zdDo2",
@@ -649,6 +709,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
         },
       },
       "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo2": {
+        "__typename": "QueryPostsConnectionEdge",
         "node": {
           "$": {
             "$ref": "Post:UG9zdDo3",
@@ -656,6 +717,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
         },
       },
       "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo3": {
+        "__typename": "QueryPostsConnectionEdge",
         "node": {
           "$": {
             "$ref": "Post:UG9zdDo4",
@@ -663,6 +725,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
         },
       },
       "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo4": {
+        "__typename": "QueryPostsConnectionEdge",
         "node": {
           "$": {
             "$ref": "Post:UG9zdDo5",
@@ -670,6 +733,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
         },
       },
       "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo5": {
+        "__typename": "QueryPostsConnectionEdge",
         "node": {
           "$": {
             "$ref": "Post:UG9zdDoxMA==",
@@ -677,6 +741,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
         },
       },
       "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjow": {
+        "__typename": "QueryPostsConnectionEdge",
         "node": {
           "$": {
             "$ref": "Post:UG9zdDox",
@@ -684,6 +749,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
         },
       },
       "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjox": {
+        "__typename": "QueryPostsConnectionEdge",
         "node": {
           "$": {
             "$ref": "Post:UG9zdDoy",
@@ -691,6 +757,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
         },
       },
       "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoxMA==": {
+        "__typename": "QueryPostsConnectionEdge",
         "node": {
           "$": {
             "$ref": "Post:UG9zdDoxMQ==",
@@ -698,6 +765,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
         },
       },
       "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoxMQ==": {
+        "__typename": "QueryPostsConnectionEdge",
         "node": {
           "$": {
             "$ref": "Post:UG9zdDoxMg==",
@@ -705,6 +773,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
         },
       },
       "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoy": {
+        "__typename": "QueryPostsConnectionEdge",
         "node": {
           "$": {
             "$ref": "Post:UG9zdDoz",
@@ -712,6 +781,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
         },
       },
       "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoz": {
+        "__typename": "QueryPostsConnectionEdge",
         "node": {
           "$": {
             "$ref": "Post:UG9zdDo0",
@@ -744,13 +814,10 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
                 "__typename": "Comment",
               },
               {
-                "__typename": "Blog",
-                "id": "QmxvZzox",
-                "name": "My Cool #1",
+                "$ref": "Blog:QmxvZzox",
               },
               {
-                "__typename": "Post",
-                "id": "UG9zdDox",
+                "$ref": "Post:UG9zdDox",
               },
               {
                 "__typename": "User",
@@ -759,13 +826,10 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
                 "__typename": "Comment",
               },
               {
-                "__typename": "Blog",
-                "id": "QmxvZzoy",
-                "name": "My Cool #2",
+                "$ref": "Blog:QmxvZzoy",
               },
               {
-                "__typename": "Post",
-                "id": "UG9zdDoy",
+                "$ref": "Post:UG9zdDoy",
               },
               {
                 "__typename": "User",
@@ -774,9 +838,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
                 "__typename": "Comment",
               },
               {
-                "__typename": "Blog",
-                "id": "QmxvZzoz",
-                "name": "My Cool #3",
+                "$ref": "Blog:QmxvZzoz",
               },
             ],
           },
@@ -934,7 +996,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
     },
     "operations": {},
   },
-  "changed": 65,
+  "changed": 86,
   "result": {
     "first10Posts": {
       "nodes": [
@@ -986,7 +1048,6 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
           "__typename": "Comment",
         },
         {
-          "__typename": "Blog",
           "id": "QmxvZzox",
           "name": "My Cool #1",
         },
@@ -1001,7 +1062,6 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
           "__typename": "Comment",
         },
         {
-          "__typename": "Blog",
           "id": "QmxvZzoy",
           "name": "My Cool #2",
         },
@@ -1016,7 +1076,6 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
           "__typename": "Comment",
         },
         {
-          "__typename": "Blog",
           "id": "QmxvZzoz",
           "name": "My Cool #3",
         },

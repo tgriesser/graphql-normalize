@@ -1,8 +1,9 @@
 import type { Immutable } from 'immer';
 import type { CacheShape } from './cache';
 import type { FieldDef, FieldMeta, NormalizeMetaShape } from './metadataShapes';
-import { NO_ARGS, printArgs } from './printArgs';
+import { printArgs } from './printArgs';
 import { copyList } from './copyList';
+import { NO_ARGS } from './constants';
 
 interface ReadQueryFromCache<Q> {
   meta: NormalizeMetaShape;

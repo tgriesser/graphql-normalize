@@ -1,7 +1,6 @@
+import { NO_ARGS } from './constants';
 import type { ArgDef, NormalizeMetaShape } from './metadataShapes';
 import { stringifyVariables } from './stringifyVariables';
-
-export const NO_ARGS = '$';
 
 function getArgValue(key: string, meta: NormalizeMetaShape, variableValues: any) {
   return variableValues[key] ?? meta.variables.find((k) => k.name === key)?.defaultValue;
