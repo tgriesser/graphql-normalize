@@ -12,6 +12,7 @@ import {
   UserShape,
   commentsFixtures,
   findBlog,
+  findPost,
   findUser,
   interleavedNodes,
   postsFixtures,
@@ -66,6 +67,9 @@ const Post = builder.node('Post', {
   id: {
     resolve: (o) => o.id,
   },
+  loadMany(ids) {
+    return ids.map((id) => findPost(Number(id)));
+  },
   fields: (t) => ({
     title: t.exposeString('title'),
     blog: t.field({
@@ -95,6 +99,9 @@ const User = builder.node('User', {
   id: {
     resolve: (o) => o.id,
   },
+  loadMany(ids) {
+    return ids.map((id) => findUser(Number(id)));
+  },
   fields: (t) => ({
     name: t.exposeString('name'),
     email: t.exposeString('name'),
@@ -117,6 +124,9 @@ const Comment = builder.node('Comment', {
 const Blog = builder.node('Blog', {
   id: {
     resolve: (o) => o.id,
+  },
+  loadMany(ids) {
+    return ids.map((id) => findBlog(Number(id)));
   },
   fields: (t) => ({
     name: t.exposeString('name'),

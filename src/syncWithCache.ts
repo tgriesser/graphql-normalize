@@ -2,7 +2,7 @@ import type { FieldDef, FieldMeta, NormalizeMetaShape } from './metadataShapes';
 import type { FormattedExecutionResult } from 'graphql';
 import type { CacheShape } from './cache';
 import { __typename } from './constants';
-import { printArgs } from './printArgs';
+import { getArgsObj, printArgs } from './printArgs';
 import { makeCacheKey } from './makeCacheKey';
 
 type Path = Array<string | number>;
@@ -18,8 +18,8 @@ export interface SyncWithCacheOptions {
   meta: NormalizeMetaShape;
   // The shape of the normalized cache
   cache: CacheShape;
-  // The result we're writing into
-  operationResult: FormattedExecutionResult['data'];
+  // The result we're writing into the cache, if any
+  operationResult?: FormattedExecutionResult['data'];
   // The current result, used as the target object to mutate,
   // or a new value if we're initially syncing
   currentResult?: FormattedExecutionResult['data'];
@@ -27,21 +27,26 @@ export interface SyncWithCacheOptions {
   isEqual?: (a: any, b: any) => boolean;
 }
 
-export interface WriteFieldConfig {
+interface BaseConfig {
   cacheVal: any;
-  targetVal: any;
   resultVal: any;
+  targetVal: any;
 }
 
-export interface WriteListFieldConfig extends WriteFieldConfig {
+interface HandleFieldConfig extends BaseConfig {
+  field: FieldMeta;
+}
+
+interface WriteListFieldConfig extends HandleFieldConfig {
   atIndex: number;
 }
 
-export interface SyncTraverseOptions extends WriteFieldConfig {
+interface SyncTraverseOptions extends BaseConfig {
   fields: FieldDef[];
 }
 
-export interface CopyListConfig {
+interface TraverseListConfig {
+  field: FieldMeta;
   cacheVal: Array<any>;
   targetVal: Array<any>;
   resultVal: Array<any>;
@@ -72,6 +77,17 @@ const ensure = (obj: any, path: Path, fallback: any) => {
   }
 };
 
+const shouldSkipField = (field: FieldMeta, meta: NormalizeMetaShape, variableValues: any) => {
+  if (!field.skip && !field.include) {
+    return false;
+  }
+  const argsObj = getArgsObj(field.skip ?? field.include, meta, variableValues);
+  if (field.skip) {
+    return argsObj.if;
+  }
+  return !argsObj.if;
+};
+
 const get = (obj: any, key: string | number) => {
   return obj[key];
 };
@@ -88,12 +104,20 @@ const getIn = (obj: any, path: Path) => {
   return source;
 };
 
-export function syncWithCache(options: SyncWithCacheOptions) {
+export interface SyncWithCacheResult {
+  added: number;
+  updated: number;
+  changed: number;
+  cache: CacheShape;
+  result: Exclude<FormattedExecutionResult['data'], null>;
+}
+
+export function syncWithCache(options: SyncWithCacheOptions): SyncWithCacheResult {
   const {
     action,
     variableValues,
     cache,
-    operationResult,
+    operationResult = {},
     currentResult = {},
     isEqual = defaultIsEqual,
     meta,
@@ -103,6 +127,7 @@ export function syncWithCache(options: SyncWithCacheOptions) {
   let updated = 0;
   let changed = 0;
   const isWrite = action === 'write';
+  const isRead = !isWrite;
 
   const set = (obj: any, key: string | number, val: any) => {
     if (!isEqual(obj[key], val)) {
@@ -132,118 +157,149 @@ export function syncWithCache(options: SyncWithCacheOptions) {
     }
   };
 
-  const handleField = (field: FieldMeta, options: SyncTraverseOptions) => {
+  const traverseList = (config: TraverseListConfig) => {
+    const { field, resultVal, targetVal, cacheVal, depth, currentDepth = 1 } = config;
+    if (resultVal.length < targetVal.length) {
+      targetVal.length = resultVal.length;
+    }
+    if (isWrite && resultVal.length < cacheVal.length) {
+      cacheVal.length = resultVal.length;
+    }
+
+    for (let i = 0; i < resultVal.length; i++) {
+      if (currentDepth < depth && resultVal[i] !== null) {
+        if (isWrite) {
+          ensure(cacheVal, [i], []);
+        }
+        ensure(targetVal, [i], []);
+        traverseList({
+          field,
+          depth,
+          resultVal: resultVal[i],
+          targetVal: targetVal[i],
+          cacheVal: cacheVal[i],
+          currentDepth: currentDepth + 1,
+        });
+      } else {
+        writeListField({
+          field,
+          cacheVal,
+          targetVal,
+          resultVal,
+          atIndex: i,
+        });
+      }
+    }
+  };
+
+  const writeListField = (writeConfig: WriteListFieldConfig) => {
+    const { cacheVal, resultVal, targetVal, atIndex, field } = writeConfig;
+
+    const { cacheKeyVal, fields, typename } = isRead
+      ? readFieldMeta(field, resultVal[atIndex])
+      : writeFieldMeta(field, resultVal[atIndex]);
+    if (isWrite) {
+      if (cacheKeyVal) {
+        set(cacheVal, atIndex, { $ref: cacheKeyVal });
+        setIn(cache.fields, [cacheKeyVal, __typename], typename);
+      } else {
+        set(cacheVal, atIndex, resultVal[atIndex]);
+      }
+    }
+
+    if (fields) {
+      ensure(targetVal, [atIndex], {});
+      traverseFields({
+        fields,
+        targetVal: ensure(targetVal, [atIndex], {}),
+        resultVal: resultVal[atIndex],
+        cacheVal: cacheKeyVal ? ensure(cache.fields, [cacheKeyVal], {}) : ensure(cacheVal, [atIndex], {}),
+      });
+    } else {
+      set(targetVal, atIndex, resultVal[atIndex]);
+    }
+  };
+
+  const readFieldMeta = (field: FieldMeta, val: any) => {
+    const { possible, cacheKey, fields } = field;
+    if (!cacheKey && !val?.$ref) {
+      return {
+        typename: undefined,
+        fields,
+        cacheKeyVal: undefined,
+      };
+    }
+    const typename = val.$ref?.split(':')[0] ?? val[__typename];
+    if (possible && val.$ref) {
+      const possibleInfo = possible[typename];
+      if (possibleInfo) {
+        return {
+          typename,
+          fields: possibleInfo.fields.concat(fields ?? []),
+          cacheKeyVal: val.$ref,
+        };
+      }
+    }
+    return {
+      typename,
+      fields,
+      cacheKeyVal: val.$ref,
+    };
+  };
+
+  const writeFieldMeta = (field: FieldMeta, val: any) => {
+    const { possible, cacheKey, fields } = field;
+    const typename = val?.[__typename];
+    if (possible && val) {
+      const possibleInfo = possible[typename];
+      if (possibleInfo) {
+        return {
+          typename,
+          fields: possibleInfo.fields.concat(fields ?? []),
+          cacheKeyVal: possibleInfo.cacheKey ? makeCacheKey(possibleInfo.cacheKey, val) : undefined,
+        };
+      }
+    }
+    return {
+      typename,
+      fields: fields,
+      cacheKeyVal: cacheKey ? makeCacheKey(cacheKey, val) : undefined,
+    };
+  };
+
+  const handleTraverseField = (field: FieldMeta, options: SyncTraverseOptions) => {
     const { cacheVal, resultVal, targetVal } = options;
     const resultName = field.alias ?? field.name;
     const argsKey = printArgs(field.args, meta, variableValues);
 
-    // If we don't have a value, set that and skip field
-    if (resultVal[resultName] === null) {
-      if (isWrite) {
-        setIn(cacheVal, [field.name, argsKey], null);
-      }
-      set(targetVal, resultName, null);
-      return;
-    }
+    const handleField = (writeConfig: HandleFieldConfig) => {
+      const { cacheVal, resultVal, targetVal, field } = writeConfig;
+      const { cacheKeyVal, fields, typename } = isRead
+        ? readFieldMeta(field, getIn(cacheVal, [field.name, argsKey]))
+        : writeFieldMeta(field, resultVal[resultName]);
 
-    const traverseList = (config: CopyListConfig) => {
-      const { resultVal, targetVal, cacheVal, depth, currentDepth = 1 } = config;
-      if (resultVal.length < targetVal.length) {
-        targetVal.length = resultVal.length;
-      }
-      if (isWrite && resultVal.length < cacheVal.length) {
-        cacheVal.length = resultVal.length;
-      }
-
-      for (let i = 0; i < resultVal.length; i++) {
-        if (currentDepth < depth && resultVal[i] !== null) {
-          if (isWrite) {
-            ensure(cacheVal, [i], []);
-          }
-          ensure(targetVal, [i], []);
-          traverseList({
-            depth,
-            resultVal: resultVal[i],
-            targetVal: targetVal[i],
-            cacheVal: cacheVal[i],
-            currentDepth: currentDepth + 1,
-          });
-        } else {
-          writeListField({
-            cacheVal,
-            targetVal,
-            resultVal,
-            atIndex: i,
-          });
-        }
-      }
-    };
-
-    const writeFieldMeta = (val: any) => {
-      const { possible, cacheKey, fields } = field;
-      const typename = val?.[__typename];
-      if (possible && val) {
-        const possibleInfo = possible[typename];
-        if (possibleInfo) {
-          return {
-            typename,
-            fields: possibleInfo.fields.concat(fields ?? []),
-            cacheKeyVal: possibleInfo.cacheKey ? makeCacheKey(possibleInfo.cacheKey, val) : undefined,
-          };
-        }
-      }
-      return {
-        typename,
-        fields: fields,
-        cacheKeyVal: cacheKey ? makeCacheKey(cacheKey, val) : undefined,
-      };
-    };
-
-    const writeListField = (writeConfig: WriteListFieldConfig) => {
-      const { cacheVal, resultVal, targetVal, atIndex } = writeConfig;
-      const { cacheKeyVal, fields, typename } = writeFieldMeta(resultVal[atIndex]);
-      if (isWrite) {
-        if (cacheKeyVal) {
-          set(cacheVal, atIndex, { $ref: cacheKeyVal });
-          setIn(cache.fields, [cacheKeyVal, __typename], typename);
-        } else {
-          set(cacheVal, atIndex, resultVal[atIndex]);
-        }
-      }
-      if (fields) {
-        ensure(targetVal, [atIndex], {});
-        traverseFields({
-          fields,
-          targetVal: ensure(targetVal, [atIndex], {}),
-          resultVal: resultVal[atIndex],
-          cacheVal: cacheKeyVal ? ensure(cache.fields, [cacheKeyVal], {}) : ensure(cacheVal, [atIndex], {}),
-        });
-      } else {
-        set(targetVal, atIndex, resultVal[atIndex]);
-      }
-    };
-
-    const writeField = (writeConfig: WriteFieldConfig) => {
-      const { cacheVal, resultVal, targetVal } = writeConfig;
-      const { cacheKeyVal, fields, typename } = writeFieldMeta(resultVal[resultName]);
       if (isWrite) {
         if (cacheKeyVal) {
           setIn(cacheVal, [field.name, argsKey], { $ref: cacheKeyVal });
           setIn(cache.fields, [cacheKeyVal, __typename], typename);
         }
       }
+
       if (fields) {
+        const cacheFieldVal = cacheKeyVal
+          ? getIn(cache.fields, [cacheKeyVal])
+          : ensure(cacheVal, [field.name, argsKey], {});
         traverseFields({
           fields: fields,
-          cacheVal: cacheKeyVal ? getIn(cache.fields, [cacheKeyVal]) : ensure(cacheVal, [field.name, argsKey], {}),
+          cacheVal: cacheFieldVal,
           targetVal: ensure(targetVal, [resultName], {}),
-          resultVal: resultVal[resultName],
+          resultVal: isRead ? cacheFieldVal : ensure(resultVal, [resultName], {}),
         });
       } else {
         if (isWrite) {
           setIn(cacheVal, [field.name, argsKey], resultVal[resultName]);
         }
-        setIn(targetVal, [resultName], resultVal[resultName]);
+        set(targetVal, resultName, getIn(cacheVal, [field.name, argsKey]));
       }
     };
 
@@ -257,13 +313,15 @@ export function syncWithCache(options: SyncWithCacheOptions) {
 
       // We iterate the list, copying the old values to the new values
       traverseList({
+        field,
         depth: field.list,
-        resultVal: resultVal[resultName],
+        resultVal: isRead ? getIn(cacheVal, [field.name, argsKey]) : ensure(resultVal, [resultName], []),
         targetVal: targetVal[resultName],
         cacheVal: ensure(cacheVal, [field.name, argsKey], []),
       });
     } else {
-      writeField({
+      handleField({
+        field,
         resultVal,
         targetVal,
         cacheVal,
@@ -284,8 +342,10 @@ export function syncWithCache(options: SyncWithCacheOptions) {
           setIn(cacheVal, [field, '$'], getIn(resultVal, [field]));
         }
         set(targetVal, field, getIn(cacheVal, [field, '$']));
+      } else if (shouldSkipField(field, meta, variableValues)) {
+        delete resultVal[field.alias ?? field.name];
       } else {
-        handleField(field, options);
+        handleTraverseField(field, options);
       }
     }
   };
@@ -297,5 +357,5 @@ export function syncWithCache(options: SyncWithCacheOptions) {
     targetVal: currentResult,
   });
 
-  return { added, updated, changed, cache, result: currentResult };
+  return { added, updated, changed, cache, result: currentResult ?? {} };
 }

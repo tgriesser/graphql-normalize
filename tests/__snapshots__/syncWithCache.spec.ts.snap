@@ -369,7 +369,6 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
         ],
       ],
     },
-    "node": {},
     "num": {
       "$": 1,
     },
@@ -869,7 +868,6 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
           ],
         ],
       },
-      "node": {},
       "num": {
         "$": 1,
       },
@@ -1280,4 +1278,33 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
   },
   "updated": 0,
 }
+`;
+
+exports[`syncWithCache > writes additional values into the store when the variables are changed 1`] = `
+[
+  {
+    "op": "add",
+    "path": [
+      "cache",
+      "fields",
+      "node",
+    ],
+    "value": {
+      "{\\"id\\":\\"VXNlcjox\\"}": {
+        "$ref": "User:VXNlcjox",
+      },
+    },
+  },
+  {
+    "op": "add",
+    "path": [
+      "currentResult",
+      "currentNode",
+    ],
+    "value": {
+      "__typename": "User",
+      "name": "user 1",
+    },
+  },
+]
 `;

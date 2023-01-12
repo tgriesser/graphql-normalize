@@ -6,7 +6,6 @@ import { generateNormalizedOperation } from '../src/codegen/generateNormalizedOp
 import { schema } from './fixtures/schema';
 import { operation1Doc } from './fixtures/ops';
 import { generateNormalizedMetadata } from '../src/codegen/generateNormalizedMetadata';
-import { readQueryFromCache } from '../src/readQueryFromCache';
 import type { NormalizeMetaShape } from '../src/metadataShapes';
 import { syncWithCache } from '../src/syncWithCache';
 
@@ -38,26 +37,29 @@ describe('readQueryFromCache', () => {
   });
 
   it('builds a cache of values', async () => {
-    const readResult = readQueryFromCache({
-      meta,
-      cacheFields: cache.fields,
+    const { result } = syncWithCache({
+      action: 'read',
+      meta: produce(meta, () => {}), // ensures meta isn't mutated
+      cache: produce(cache, () => {}), // ensures cache isn't mutated
       variableValues: {},
     });
-    expect(readResult).toMatchSnapshot();
+    expect(result).toMatchSnapshot();
   });
 
   it('does not mutate the data if it has not changed', async () => {
-    const readResult = readQueryFromCache({
+    const { result: readResult } = syncWithCache({
+      action: 'read',
       meta,
-      cacheFields: cache.fields,
+      cache,
       variableValues: {},
     });
     const initial = produce({}, () => readResult);
-    const secondRead = produce(initial, (existing) => {
-      return readQueryFromCache({
+    const secondRead = produce(readResult, (existing) => {
+      syncWithCache({
+        action: 'read',
         meta,
-        cacheFields: cache.fields,
-        existing,
+        cache,
+        currentResult: existing,
         variableValues: {},
       });
     });

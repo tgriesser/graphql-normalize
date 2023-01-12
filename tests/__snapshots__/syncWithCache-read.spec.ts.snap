@@ -2,7 +2,6 @@
 
 exports[`readQueryFromCache > builds a cache of values 1`] = `
 {
-  "currentNode": undefined,
   "first10Posts": {
     "nodes": [
       {
@@ -47,7 +46,54 @@ exports[`readQueryFromCache > builds a cache of values 1`] = `
       },
     ],
   },
-  "homeItems": {},
+  "homeItems": {
+    "nodes": [
+      {
+        "__typename": "Comment",
+      },
+      {
+        "id": "QmxvZzox",
+        "name": "My Cool #1",
+      },
+      {
+        "__typename": "Post",
+        "id": "UG9zdDox",
+      },
+      {
+        "__typename": "User",
+      },
+      {
+        "__typename": "Comment",
+      },
+      {
+        "id": "QmxvZzoy",
+        "name": "My Cool #2",
+      },
+      {
+        "__typename": "Post",
+        "id": "UG9zdDoy",
+      },
+      {
+        "__typename": "User",
+      },
+      {
+        "__typename": "Comment",
+      },
+      {
+        "id": "QmxvZzoz",
+        "name": "My Cool #3",
+      },
+    ],
+  },
+  "nestedString": [
+    [
+      "a",
+      "b",
+    ],
+    [
+      "foo",
+    ],
+  ],
   "nestedUserList": [
     [
       {
