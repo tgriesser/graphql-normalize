@@ -19,7 +19,7 @@ import {
   assertObjectType,
 } from 'graphql';
 import type { FieldDef, FieldMeta, NormalizeMetaShape, UnionMeta, VariableMeta } from '../metadataShapes';
-import { TypePolicies, getCacheKey } from './typePolicies';
+import { TypePolicies, getCacheKey } from './getCacheKey';
 import { stringifyVariables } from '../stringifyVariables';
 
 /**

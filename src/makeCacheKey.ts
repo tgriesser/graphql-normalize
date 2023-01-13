@@ -1,4 +1,4 @@
-import { stringifyVariables } from './stringifyVariables';
+import { stringifyVariables } from './stringifyVariables.js';
 
 /**
  * Given a cache key and an object, generates the normalized key.

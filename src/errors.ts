@@ -1,4 +1,4 @@
-import { NO_ARGS } from './constants';
+import { NO_ARGS } from './constants.js';
 
 export class MissingFieldError {
   constructor(path: Array<string | number>) {

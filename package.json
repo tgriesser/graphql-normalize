@@ -4,11 +4,47 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "clean": "rm -rf ./cjs && rm -rf ./mjs",
+    "build": "pnpm build:cjs && pnpm build:mjs",
+    "build:cjs": "tsc -p tsconfig.build.json --noEmit false --outDir cjs",
+    "build:mjs": "tsc -p tsconfig.build.json --noEmit false --outDir mjs --module ESNext --moduleResolution NodeNext"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./mjs/index.d.ts",
+        "default": "./mjs/index.js"
+      },
+      "require": {
+        "types": "./cjs/index.d.ts",
+        "default": "./cjs/index.js"
+      }
+    },
+    "./codegen": {
+      "import": {
+        "types": "./mjs/codegen.d.ts",
+        "default": "./mjs/codegen.js"
+      },
+      "require": {
+        "types": "./cjs/codegen.d.ts",
+        "default": "./cjs/codegen.js"
+      }
+    }
+  },
+  "types": "./cjs/index.d.ts",
+  "keywords": [
+    "graphql",
+    "normalize",
+    "cache",
+    "dedupe"
+  ],
+  "files": [
+    "mjs/*",
+    "cjs/*"
+  ],
+  "author": "Tim Griesser",
+  "license": "MIT",
   "dependencies": {
     "@graphql-tools/relay-operation-optimizer": "^6.5.14",
     "@graphql-codegen/plugin-helpers": "^3.1.2"

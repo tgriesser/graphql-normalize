@@ -14,7 +14,502 @@ exports[`syncWithCache > removes unused keys when keys dissapear 1`] = `
 
 exports[`syncWithCache > syncs the query result with the cache 1`] = `
 {
-  "fields": {
+  "Blog:QmxvZzox": {
+    "__typename": "Blog",
+    "id": {
+      "$": "QmxvZzox",
+    },
+    "name": {
+      "$": "My Cool #1",
+    },
+  },
+  "Blog:QmxvZzoy": {
+    "__typename": "Blog",
+    "id": {
+      "$": "QmxvZzoy",
+    },
+    "name": {
+      "$": "My Cool #2",
+    },
+  },
+  "Blog:QmxvZzoz": {
+    "__typename": "Blog",
+    "id": {
+      "$": "QmxvZzoz",
+    },
+    "name": {
+      "$": "My Cool #3",
+    },
+  },
+  "Post:UG9zdDo0": {
+    "__typename": "Post",
+    "author": {
+      "$": {
+        "$ref": "User:VXNlcjoy",
+      },
+    },
+    "id": {
+      "$": "UG9zdDo0",
+    },
+    "title": {
+      "$": "Some Blog post 4",
+    },
+  },
+  "Post:UG9zdDo1": {
+    "__typename": "Post",
+    "author": {
+      "$": {
+        "$ref": "User:VXNlcjox",
+      },
+    },
+    "id": {
+      "$": "UG9zdDo1",
+    },
+    "title": {
+      "$": "Some Blog post 5",
+    },
+  },
+  "Post:UG9zdDo2": {
+    "__typename": "Post",
+    "author": {
+      "$": {
+        "$ref": "User:VXNlcjoy",
+      },
+    },
+    "id": {
+      "$": "UG9zdDo2",
+    },
+    "title": {
+      "$": "Some Blog post 6",
+    },
+  },
+  "Post:UG9zdDo3": {
+    "__typename": "Post",
+    "author": {
+      "$": {
+        "$ref": "User:VXNlcjox",
+      },
+    },
+    "id": {
+      "$": "UG9zdDo3",
+    },
+    "title": {
+      "$": "Some Blog post 7",
+    },
+  },
+  "Post:UG9zdDo4": {
+    "__typename": "Post",
+    "author": {
+      "$": {
+        "$ref": "User:VXNlcjoy",
+      },
+    },
+    "id": {
+      "$": "UG9zdDo4",
+    },
+    "title": {
+      "$": "Some Blog post 8",
+    },
+  },
+  "Post:UG9zdDo5": {
+    "__typename": "Post",
+    "author": {
+      "$": {
+        "$ref": "User:VXNlcjox",
+      },
+    },
+    "id": {
+      "$": "UG9zdDo5",
+    },
+    "title": {
+      "$": "Some Blog post 9",
+    },
+  },
+  "Post:UG9zdDox": {
+    "__typename": "Post",
+    "author": {
+      "$": {
+        "$ref": "User:VXNlcjox",
+      },
+    },
+    "id": {
+      "$": "UG9zdDox",
+    },
+    "title": {
+      "$": "Some Blog post 1",
+    },
+  },
+  "Post:UG9zdDoxMA==": {
+    "__typename": "Post",
+    "author": {
+      "$": {
+        "$ref": "User:VXNlcjoy",
+      },
+    },
+    "id": {
+      "$": "UG9zdDoxMA==",
+    },
+    "title": {
+      "$": "Some Blog post 10",
+    },
+  },
+  "Post:UG9zdDoxMQ==": {
+    "__typename": "Post",
+    "author": {
+      "$": {
+        "$ref": "User:VXNlcjox",
+      },
+    },
+    "id": {
+      "$": "UG9zdDoxMQ==",
+    },
+  },
+  "Post:UG9zdDoxMg==": {
+    "__typename": "Post",
+    "author": {
+      "$": {
+        "$ref": "User:VXNlcjoy",
+      },
+    },
+    "id": {
+      "$": "UG9zdDoxMg==",
+    },
+  },
+  "Post:UG9zdDoy": {
+    "__typename": "Post",
+    "author": {
+      "$": {
+        "$ref": "User:VXNlcjoy",
+      },
+    },
+    "id": {
+      "$": "UG9zdDoy",
+    },
+    "title": {
+      "$": "Some Blog post 2",
+    },
+  },
+  "Post:UG9zdDoz": {
+    "__typename": "Post",
+    "author": {
+      "$": {
+        "$ref": "User:VXNlcjox",
+      },
+    },
+    "id": {
+      "$": "UG9zdDoz",
+    },
+    "title": {
+      "$": "Some Blog post 3",
+    },
+  },
+  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo0": {
+    "__typename": "QueryPostsConnectionEdge",
+    "node": {
+      "$": {
+        "$ref": "Post:UG9zdDo1",
+      },
+    },
+  },
+  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo1": {
+    "__typename": "QueryPostsConnectionEdge",
+    "node": {
+      "$": {
+        "$ref": "Post:UG9zdDo2",
+      },
+    },
+  },
+  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo2": {
+    "__typename": "QueryPostsConnectionEdge",
+    "node": {
+      "$": {
+        "$ref": "Post:UG9zdDo3",
+      },
+    },
+  },
+  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo3": {
+    "__typename": "QueryPostsConnectionEdge",
+    "node": {
+      "$": {
+        "$ref": "Post:UG9zdDo4",
+      },
+    },
+  },
+  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo4": {
+    "__typename": "QueryPostsConnectionEdge",
+    "node": {
+      "$": {
+        "$ref": "Post:UG9zdDo5",
+      },
+    },
+  },
+  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo5": {
+    "__typename": "QueryPostsConnectionEdge",
+    "node": {
+      "$": {
+        "$ref": "Post:UG9zdDoxMA==",
+      },
+    },
+  },
+  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjow": {
+    "__typename": "QueryPostsConnectionEdge",
+    "node": {
+      "$": {
+        "$ref": "Post:UG9zdDox",
+      },
+    },
+  },
+  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjox": {
+    "__typename": "QueryPostsConnectionEdge",
+    "node": {
+      "$": {
+        "$ref": "Post:UG9zdDoy",
+      },
+    },
+  },
+  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoxMA==": {
+    "__typename": "QueryPostsConnectionEdge",
+    "node": {
+      "$": {
+        "$ref": "Post:UG9zdDoxMQ==",
+      },
+    },
+  },
+  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoxMQ==": {
+    "__typename": "QueryPostsConnectionEdge",
+    "node": {
+      "$": {
+        "$ref": "Post:UG9zdDoxMg==",
+      },
+    },
+  },
+  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoy": {
+    "__typename": "QueryPostsConnectionEdge",
+    "node": {
+      "$": {
+        "$ref": "Post:UG9zdDoz",
+      },
+    },
+  },
+  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoz": {
+    "__typename": "QueryPostsConnectionEdge",
+    "node": {
+      "$": {
+        "$ref": "Post:UG9zdDo0",
+      },
+    },
+  },
+  "User:VXNlcjox": {
+    "__typename": "User",
+    "id": {
+      "$": "VXNlcjox",
+    },
+    "name": {
+      "$": "user 1",
+    },
+  },
+  "User:VXNlcjoy": {
+    "__typename": "User",
+    "id": {
+      "$": "VXNlcjoy",
+    },
+    "name": {
+      "$": "user 2",
+    },
+  },
+  "homeItems": {
+    "{\\"first\\":\\"10\\"}": {
+      "nodes": {
+        "$": [
+          {
+            "__typename": "Comment",
+          },
+          {
+            "$ref": "Blog:QmxvZzox",
+          },
+          {
+            "$ref": "Post:UG9zdDox",
+          },
+          {
+            "__typename": "User",
+          },
+          {
+            "__typename": "Comment",
+          },
+          {
+            "$ref": "Blog:QmxvZzoy",
+          },
+          {
+            "$ref": "Post:UG9zdDoy",
+          },
+          {
+            "__typename": "User",
+          },
+          {
+            "__typename": "Comment",
+          },
+          {
+            "$ref": "Blog:QmxvZzoz",
+          },
+        ],
+      },
+    },
+  },
+  "nestedString": {
+    "$": [
+      [
+        "a",
+        "b",
+      ],
+      [
+        "foo",
+      ],
+    ],
+  },
+  "nestedUserList": {
+    "$": [
+      [
+        {
+          "$ref": "User:VXNlcjox",
+        },
+      ],
+      [
+        {
+          "$ref": "User:VXNlcjoy",
+        },
+      ],
+    ],
+  },
+  "num": {
+    "$": 1,
+  },
+  "posts": {
+    "{\\"first\\":\\"10\\"}": {
+      "nodes": {
+        "$": [
+          {
+            "$ref": "Post:UG9zdDox",
+          },
+          {
+            "$ref": "Post:UG9zdDoy",
+          },
+          {
+            "$ref": "Post:UG9zdDoz",
+          },
+          {
+            "$ref": "Post:UG9zdDo0",
+          },
+          {
+            "$ref": "Post:UG9zdDo1",
+          },
+          {
+            "$ref": "Post:UG9zdDo2",
+          },
+          {
+            "$ref": "Post:UG9zdDo3",
+          },
+          {
+            "$ref": "Post:UG9zdDo4",
+          },
+          {
+            "$ref": "Post:UG9zdDo5",
+          },
+          {
+            "$ref": "Post:UG9zdDoxMA==",
+          },
+        ],
+      },
+    },
+    "{\\"first\\":\\"12\\"}": {
+      "edges": {
+        "$": [
+          {
+            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjow",
+          },
+          {
+            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjox",
+          },
+          {
+            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoy",
+          },
+          {
+            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoz",
+          },
+          {
+            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo0",
+          },
+          {
+            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo1",
+          },
+          {
+            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo2",
+          },
+          {
+            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo3",
+          },
+          {
+            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo4",
+          },
+          {
+            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo5",
+          },
+          {
+            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoxMA==",
+          },
+          {
+            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoxMQ==",
+          },
+        ],
+      },
+      "nodes": {
+        "$": [
+          {
+            "$ref": "Post:UG9zdDox",
+          },
+          {
+            "$ref": "Post:UG9zdDoy",
+          },
+          {
+            "$ref": "Post:UG9zdDoz",
+          },
+          {
+            "$ref": "Post:UG9zdDo0",
+          },
+          {
+            "$ref": "Post:UG9zdDo1",
+          },
+          {
+            "$ref": "Post:UG9zdDo2",
+          },
+          {
+            "$ref": "Post:UG9zdDo3",
+          },
+          {
+            "$ref": "Post:UG9zdDo4",
+          },
+          {
+            "$ref": "Post:UG9zdDo5",
+          },
+          {
+            "$ref": "Post:UG9zdDoxMA==",
+          },
+          {
+            "$ref": "Post:UG9zdDoxMQ==",
+          },
+          {
+            "$ref": "Post:UG9zdDoxMg==",
+          },
+        ],
+      },
+    },
+  },
+}
+`;
+
+exports[`syncWithCache > syncs the query result with the cache 2`] = `
+{
+  "added": 86,
+  "cache": {
     "Blog:QmxvZzox": {
       "__typename": "Blog",
       "id": {
@@ -505,507 +1000,7 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
       },
     },
   },
-  "operations": {},
-}
-`;
-
-exports[`syncWithCache > syncs the query result with the cache 2`] = `
-{
-  "added": 86,
-  "cache": {
-    "fields": {
-      "Blog:QmxvZzox": {
-        "__typename": "Blog",
-        "id": {
-          "$": "QmxvZzox",
-        },
-        "name": {
-          "$": "My Cool #1",
-        },
-      },
-      "Blog:QmxvZzoy": {
-        "__typename": "Blog",
-        "id": {
-          "$": "QmxvZzoy",
-        },
-        "name": {
-          "$": "My Cool #2",
-        },
-      },
-      "Blog:QmxvZzoz": {
-        "__typename": "Blog",
-        "id": {
-          "$": "QmxvZzoz",
-        },
-        "name": {
-          "$": "My Cool #3",
-        },
-      },
-      "Post:UG9zdDo0": {
-        "__typename": "Post",
-        "author": {
-          "$": {
-            "$ref": "User:VXNlcjoy",
-          },
-        },
-        "id": {
-          "$": "UG9zdDo0",
-        },
-        "title": {
-          "$": "Some Blog post 4",
-        },
-      },
-      "Post:UG9zdDo1": {
-        "__typename": "Post",
-        "author": {
-          "$": {
-            "$ref": "User:VXNlcjox",
-          },
-        },
-        "id": {
-          "$": "UG9zdDo1",
-        },
-        "title": {
-          "$": "Some Blog post 5",
-        },
-      },
-      "Post:UG9zdDo2": {
-        "__typename": "Post",
-        "author": {
-          "$": {
-            "$ref": "User:VXNlcjoy",
-          },
-        },
-        "id": {
-          "$": "UG9zdDo2",
-        },
-        "title": {
-          "$": "Some Blog post 6",
-        },
-      },
-      "Post:UG9zdDo3": {
-        "__typename": "Post",
-        "author": {
-          "$": {
-            "$ref": "User:VXNlcjox",
-          },
-        },
-        "id": {
-          "$": "UG9zdDo3",
-        },
-        "title": {
-          "$": "Some Blog post 7",
-        },
-      },
-      "Post:UG9zdDo4": {
-        "__typename": "Post",
-        "author": {
-          "$": {
-            "$ref": "User:VXNlcjoy",
-          },
-        },
-        "id": {
-          "$": "UG9zdDo4",
-        },
-        "title": {
-          "$": "Some Blog post 8",
-        },
-      },
-      "Post:UG9zdDo5": {
-        "__typename": "Post",
-        "author": {
-          "$": {
-            "$ref": "User:VXNlcjox",
-          },
-        },
-        "id": {
-          "$": "UG9zdDo5",
-        },
-        "title": {
-          "$": "Some Blog post 9",
-        },
-      },
-      "Post:UG9zdDox": {
-        "__typename": "Post",
-        "author": {
-          "$": {
-            "$ref": "User:VXNlcjox",
-          },
-        },
-        "id": {
-          "$": "UG9zdDox",
-        },
-        "title": {
-          "$": "Some Blog post 1",
-        },
-      },
-      "Post:UG9zdDoxMA==": {
-        "__typename": "Post",
-        "author": {
-          "$": {
-            "$ref": "User:VXNlcjoy",
-          },
-        },
-        "id": {
-          "$": "UG9zdDoxMA==",
-        },
-        "title": {
-          "$": "Some Blog post 10",
-        },
-      },
-      "Post:UG9zdDoxMQ==": {
-        "__typename": "Post",
-        "author": {
-          "$": {
-            "$ref": "User:VXNlcjox",
-          },
-        },
-        "id": {
-          "$": "UG9zdDoxMQ==",
-        },
-      },
-      "Post:UG9zdDoxMg==": {
-        "__typename": "Post",
-        "author": {
-          "$": {
-            "$ref": "User:VXNlcjoy",
-          },
-        },
-        "id": {
-          "$": "UG9zdDoxMg==",
-        },
-      },
-      "Post:UG9zdDoy": {
-        "__typename": "Post",
-        "author": {
-          "$": {
-            "$ref": "User:VXNlcjoy",
-          },
-        },
-        "id": {
-          "$": "UG9zdDoy",
-        },
-        "title": {
-          "$": "Some Blog post 2",
-        },
-      },
-      "Post:UG9zdDoz": {
-        "__typename": "Post",
-        "author": {
-          "$": {
-            "$ref": "User:VXNlcjox",
-          },
-        },
-        "id": {
-          "$": "UG9zdDoz",
-        },
-        "title": {
-          "$": "Some Blog post 3",
-        },
-      },
-      "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo0": {
-        "__typename": "QueryPostsConnectionEdge",
-        "node": {
-          "$": {
-            "$ref": "Post:UG9zdDo1",
-          },
-        },
-      },
-      "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo1": {
-        "__typename": "QueryPostsConnectionEdge",
-        "node": {
-          "$": {
-            "$ref": "Post:UG9zdDo2",
-          },
-        },
-      },
-      "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo2": {
-        "__typename": "QueryPostsConnectionEdge",
-        "node": {
-          "$": {
-            "$ref": "Post:UG9zdDo3",
-          },
-        },
-      },
-      "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo3": {
-        "__typename": "QueryPostsConnectionEdge",
-        "node": {
-          "$": {
-            "$ref": "Post:UG9zdDo4",
-          },
-        },
-      },
-      "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo4": {
-        "__typename": "QueryPostsConnectionEdge",
-        "node": {
-          "$": {
-            "$ref": "Post:UG9zdDo5",
-          },
-        },
-      },
-      "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo5": {
-        "__typename": "QueryPostsConnectionEdge",
-        "node": {
-          "$": {
-            "$ref": "Post:UG9zdDoxMA==",
-          },
-        },
-      },
-      "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjow": {
-        "__typename": "QueryPostsConnectionEdge",
-        "node": {
-          "$": {
-            "$ref": "Post:UG9zdDox",
-          },
-        },
-      },
-      "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjox": {
-        "__typename": "QueryPostsConnectionEdge",
-        "node": {
-          "$": {
-            "$ref": "Post:UG9zdDoy",
-          },
-        },
-      },
-      "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoxMA==": {
-        "__typename": "QueryPostsConnectionEdge",
-        "node": {
-          "$": {
-            "$ref": "Post:UG9zdDoxMQ==",
-          },
-        },
-      },
-      "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoxMQ==": {
-        "__typename": "QueryPostsConnectionEdge",
-        "node": {
-          "$": {
-            "$ref": "Post:UG9zdDoxMg==",
-          },
-        },
-      },
-      "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoy": {
-        "__typename": "QueryPostsConnectionEdge",
-        "node": {
-          "$": {
-            "$ref": "Post:UG9zdDoz",
-          },
-        },
-      },
-      "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoz": {
-        "__typename": "QueryPostsConnectionEdge",
-        "node": {
-          "$": {
-            "$ref": "Post:UG9zdDo0",
-          },
-        },
-      },
-      "User:VXNlcjox": {
-        "__typename": "User",
-        "id": {
-          "$": "VXNlcjox",
-        },
-        "name": {
-          "$": "user 1",
-        },
-      },
-      "User:VXNlcjoy": {
-        "__typename": "User",
-        "id": {
-          "$": "VXNlcjoy",
-        },
-        "name": {
-          "$": "user 2",
-        },
-      },
-      "homeItems": {
-        "{\\"first\\":\\"10\\"}": {
-          "nodes": {
-            "$": [
-              {
-                "__typename": "Comment",
-              },
-              {
-                "$ref": "Blog:QmxvZzox",
-              },
-              {
-                "$ref": "Post:UG9zdDox",
-              },
-              {
-                "__typename": "User",
-              },
-              {
-                "__typename": "Comment",
-              },
-              {
-                "$ref": "Blog:QmxvZzoy",
-              },
-              {
-                "$ref": "Post:UG9zdDoy",
-              },
-              {
-                "__typename": "User",
-              },
-              {
-                "__typename": "Comment",
-              },
-              {
-                "$ref": "Blog:QmxvZzoz",
-              },
-            ],
-          },
-        },
-      },
-      "nestedString": {
-        "$": [
-          [
-            "a",
-            "b",
-          ],
-          [
-            "foo",
-          ],
-        ],
-      },
-      "nestedUserList": {
-        "$": [
-          [
-            {
-              "$ref": "User:VXNlcjox",
-            },
-          ],
-          [
-            {
-              "$ref": "User:VXNlcjoy",
-            },
-          ],
-        ],
-      },
-      "num": {
-        "$": 1,
-      },
-      "posts": {
-        "{\\"first\\":\\"10\\"}": {
-          "nodes": {
-            "$": [
-              {
-                "$ref": "Post:UG9zdDox",
-              },
-              {
-                "$ref": "Post:UG9zdDoy",
-              },
-              {
-                "$ref": "Post:UG9zdDoz",
-              },
-              {
-                "$ref": "Post:UG9zdDo0",
-              },
-              {
-                "$ref": "Post:UG9zdDo1",
-              },
-              {
-                "$ref": "Post:UG9zdDo2",
-              },
-              {
-                "$ref": "Post:UG9zdDo3",
-              },
-              {
-                "$ref": "Post:UG9zdDo4",
-              },
-              {
-                "$ref": "Post:UG9zdDo5",
-              },
-              {
-                "$ref": "Post:UG9zdDoxMA==",
-              },
-            ],
-          },
-        },
-        "{\\"first\\":\\"12\\"}": {
-          "edges": {
-            "$": [
-              {
-                "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjow",
-              },
-              {
-                "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjox",
-              },
-              {
-                "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoy",
-              },
-              {
-                "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoz",
-              },
-              {
-                "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo0",
-              },
-              {
-                "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo1",
-              },
-              {
-                "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo2",
-              },
-              {
-                "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo3",
-              },
-              {
-                "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo4",
-              },
-              {
-                "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo5",
-              },
-              {
-                "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoxMA==",
-              },
-              {
-                "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoxMQ==",
-              },
-            ],
-          },
-          "nodes": {
-            "$": [
-              {
-                "$ref": "Post:UG9zdDox",
-              },
-              {
-                "$ref": "Post:UG9zdDoy",
-              },
-              {
-                "$ref": "Post:UG9zdDoz",
-              },
-              {
-                "$ref": "Post:UG9zdDo0",
-              },
-              {
-                "$ref": "Post:UG9zdDo1",
-              },
-              {
-                "$ref": "Post:UG9zdDo2",
-              },
-              {
-                "$ref": "Post:UG9zdDo3",
-              },
-              {
-                "$ref": "Post:UG9zdDo4",
-              },
-              {
-                "$ref": "Post:UG9zdDo5",
-              },
-              {
-                "$ref": "Post:UG9zdDoxMA==",
-              },
-              {
-                "$ref": "Post:UG9zdDoxMQ==",
-              },
-              {
-                "$ref": "Post:UG9zdDoxMg==",
-              },
-            ],
-          },
-        },
-      },
-    },
-    "operations": {},
-  },
+  "modified": 0,
   "result": {
     "first10Posts": {
       "nodes": [
@@ -1287,7 +1282,6 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
       ],
     },
   },
-  "updated": 0,
 }
 `;
 
@@ -1297,7 +1291,6 @@ exports[`syncWithCache > writes additional values into the store when the variab
     "op": "add",
     "path": [
       "cache",
-      "fields",
       "node",
     ],
     "value": {

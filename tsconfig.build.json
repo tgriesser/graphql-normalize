@@ -1,0 +1,9 @@
+{
+  "exclude": ["tests", "vitest.config.ts"],
+  "include": ["src/*.ts"],
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "cjs"
+  }
+}

@@ -1,13 +1,12 @@
-import type { FieldDef, FieldMeta, NormalizeMetaShape } from './metadataShapes';
+import type { FieldDef, FieldMeta, NormalizeMetaShape } from './metadataShapes.js';
 import type { FormattedExecutionResult } from 'graphql';
-import type { CacheShape } from './cache';
-import { __typename } from './constants';
-import { getArgsObj, printArgs } from './printArgs';
-import { makeCacheKey } from './makeCacheKey';
+import { __typename } from './constants.js';
+import { getArgsObj, printArgs } from './printArgs.js';
+import { makeCacheKey } from './makeCacheKey.js';
 
 type Path = Array<string | number>;
 
-export interface SyncWithCacheOptions {
+export interface graphqlNormalizeOptions {
   // read = cache overwrites result
   // write = result overwrites cache
   action: 'read' | 'write';
@@ -16,8 +15,8 @@ export interface SyncWithCacheOptions {
   // Shape of the metadata for the current operation
   // we're reading or writing
   meta: NormalizeMetaShape;
-  // The shape of the normalized cache
-  cache: CacheShape;
+  // The shape of the normalized field cache
+  cache: Record<string, any>;
   // The result we're writing into the cache, if any
   operationResult?: FormattedExecutionResult;
   // The current result, used as the target object to mutate,
@@ -107,12 +106,12 @@ const getIn = (obj: any, path: Path) => {
 
 export interface SyncWithCacheResult {
   added: number;
-  updated: number;
-  cache: CacheShape;
+  modified: number;
+  cache: Record<string, any>;
   result: Exclude<FormattedExecutionResult['data'], null>;
 }
 
-export function graphqlNormalize(options: SyncWithCacheOptions): SyncWithCacheResult {
+export function graphqlNormalize(options: graphqlNormalizeOptions): SyncWithCacheResult {
   const {
     action,
     variableValues,
@@ -124,7 +123,7 @@ export function graphqlNormalize(options: SyncWithCacheOptions): SyncWithCacheRe
   } = options;
 
   let added = 0;
-  let updated = 0;
+  let modified = 0;
   const isWrite = action === 'write';
   const isRead = !isWrite;
 
@@ -148,7 +147,7 @@ export function graphqlNormalize(options: SyncWithCacheOptions): SyncWithCacheRe
         if (source[key] === undefined) {
           added++;
         } else {
-          updated++;
+          modified++;
         }
         source[key] = value;
       }
@@ -199,7 +198,7 @@ export function graphqlNormalize(options: SyncWithCacheOptions): SyncWithCacheRe
     if (isWrite) {
       if (cacheKeyVal) {
         set(cacheVal, atIndex, { $ref: cacheKeyVal });
-        setIn(cache.fields, [cacheKeyVal, __typename], typename);
+        setIn(cache, [cacheKeyVal, __typename], typename);
       } else {
         set(cacheVal, atIndex, resultVal[atIndex]);
       }
@@ -211,7 +210,7 @@ export function graphqlNormalize(options: SyncWithCacheOptions): SyncWithCacheRe
         fields,
         targetVal: ensure(targetVal, [atIndex], {}),
         resultVal: resultVal[atIndex],
-        cacheVal: cacheKeyVal ? ensure(cache.fields, [cacheKeyVal], {}) : ensure(cacheVal, [atIndex], {}),
+        cacheVal: cacheKeyVal ? ensure(cache, [cacheKeyVal], {}) : ensure(cacheVal, [atIndex], {}),
       });
     } else {
       set(targetVal, atIndex, resultVal[atIndex]);
@@ -279,14 +278,12 @@ export function graphqlNormalize(options: SyncWithCacheOptions): SyncWithCacheRe
       if (isWrite) {
         if (cacheKeyVal) {
           setIn(cacheVal, [field.name, argsKey], { $ref: cacheKeyVal });
-          setIn(cache.fields, [cacheKeyVal, __typename], typename);
+          setIn(cache, [cacheKeyVal, __typename], typename);
         }
       }
 
       if (fields) {
-        const cacheFieldVal = cacheKeyVal
-          ? getIn(cache.fields, [cacheKeyVal])
-          : ensure(cacheVal, [field.name, argsKey], {});
+        const cacheFieldVal = cacheKeyVal ? getIn(cache, [cacheKeyVal]) : ensure(cacheVal, [field.name, argsKey], {});
         traverseFields({
           fields: fields,
           cacheVal: cacheFieldVal,
@@ -350,10 +347,10 @@ export function graphqlNormalize(options: SyncWithCacheOptions): SyncWithCacheRe
 
   traverseFields({
     fields: meta.fields,
-    cacheVal: cache.fields,
+    cacheVal: cache,
     resultVal: operationResult.data,
     targetVal: currentResult,
   });
 
-  return { added, updated, cache, result: currentResult ?? {} };
+  return { added, modified, cache, result: currentResult ?? {} };
 }

@@ -2,13 +2,11 @@ import { ExecutionResult, execute } from 'graphql';
 import { beforeEach, describe, expect, it } from 'vitest';
 import _ from 'lodash';
 
-import { generateNormalizedOperation } from '../src/codegen/generateNormalizedOperation';
+import { generateNormalizedOperation, generateNormalizedMetadata } from '../src/codegen';
 import { schema } from './fixtures/schema';
 import { operation1Doc } from './fixtures/ops';
-import { generateNormalizedMetadata } from '../src/codegen/generateNormalizedMetadata';
 import { graphqlNormalize } from '../src/graphqlNormalize';
 import type { NormalizeMetaShape } from '../src/metadataShapes';
-import type { CacheShape } from '../src/cache';
 import { enablePatches, produceWithPatches } from 'immer';
 
 enablePatches();
@@ -16,8 +14,8 @@ enablePatches();
 describe('syncWithCache', () => {
   let meta: NormalizeMetaShape;
   let variableValues = {};
-  let cache: CacheShape;
   let result: ExecutionResult;
+  let cache: Record<string, any>;
 
   beforeEach(async () => {
     meta = generateNormalizedMetadata(schema, operation1Doc);
@@ -27,10 +25,7 @@ describe('syncWithCache', () => {
       variableValues,
       document: generateNormalizedOperation(schema, operation1Doc),
     });
-    cache = {
-      operations: {},
-      fields: {},
-    } as const;
+    cache = {} as const;
   });
 
   it('syncs the query result with the cache', async () => {
@@ -59,11 +54,11 @@ describe('syncWithCache', () => {
 
     expect({
       added: obj2.added,
-      updated: obj2.updated,
+      modified: obj2.modified,
     }).toMatchInlineSnapshot(`
       {
         "added": 0,
-        "updated": 0,
+        "modified": 0,
       }
     `);
   });
@@ -99,7 +94,7 @@ describe('syncWithCache', () => {
 
       // Only added a single item to the cache, since we already have this object.
       expect(sync2.added).toEqual(1);
-      expect(sync2.updated).toEqual(0);
+      expect(sync2.modified).toEqual(0);
     });
 
     expect(patches).toMatchSnapshot();

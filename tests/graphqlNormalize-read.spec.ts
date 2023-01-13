@@ -2,26 +2,19 @@ import { execute } from 'graphql';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { produce } from 'immer';
 
-import { generateNormalizedOperation } from '../src/codegen/generateNormalizedOperation';
+import { generateNormalizedOperation, generateNormalizedMetadata } from '../src/codegen';
 import { schema } from './fixtures/schema';
 import { operation1Doc } from './fixtures/ops';
-import { generateNormalizedMetadata } from '../src/codegen/generateNormalizedMetadata';
 import type { NormalizeMetaShape } from '../src/metadataShapes';
 import { graphqlNormalize } from '../src/graphqlNormalize';
 
 describe('graphqlNormalize: read', () => {
-  let cache = {
-    operations: {},
-    fields: {},
-  };
+  let cache = {};
   let meta: NormalizeMetaShape;
   beforeEach(async () => {
     meta = generateNormalizedMetadata(schema, operation1Doc);
     const variableValues = {};
-    cache = {
-      operations: {},
-      fields: {},
-    };
+    cache = {};
     graphqlNormalize({
       action: 'write',
       meta,
