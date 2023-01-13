@@ -7,9 +7,9 @@ import { schema } from './fixtures/schema';
 import { operation1Doc } from './fixtures/ops';
 import { generateNormalizedMetadata } from '../src/codegen/generateNormalizedMetadata';
 import type { NormalizeMetaShape } from '../src/metadataShapes';
-import { syncWithCache } from '../src/syncWithCache';
+import { graphqlNormalize } from '../src/graphqlNormalize';
 
-describe('readQueryFromCache', () => {
+describe('graphqlNormalize: read', () => {
   let cache = {
     operations: {},
     fields: {},
@@ -18,26 +18,25 @@ describe('readQueryFromCache', () => {
   beforeEach(async () => {
     meta = generateNormalizedMetadata(schema, operation1Doc);
     const variableValues = {};
-    const result = await execute({
-      schema,
-      variableValues,
-      document: generateNormalizedOperation(schema, operation1Doc),
-    });
     cache = {
       operations: {},
       fields: {},
     };
-    syncWithCache({
+    graphqlNormalize({
       action: 'write',
       meta,
-      operationResult: result.data,
+      operationResult: await execute({
+        schema,
+        variableValues,
+        document: generateNormalizedOperation(schema, operation1Doc),
+      }),
       variableValues,
       cache,
     });
   });
 
   it('builds a cache of values', async () => {
-    const { result } = syncWithCache({
+    const { result } = graphqlNormalize({
       action: 'read',
       meta: produce(meta, () => {}), // ensures meta isn't mutated
       cache: produce(cache, () => {}), // ensures cache isn't mutated
@@ -47,7 +46,7 @@ describe('readQueryFromCache', () => {
   });
 
   it('does not mutate the data if it has not changed', async () => {
-    const { result: readResult } = syncWithCache({
+    const { result: readResult } = graphqlNormalize({
       action: 'read',
       meta,
       cache,
@@ -55,7 +54,7 @@ describe('readQueryFromCache', () => {
     });
     const initial = produce({}, () => readResult);
     const secondRead = produce(readResult, (existing) => {
-      syncWithCache({
+      graphqlNormalize({
         action: 'read',
         meta,
         cache,

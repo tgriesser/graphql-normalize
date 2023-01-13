@@ -19,7 +19,7 @@ export interface SyncWithCacheOptions {
   // The shape of the normalized cache
   cache: CacheShape;
   // The result we're writing into the cache, if any
-  operationResult?: FormattedExecutionResult['data'];
+  operationResult?: FormattedExecutionResult;
   // The current result, used as the target object to mutate,
   // or a new value if we're initially syncing
   currentResult?: FormattedExecutionResult['data'];
@@ -58,6 +58,7 @@ function defaultIsEqual(a: any, b: any) {
   return a === b;
 }
 
+// Ensure the path exists in an object
 const ensure = (obj: any, path: Path, fallback: any) => {
   let source = obj;
   for (let i = 0; i < path.length; i++) {
@@ -112,12 +113,12 @@ export interface SyncWithCacheResult {
   result: Exclude<FormattedExecutionResult['data'], null>;
 }
 
-export function syncWithCache(options: SyncWithCacheOptions): SyncWithCacheResult {
+export function graphqlNormalize(options: SyncWithCacheOptions): SyncWithCacheResult {
   const {
     action,
     variableValues,
     cache,
-    operationResult = {},
+    operationResult = { data: {}, errors: [] },
     currentResult = {},
     isEqual = defaultIsEqual,
     meta,
@@ -343,7 +344,7 @@ export function syncWithCache(options: SyncWithCacheOptions): SyncWithCacheResul
         }
         set(targetVal, field, getIn(cacheVal, [field, '$']));
       } else if (shouldSkipField(field, meta, variableValues)) {
-        delete resultVal[field.alias ?? field.name];
+        delete targetVal[field.alias ?? field.name];
       } else {
         handleTraverseField(field, options);
       }
@@ -353,7 +354,7 @@ export function syncWithCache(options: SyncWithCacheOptions): SyncWithCacheResul
   traverseFields({
     fields: meta.fields,
     cacheVal: cache.fields,
-    resultVal: operationResult,
+    resultVal: operationResult.data,
     targetVal: currentResult,
   });
 

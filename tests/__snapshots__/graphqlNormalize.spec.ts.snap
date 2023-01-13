@@ -1,5 +1,17 @@
 // Vitest Snapshot v1
 
+exports[`syncWithCache > removes unused keys when keys dissapear 1`] = `
+[
+  {
+    "op": "remove",
+    "path": [
+      "currentResult",
+      "currentNode",
+    ],
+  },
+]
+`;
+
 exports[`syncWithCache > syncs the query result with the cache 1`] = `
 {
   "fields": {

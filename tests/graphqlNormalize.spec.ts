@@ -6,10 +6,10 @@ import { generateNormalizedOperation } from '../src/codegen/generateNormalizedOp
 import { schema } from './fixtures/schema';
 import { operation1Doc } from './fixtures/ops';
 import { generateNormalizedMetadata } from '../src/codegen/generateNormalizedMetadata';
-import { syncWithCache } from '../src/syncWithCache';
+import { graphqlNormalize } from '../src/graphqlNormalize';
 import type { NormalizeMetaShape } from '../src/metadataShapes';
 import type { CacheShape } from '../src/cache';
-import produce, { enablePatches, produceWithPatches } from 'immer';
+import { enablePatches, produceWithPatches } from 'immer';
 
 enablePatches();
 
@@ -18,6 +18,7 @@ describe('syncWithCache', () => {
   let variableValues = {};
   let cache: CacheShape;
   let result: ExecutionResult;
+
   beforeEach(async () => {
     meta = generateNormalizedMetadata(schema, operation1Doc);
     variableValues = {};
@@ -31,12 +32,13 @@ describe('syncWithCache', () => {
       fields: {},
     } as const;
   });
+
   it('syncs the query result with the cache', async () => {
-    const obj = syncWithCache({
+    const obj = graphqlNormalize({
       action: 'write',
       meta,
       variableValues,
-      operationResult: result.data,
+      operationResult: result,
       cache,
       isEqual: _.isEqual,
       //
@@ -45,11 +47,11 @@ describe('syncWithCache', () => {
     expect(cache).toMatchSnapshot();
     expect(obj).toMatchSnapshot();
 
-    const obj2 = syncWithCache({
+    const obj2 = graphqlNormalize({
       action: 'write',
       meta,
       variableValues,
-      operationResult: result.data,
+      operationResult: result,
       currentResult: obj.result,
       cache,
       isEqual: _.isEqual,
@@ -69,11 +71,11 @@ describe('syncWithCache', () => {
   });
 
   it('writes additional values into the store when the variables are changed', async () => {
-    const { result: currentResult } = syncWithCache({
+    const { result: currentResult } = graphqlNormalize({
       action: 'write',
       meta,
       variableValues,
-      operationResult: result.data,
+      operationResult: result,
       cache,
       isEqual: _.isEqual,
       //
@@ -81,20 +83,18 @@ describe('syncWithCache', () => {
 
     const variableValues2 = { hasNode: true, nodeId: 'VXNlcjox' };
 
-    const result2 = await execute({
-      schema,
-      variableValues: variableValues2,
-      contextValue: {},
-      document: generateNormalizedOperation(schema, operation1Doc),
-    });
-
-    const [, patches] = produceWithPatches({ cache, currentResult }, ({ cache, currentResult }) => {
-      const sync2 = syncWithCache({
+    const [, patches] = await produceWithPatches({ cache, currentResult }, async ({ cache, currentResult }) => {
+      const sync2 = graphqlNormalize({
         action: 'write',
         meta,
         variableValues: variableValues2,
         currentResult,
-        operationResult: result2.data,
+        operationResult: await execute({
+          schema,
+          variableValues: variableValues2,
+          contextValue: {},
+          document: generateNormalizedOperation(schema, operation1Doc),
+        }),
         cache,
         isEqual: _.isEqual,
       });
@@ -102,6 +102,44 @@ describe('syncWithCache', () => {
       // Only added a single item to the cache, since we already have this object.
       expect(sync2.added).toEqual(1);
       expect(sync2.updated).toEqual(0);
+    });
+
+    expect(patches).toMatchSnapshot();
+  });
+
+  it('removes unused keys when keys dissapear', async () => {
+    const variableValues = { hasNode: true, nodeId: 'VXNlcjox' };
+
+    const { result: currentResult } = graphqlNormalize({
+      action: 'write',
+      meta,
+      variableValues,
+      operationResult: await execute({
+        schema,
+        variableValues,
+        contextValue: {},
+        document: generateNormalizedOperation(schema, operation1Doc),
+      }),
+      cache,
+      isEqual: _.isEqual,
+      //
+    });
+
+    const [, patches] = await produceWithPatches({ cache, currentResult }, async ({ cache, currentResult }) => {
+      graphqlNormalize({
+        action: 'write',
+        meta,
+        variableValues: {},
+        currentResult,
+        operationResult: await execute({
+          schema,
+          variableValues,
+          contextValue: {},
+          document: generateNormalizedOperation(schema, operation1Doc),
+        }),
+        cache,
+        isEqual: _.isEqual,
+      });
     });
 
     expect(patches).toMatchSnapshot();
