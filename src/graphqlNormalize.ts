@@ -108,7 +108,6 @@ const getIn = (obj: any, path: Path) => {
 export interface SyncWithCacheResult {
   added: number;
   updated: number;
-  changed: number;
   cache: CacheShape;
   result: Exclude<FormattedExecutionResult['data'], null>;
 }
@@ -126,7 +125,6 @@ export function graphqlNormalize(options: SyncWithCacheOptions): SyncWithCacheRe
 
   let added = 0;
   let updated = 0;
-  let changed = 0;
   const isWrite = action === 'write';
   const isRead = !isWrite;
 
@@ -152,7 +150,6 @@ export function graphqlNormalize(options: SyncWithCacheOptions): SyncWithCacheRe
         } else {
           updated++;
         }
-        changed++;
         source[key] = value;
       }
     }
@@ -358,5 +355,5 @@ export function graphqlNormalize(options: SyncWithCacheOptions): SyncWithCacheRe
     targetVal: currentResult,
   });
 
-  return { added, updated, changed, cache, result: currentResult ?? {} };
+  return { added, updated, cache, result: currentResult ?? {} };
 }

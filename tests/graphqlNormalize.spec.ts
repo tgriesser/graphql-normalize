@@ -58,13 +58,11 @@ describe('syncWithCache', () => {
     });
 
     expect({
-      changed: obj2.changed,
       added: obj2.added,
       updated: obj2.updated,
     }).toMatchInlineSnapshot(`
       {
         "added": 0,
-        "changed": 0,
         "updated": 0,
       }
     `);

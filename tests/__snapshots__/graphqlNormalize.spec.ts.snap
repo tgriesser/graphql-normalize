@@ -1006,7 +1006,6 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
     },
     "operations": {},
   },
-  "changed": 86,
   "result": {
     "first10Posts": {
       "nodes": [
