@@ -18,28 +18,46 @@ import {
   getNamedType,
   assertObjectType,
 } from 'graphql';
-import type { FieldDef, FieldMeta, NormalizeMetaShape, UnionMeta, VariableMeta } from '../metadataShapes';
+import type {
+  FieldDef,
+  FieldMeta,
+  NormalizeMetaShape,
+  NormalizedDocShape,
+  UnionMeta,
+  VariableMeta,
+} from '../metadataShapes';
 import { TypePolicies, getCacheKey } from './getCacheKey';
 import { stringifyVariables } from '../stringifyVariables';
+
+export function generateNormalizedMetadata(
+  schema: GraphQLSchema,
+  document: DocumentNode,
+  typePolicies: TypePolicies = {}
+) {
+  return generateNormalizedMetadataForDocs(schema, [document], typePolicies)[0].meta;
+}
 
 /**
  * Given an operation and a schema, generates the metadata necessary to
  * write the operation into the cache
  */
-export function generateNormalizedMetadata(
+export function generateNormalizedMetadataForDocs(
   schema: GraphQLSchema,
-  operation: DocumentNode,
+  documents: DocumentNode[],
   typePolicies: TypePolicies = {}
-): NormalizeMetaShape {
-  let finalOperation = operation;
-  if (operation.definitions.some((d) => d.kind === Kind.FRAGMENT_DEFINITION)) {
-    finalOperation = optimizeDocuments(schema, [operation], {
+): NormalizedDocShape[] {
+  let finalDocuments = documents;
+  if (documents.some((o) => o.definitions.some((d) => d.kind === Kind.FRAGMENT_DEFINITION))) {
+    finalDocuments = optimizeDocuments(schema, documents, {
       noLocation: true,
-    })[0];
+      includeFragments: false,
+    });
   }
 
+  const normalizedDocs: NormalizedDocShape[] = [];
+
   const typeInfo = new TypeInfo(schema);
-  const normalizedDoc: NormalizeMetaShape = {
+  let normalizedDoc: NormalizeMetaShape = {
     operation: OperationTypeNode.QUERY,
     variables: [],
     fields: [],
@@ -57,6 +75,9 @@ export function generateNormalizedMetadata(
 
   function pushField(field: string | FieldDef) {
     parentFieldDef.fields ??= [];
+    if (typeof field === 'string' && parentFieldDef.fields.includes(field)) {
+      return;
+    }
     parentFieldDef.fields.push(field);
     if (typeof field !== 'string') {
       parentStack.push(parentFieldDef);
@@ -79,8 +100,23 @@ export function generateNormalizedMetadata(
   }
 
   const visitor = visitWithTypeInfo(typeInfo, {
-    OperationDefinition(op) {
-      normalizedDoc.operation = op.operation;
+    OperationDefinition: {
+      enter(op) {
+        normalizedDoc.operation = op.operation;
+      },
+      leave(op) {
+        normalizedDocs.push({
+          name: op.name?.value ?? 'unnamed',
+          meta: normalizedDoc,
+        });
+        normalizedDoc = {
+          operation: OperationTypeNode.QUERY,
+          variables: [],
+          fields: [],
+        };
+        parentFieldDef = normalizedDoc;
+        parentStack = [];
+      },
     },
     VariableDefinition(node) {
       const obj: VariableMeta = {
@@ -166,9 +202,11 @@ export function generateNormalizedMetadata(
     },
   });
 
-  visit(finalOperation, visitor);
+  for (const doc of finalDocuments) {
+    visit(doc, visitor);
+  }
 
-  return normalizedDoc;
+  return normalizedDocs;
 }
 
 function unpackType(typeInfo: TypeInfo) {

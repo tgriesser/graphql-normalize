@@ -22,7 +22,11 @@ import type { TypePolicies } from './getCacheKey';
  * we don't provide more info in the response than was originally requested by
  * the user, while still properly keeping object identity as best we can
  */
-export function addNormalizingFields(schema: GraphQLSchema, operation: DocumentNode, typePolicies: TypePolicies = {}) {
+export function addNormalizingFields(
+  schema: GraphQLSchema,
+  operations: DocumentNode[],
+  typePolicies: TypePolicies = {}
+) {
   const missingTypes: string[] = [];
   const { typeKeys = {}, defaultKeys = ['id', 'uuid', '_id', 'cursor'] } = typePolicies;
 
@@ -123,7 +127,7 @@ export function addNormalizingFields(schema: GraphQLSchema, operation: DocumentN
     },
   });
 
-  return visit(operation, visitor);
+  return operations.map((o) => visit(o, visitor));
 }
 
 function withField(node: SelectionSetNode, name: string): SelectionSetNode {

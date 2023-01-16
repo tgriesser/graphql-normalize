@@ -2,7 +2,7 @@
 
 Standalone, schema driven normalized caching, aimed at removing the need for the entire operation document and GraphQL `visit` utility functions when utilizing fully persisted queries.
 
-Based on trimmed down, pre-computed "metadata" generated in a compilation layer, so you don't need to provide the entire schema client side to have all necessary data.
+Based on trimmed down, pre-computed metadata generated in a compilation layer, so you don't need to provide the entire schema client side to have all necessary data.
 
 Lower level, intended to be wrapped by other libraries providing a better experience around fetching & persisting (coming soon)
 
@@ -63,3 +63,7 @@ export interface SyncWithCacheOptions {
 - [ ] Proper handling for `@defer` fields
 - [ ] Storage/handling of GraphQL Errors in response
 - [ ] throw MissingFieldError when we expect a field to exist
+
+### License
+
+MIT

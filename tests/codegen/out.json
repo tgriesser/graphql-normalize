@@ -1,0 +1,281 @@
+{
+  "Operation1": {
+    "operation": "query",
+    "variables": [
+      {
+        "name": "first",
+        "defaultValue": "12"
+      },
+      {
+        "name": "nodeId",
+        "defaultValue": "\"\""
+      },
+      {
+        "name": "hasNode",
+        "defaultValue": "false"
+      }
+    ],
+    "fields": [
+      {
+        "name": "posts",
+        "args": {
+          "$first": "first"
+        },
+        "fields": [
+          {
+            "name": "nodes",
+            "list": 1,
+            "cacheKey": "Post:id",
+            "fields": [
+              "id",
+              "__typename",
+              {
+                "name": "author",
+                "cacheKey": "User:id",
+                "fields": [
+                  "id",
+                  "__typename"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "edges",
+            "list": 1,
+            "cacheKey": "QueryPostsConnectionEdge:cursor",
+            "fields": [
+              "cursor",
+              "__typename",
+              {
+                "name": "node",
+                "cacheKey": "Post:id",
+                "fields": [
+                  "id",
+                  "__typename",
+                  {
+                    "name": "author",
+                    "cacheKey": "User:id",
+                    "fields": [
+                      "id",
+                      "__typename"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "posts",
+        "alias": "first10Posts",
+        "args": "{\"first\":\"10\"}",
+        "fields": [
+          {
+            "name": "nodes",
+            "list": 1,
+            "cacheKey": "Post:id",
+            "fields": [
+              "id",
+              "__typename",
+              "title"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "homeItems",
+        "args": "{\"first\":\"10\"}",
+        "fields": [
+          {
+            "name": "nodes",
+            "list": 1,
+            "fields": [
+              "__typename"
+            ],
+            "possible": {
+              "Post": {
+                "fields": [
+                  "id",
+                  "__typename"
+                ],
+                "cacheKey": "Post:id"
+              },
+              "Blog": {
+                "fields": [
+                  "id",
+                  "__typename",
+                  "name"
+                ],
+                "cacheKey": "Blog:id"
+              }
+            }
+          }
+        ]
+      },
+      "num",
+      {
+        "name": "nestedString",
+        "list": 2
+      },
+      {
+        "name": "nestedUserList",
+        "list": 2,
+        "cacheKey": "User:id",
+        "fields": [
+          "id",
+          "__typename",
+          "name"
+        ]
+      },
+      {
+        "name": "node",
+        "alias": "currentNode",
+        "args": {
+          "$nodeId": "id"
+        },
+        "include": {
+          "$hasNode": "if"
+        },
+        "fields": [
+          "__typename"
+        ],
+        "possible": {
+          "User": {
+            "fields": [
+              "id",
+              "__typename",
+              "name"
+            ],
+            "cacheKey": "User:id"
+          },
+          "Post": {
+            "fields": [
+              "id",
+              "__typename"
+            ],
+            "cacheKey": "Post:id"
+          }
+        }
+      }
+    ]
+  },
+  "Operation2": {
+    "operation": "query",
+    "variables": [],
+    "fields": [
+      {
+        "name": "posts",
+        "args": "{\"first\":\"100\"}",
+        "fields": [
+          {
+            "name": "pageInfo",
+            "fields": [
+              "hasNextPage",
+              "hasPreviousPage"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "OperationWithFrag": {
+    "operation": "query",
+    "variables": [
+      {
+        "name": "first",
+        "defaultValue": "100"
+      },
+      {
+        "name": "nodeId",
+        "defaultValue": "\"\""
+      },
+      {
+        "name": "hasNode",
+        "defaultValue": "false"
+      }
+    ],
+    "fields": [
+      {
+        "name": "posts",
+        "args": {
+          "$first": "first"
+        },
+        "fields": [
+          {
+            "name": "nodes",
+            "list": 1,
+            "cacheKey": "Post:id",
+            "fields": [
+              "id",
+              "__typename",
+              {
+                "name": "author",
+                "cacheKey": "User:id",
+                "fields": [
+                  "id",
+                  "__typename"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "edges",
+            "list": 1,
+            "cacheKey": "QueryPostsConnectionEdge:cursor",
+            "fields": [
+              "cursor",
+              "__typename",
+              {
+                "name": "node",
+                "cacheKey": "Post:id",
+                "fields": [
+                  "id",
+                  "__typename",
+                  {
+                    "name": "author",
+                    "cacheKey": "User:id",
+                    "fields": [
+                      "id",
+                      "__typename"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "node",
+        "alias": "currentNode",
+        "args": {
+          "$nodeId": "id"
+        },
+        "include": {
+          "$hasNode": "if"
+        },
+        "fields": [
+          "__typename"
+        ],
+        "possible": {
+          "User": {
+            "fields": [
+              "id",
+              "__typename",
+              "name"
+            ],
+            "cacheKey": "User:id"
+          },
+          "Post": {
+            "fields": [
+              "id",
+              "__typename"
+            ],
+            "cacheKey": "Post:id"
+          }
+        }
+      }
+    ]
+  }
+}

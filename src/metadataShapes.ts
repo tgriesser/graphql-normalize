@@ -41,3 +41,8 @@ export interface NormalizeMetaShape {
   variables: VariableMeta[];
   fields: FieldDef[];
 }
+
+export interface NormalizedDocShape {
+  name: string;
+  meta: NormalizeMetaShape;
+}
