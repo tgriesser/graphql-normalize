@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "vitest",
+    "prepublish": "pnpm build",
     "clean": "rm -rf ./cjs && rm -rf ./mjs",
     "build": "pnpm build:cjs && pnpm build:mjs",
     "build:cjs": "tsc -p tsconfig.build.json --noEmit false --outDir cjs",
