@@ -6,11 +6,8 @@ export { NormalizeCodegenPlugin } from './codegen/plugin.js';
 export { generateNormalizedMetadataForDocs, generateNormalizedMetadata } from './codegen/generateNormalizedMetadata.js';
 export { generateNormalizedOperations, generateNormalizedOperation } from './codegen/generateNormalizedOperation.js';
 
-export default NormalizeCodegenPlugin;
+export { NormalizeCodegenPlugin as plugin };
 
-// GraphQL Codegen expects CJS exports
-// @ts-ignore
-if (typeof module !== 'undefined') {
-  // @ts-ignore
-  module.exports = exports.default;
-}
+export default {
+  plugin: NormalizeCodegenPlugin,
+};

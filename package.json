@@ -23,6 +23,7 @@
       }
     },
     "./codegen": {
+      "node": "./cjs/codegen.js",
       "import": {
         "types": "./mjs/codegen.d.ts",
         "default": "./mjs/codegen.js"
