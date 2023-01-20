@@ -6,6 +6,8 @@ import { makeCacheKey } from './makeCacheKey.js';
 
 type Path = Array<string | number>;
 
+export type { NormalizeMetaShape };
+
 export interface graphqlNormalizeOptions {
   // read = cache overwrites result
   // write = result overwrites cache

@@ -7,3 +7,10 @@ export { generateNormalizedMetadataForDocs, generateNormalizedMetadata } from '.
 export { generateNormalizedOperations, generateNormalizedOperation } from './codegen/generateNormalizedOperation.js';
 
 export default NormalizeCodegenPlugin;
+
+// GraphQL Codegen expects CJS exports
+// @ts-ignore
+if (typeof module !== 'undefined') {
+  // @ts-ignore
+  module.exports = exports.default;
+}
