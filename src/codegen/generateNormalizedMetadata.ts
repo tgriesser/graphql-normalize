@@ -17,6 +17,7 @@ import {
   InlineFragmentNode,
   getNamedType,
   assertObjectType,
+  isEnumType,
 } from 'graphql';
 import type {
   FieldDef,
@@ -131,8 +132,8 @@ export function generateNormalizedMetadataForDocs(
       enter(node) {
         const { gqlType, listDepth } = unpackType(typeInfo);
 
-        // If this is a boring ol scalar, we push it as a string
-        if (isBoringScalar(node, typeInfo)) {
+        // If this is a boring ol scalar / enum, we push it as a string
+        if (isSimpleField(node, typeInfo)) {
           pushField(node.name.value);
           return;
         }
@@ -164,7 +165,7 @@ export function generateNormalizedMetadataForDocs(
       },
       leave(node) {
         // Pop things back into place
-        if (!isBoringScalar(node, typeInfo)) {
+        if (!isSimpleField(node, typeInfo)) {
           popStack();
         }
       },
@@ -222,10 +223,10 @@ function unpackType(typeInfo: TypeInfo) {
   return { gqlType, listDepth };
 }
 
-function isBoringScalar(node: FieldNode, typeInfo: TypeInfo) {
+function isSimpleField(node: FieldNode, typeInfo: TypeInfo) {
   const { gqlType, listDepth } = unpackType(typeInfo);
   return (
-    isScalarType(gqlType) &&
+    (isScalarType(gqlType) || isEnumType(gqlType)) &&
     !listDepth &&
     !node.alias &&
     !node.arguments?.length &&

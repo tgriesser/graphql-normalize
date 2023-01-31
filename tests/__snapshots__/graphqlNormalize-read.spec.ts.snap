@@ -2,6 +2,7 @@
 
 exports[`graphqlNormalize: read > builds a cache of values 1`] = `
 {
+  "enum": "a",
   "first10Posts": {
     "nodes": [
       {

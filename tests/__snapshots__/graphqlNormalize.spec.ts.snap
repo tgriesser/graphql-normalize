@@ -317,6 +317,9 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
       "$": "user 2",
     },
   },
+  "enum": {
+    "$": "a",
+  },
   "homeItems": {
     "{\\"first\\":\\"10\\"}": {
       "nodes": {
@@ -508,7 +511,7 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
 
 exports[`syncWithCache > syncs the query result with the cache 2`] = `
 {
-  "added": 86,
+  "added": 87,
   "cache": {
     "Blog:QmxvZzox": {
       "__typename": "Blog",
@@ -813,6 +816,9 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
         "$": "user 2",
       },
     },
+    "enum": {
+      "$": "a",
+    },
     "homeItems": {
       "{\\"first\\":\\"10\\"}": {
         "nodes": {
@@ -1002,6 +1008,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
   },
   "modified": 0,
   "result": {
+    "enum": "a",
     "first10Posts": {
       "nodes": [
         {

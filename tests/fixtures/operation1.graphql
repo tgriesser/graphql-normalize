@@ -1,4 +1,5 @@
 query Operation1($first: Int = 12, $nodeId: ID! = "", $hasNode: Boolean = false) {
+  enum
   posts(first: $first) {
     nodes {
       id

@@ -40,6 +40,12 @@ const builder = new SchemaBuilder<{
 builder.queryType({});
 
 builder.queryFields((t) => ({
+  enum: t.field({
+    type: builder.enumType('ExampleEnum', {
+      values: ['a', 'b', 'c'],
+    }),
+    resolve: () => 'a',
+  }),
   num: t.int({
     resolve: () => 1,
   }),

@@ -3,6 +3,7 @@
 exports[`generateNormalizedMetadata > should generate the necessary metadata 1`] = `
 {
   "fields": [
+    "enum",
     {
       "args": {
         "$first": "first",

@@ -20,6 +20,12 @@ type Comment implements Node {
   id: ID!
 }
 
+enum ExampleEnum {
+  a
+  b
+  c
+}
+
 union HomeFeedItem = Blog | Comment | Post | User
 
 interface Node {
@@ -42,6 +48,7 @@ type Post implements Node {
 }
 
 type Query {
+  enum: ExampleEnum!
   homeItems(after: String, before: String, first: Int, last: Int): QueryHomeItemsConnection!
   nestedString: [[String!]!]!
   nestedUserList: [[User!]!]!

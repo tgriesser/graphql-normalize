@@ -16,6 +16,7 @@
       }
     ],
     "fields": [
+      "enum",
       {
         "name": "posts",
         "args": {
