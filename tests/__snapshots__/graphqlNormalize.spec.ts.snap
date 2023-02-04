@@ -511,7 +511,7 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
 
 exports[`syncWithCache > syncs the query result with the cache 2`] = `
 {
-  "added": 87,
+  "added": 190,
   "cache": {
     "Blog:QmxvZzox": {
       "__typename": "Blog",

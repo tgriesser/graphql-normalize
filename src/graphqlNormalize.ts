@@ -59,26 +59,6 @@ function defaultIsEqual(a: any, b: any) {
   return a === b;
 }
 
-// Ensure the path exists in an object
-const ensure = (obj: any, path: Path, fallback: any) => {
-  let source = obj;
-  for (let i = 0; i < path.length; i++) {
-    const key = path[i];
-    const hasNext = i < path.length - 1;
-    if (hasNext) {
-      if (source[key] === undefined) {
-        source[key] = typeof key === 'number' ? [] : {};
-      }
-      source = source[key];
-    } else if (source[key] === undefined) {
-      source[key] = fallback;
-      return fallback;
-    } else {
-      return source[key];
-    }
-  }
-};
-
 const shouldSkipField = (field: FieldMeta, meta: NormalizeMetaShape, variableValues: any) => {
   if (!field.skip && !field.include) {
     return false;
@@ -128,6 +108,27 @@ export function graphqlNormalize(options: graphqlNormalizeOptions): SyncWithCach
   let modified = 0;
   const isWrite = action === 'write';
   const isRead = !isWrite;
+
+  // Ensure the path exists in an object
+  const ensure = (obj: any, path: Path, fallback: any) => {
+    let source = obj;
+    for (let i = 0; i < path.length; i++) {
+      const key = path[i];
+      const hasNext = i < path.length - 1;
+      if (hasNext) {
+        if (source[key] === undefined) {
+          source[key] = typeof key === 'number' ? [] : {};
+        }
+        source = source[key];
+      } else if (source[key] === undefined) {
+        source[key] = fallback;
+        added++;
+        return fallback;
+      } else {
+        return source[key];
+      }
+    }
+  };
 
   const set = (obj: any, key: string | number, val: any) => {
     if (!isEqual(obj[key], val)) {

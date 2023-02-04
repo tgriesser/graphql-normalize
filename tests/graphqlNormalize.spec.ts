@@ -93,7 +93,7 @@ describe('syncWithCache', () => {
       });
 
       // Only added a single item to the cache, since we already have this object.
-      expect(sync2.added).toEqual(1);
+      expect(sync2.added).toEqual(2);
       expect(sync2.modified).toEqual(0);
     });
 
