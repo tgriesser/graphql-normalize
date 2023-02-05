@@ -1,3 +1,8 @@
+type AddPostMutationResult {
+  post: Post!
+  query: Query!
+}
+
 type Blog implements Node {
   id: ID!
   name: String!
@@ -27,6 +32,10 @@ enum ExampleEnum {
 }
 
 union HomeFeedItem = Blog | Comment | Post | User
+
+type Mutation {
+  addPost: AddPostMutationResult!
+}
 
 interface Node {
   id: ID!

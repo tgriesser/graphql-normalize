@@ -10,6 +10,7 @@ import {
   CommentShape,
   PostShape,
   UserShape,
+  addPost,
   commentsFixtures,
   findBlog,
   findPost,
@@ -22,6 +23,7 @@ import {
 const builder = new SchemaBuilder<{
   Context: {};
   Objects: {
+    Query: {};
     Post: PostShape;
     User: UserShape;
     Comment: CommentShape;
@@ -143,6 +145,25 @@ const Blog = builder.node('Blog', {
           { args },
           postsFixtures.filter((p) => p.blogId === source.id)
         ),
+    }),
+  }),
+});
+
+const AddPostMutationResult = builder.simpleObject('AddPostMutationResult', {
+  fields: (t) => ({
+    query: t.field({ type: 'Query' }),
+    post: t.field({ type: Post }),
+  }),
+});
+
+builder.mutationType({
+  fields: (t) => ({
+    addPost: t.field({
+      type: AddPostMutationResult,
+      resolve: () => {
+        const post = addPost({ title: 'Added post' });
+        return { query: {}, post };
+      },
     }),
   }),
 });

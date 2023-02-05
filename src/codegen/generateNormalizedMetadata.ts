@@ -149,6 +149,9 @@ export function generateNormalizedMetadataForDocs(
           if (cacheKey) {
             fieldMeta.cacheKey = cacheKey;
           }
+          if (gqlType.name === schema.getQueryType()?.name) {
+            fieldMeta.cacheKey = '$root';
+          }
         }
         if (node.arguments?.length) {
           fieldMeta.args = normalizeArgs(node.arguments);

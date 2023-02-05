@@ -41,17 +41,27 @@ export interface PostShape {
   coordinates: number[];
 }
 
-export const postsFixtures: PostShape[] = new Array(100).fill(1).map((o, idx) => ({
-  __typename: 'Post',
-  id: idx + 1,
-  title: `Some Blog post ${idx + 1}`,
-  blogId: (idx % 2) + 1,
-  authorId: (idx % 2) + 1,
-  coordinates: [90.0, 135.0],
-}));
+const makePost = (idx: number): PostShape => {
+  return {
+    __typename: 'Post',
+    id: idx + 1,
+    title: `Some Blog post ${idx + 1}`,
+    blogId: (idx % 2) + 1,
+    authorId: (idx % 2) + 1,
+    coordinates: [90.0, 135.0],
+  };
+};
+
+export const postsFixtures: PostShape[] = new Array(100).fill(1).map((o, idx) => makePost(idx));
 
 export function findPost(id: number) {
   return postsFixtures.find((post) => post.id === id);
+}
+
+export function addPost(post: Partial<PostShape>) {
+  const newPost = { ...makePost(postsFixtures.length + 1), ...post };
+  postsFixtures.unshift(newPost);
+  return newPost;
 }
 
 export interface CommentShape {

@@ -53,10 +53,15 @@ interface TraverseListConfig {
   resultVal: Array<any>;
   depth: number;
   currentDepth?: number;
+  isNew: boolean;
 }
 
 function defaultIsEqual(a: any, b: any) {
   return a === b;
+}
+
+function stripRoot(str: string[]) {
+  return str.filter((str) => str !== '$root');
 }
 
 const shouldSkipField = (field: FieldMeta, meta: NormalizeMetaShape, variableValues: any) => {
@@ -123,15 +128,17 @@ export function graphqlNormalize(options: graphqlNormalizeOptions): SyncWithCach
       } else if (source[key] === undefined) {
         source[key] = fallback;
         added++;
-        return fallback;
-      } else {
-        return source[key];
+        return true;
       }
     }
+    return false;
   };
 
   const set = (obj: any, key: string | number, val: any) => {
     if (!isEqual(obj[key], val)) {
+      if (isWrite && obj[key] !== undefined) {
+        modified++;
+      }
       obj[key] = val;
     }
   };
@@ -158,21 +165,20 @@ export function graphqlNormalize(options: graphqlNormalizeOptions): SyncWithCach
   };
 
   const traverseList = (config: TraverseListConfig) => {
-    const { field, resultVal, targetVal, cacheVal, depth, currentDepth = 1 } = config;
-    if (resultVal.length < targetVal.length) {
+    const { isNew, field, resultVal, targetVal, cacheVal, depth, currentDepth = 1 } = config;
+    if (resultVal.length !== targetVal.length) {
       targetVal.length = resultVal.length;
     }
-    if (isWrite && resultVal.length < cacheVal.length) {
+    if (isWrite && !isNew && resultVal.length !== cacheVal.length) {
+      modified++;
       cacheVal.length = resultVal.length;
     }
 
     for (let i = 0; i < resultVal.length; i++) {
       if (currentDepth < depth && resultVal[i] !== null) {
-        if (isWrite) {
-          ensure(cacheVal, [i], []);
-        }
         ensure(targetVal, [i], []);
         traverseList({
+          isNew: isWrite ? ensure(cacheVal, [i], []) : false,
           field,
           depth,
           resultVal: resultVal[i],
@@ -201,7 +207,7 @@ export function graphqlNormalize(options: graphqlNormalizeOptions): SyncWithCach
     if (isWrite) {
       if (cacheKeyVal) {
         set(cacheVal, atIndex, { $ref: cacheKeyVal });
-        setIn(cache, [cacheKeyVal, __typename], typename);
+        setIn(cache, stripRoot([cacheKeyVal, __typename]), typename);
       } else {
         set(cacheVal, atIndex, resultVal[atIndex]);
       }
@@ -209,11 +215,16 @@ export function graphqlNormalize(options: graphqlNormalizeOptions): SyncWithCach
 
     if (fields) {
       ensure(targetVal, [atIndex], {});
+      if (cacheKeyVal) {
+        ensure(cache, stripRoot([cacheKeyVal]), {});
+      } else {
+        ensure(cacheVal, [atIndex], {});
+      }
       traverseFields({
         fields,
-        targetVal: ensure(targetVal, [atIndex], {}),
+        targetVal: targetVal[atIndex],
         resultVal: resultVal[atIndex],
-        cacheVal: cacheKeyVal ? ensure(cache, [cacheKeyVal], {}) : ensure(cacheVal, [atIndex], {}),
+        cacheVal: cacheKeyVal ? getIn(cache, stripRoot([cacheKeyVal])) : cacheVal[atIndex],
       });
     } else {
       set(targetVal, atIndex, resultVal[atIndex]);
@@ -281,17 +292,21 @@ export function graphqlNormalize(options: graphqlNormalizeOptions): SyncWithCach
       if (isWrite) {
         if (cacheKeyVal) {
           setIn(cacheVal, [field.name, argsKey], { $ref: cacheKeyVal });
-          setIn(cache, [cacheKeyVal, __typename], typename);
+          setIn(cache, stripRoot([cacheKeyVal, __typename]), typename);
         }
       }
 
       if (fields) {
-        const cacheFieldVal = cacheKeyVal ? getIn(cache, [cacheKeyVal]) : ensure(cacheVal, [field.name, argsKey], {});
+        if (!cacheKeyVal) {
+          ensure(cacheVal, [field.name, argsKey], {});
+        }
+        const cacheFieldVal = cacheKeyVal ? getIn(cache, stripRoot([cacheKeyVal])) : cacheVal[field.name][argsKey];
+        ensure(targetVal, [resultName], {});
         traverseFields({
           fields: fields,
           cacheVal: cacheFieldVal,
-          targetVal: ensure(targetVal, [resultName], {}),
-          resultVal: isRead ? cacheFieldVal : ensure(resultVal, [resultName], {}),
+          targetVal: targetVal[resultName],
+          resultVal: isRead ? cacheFieldVal : resultVal[resultName],
         });
       } else {
         if (isWrite) {
@@ -304,18 +319,16 @@ export function graphqlNormalize(options: graphqlNormalizeOptions): SyncWithCach
     if (field.list) {
       // If we're writing, we're setting the cache, so we use the cache as the
       // target val while also setting the value in result
-      if (isWrite) {
-        ensure(cacheVal, [field.name, argsKey], []);
-      }
       ensure(targetVal, [resultName], []);
-
+      ensure(resultVal, [resultName], []);
       // We iterate the list, copying the old values to the new values
       traverseList({
+        isNew: isWrite ? ensure(cacheVal, [field.name, argsKey], []) : false,
         field,
         depth: field.list,
-        resultVal: isRead ? getIn(cacheVal, [field.name, argsKey]) : ensure(resultVal, [resultName], []),
+        resultVal: isRead ? getIn(cacheVal, [field.name, argsKey]) : resultVal[resultName],
         targetVal: targetVal[resultName],
-        cacheVal: ensure(cacheVal, [field.name, argsKey], []),
+        cacheVal: cacheVal[field.name][argsKey],
       });
     } else {
       handleField({
@@ -349,8 +362,10 @@ export function graphqlNormalize(options: graphqlNormalizeOptions): SyncWithCach
   };
 
   traverseFields({
+    // If it's a mutation type, we don't want to write the root fields
+    // into the cache, but any fields returned from there can be normalized
+    cacheVal: meta.operation === 'mutation' ? {} : cache,
     fields: meta.fields,
-    cacheVal: cache,
     resultVal: operationResult.data,
     targetVal: currentResult,
   });

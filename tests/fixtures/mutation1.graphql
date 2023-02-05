@@ -1,0 +1,16 @@
+mutation AddPostMutation {
+  addPost {
+    post {
+      id
+      title
+    }
+    query {
+      first10Posts: posts(first: 10) {
+        nodes {
+          id
+          title
+        }
+      }
+    }
+  }
+}

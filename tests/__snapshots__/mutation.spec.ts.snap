@@ -1,0 +1,377 @@
+// Vitest Snapshot v1
+
+exports[`mutation > should generate metadata for a mutation 1`] = `
+{
+  "fields": [
+    {
+      "fields": [
+        {
+          "cacheKey": "Post:id",
+          "fields": [
+            "id",
+            "title",
+          ],
+          "name": "post",
+        },
+        {
+          "cacheKey": "$root",
+          "fields": [
+            {
+              "alias": "first10Posts",
+              "args": "{\\"first\\":\\"10\\"}",
+              "fields": [
+                {
+                  "cacheKey": "Post:id",
+                  "fields": [
+                    "id",
+                    "title",
+                  ],
+                  "list": 1,
+                  "name": "nodes",
+                },
+              ],
+              "name": "posts",
+            },
+          ],
+          "name": "query",
+        },
+      ],
+      "name": "addPost",
+    },
+  ],
+  "operation": "mutation",
+  "variables": [],
+}
+`;
+
+exports[`mutation > syncs the mutation result with the cache 1`] = `
+{
+  "Post:UG9zdDo0": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDo0",
+    },
+    "title": {
+      "$": "Some Blog post 4",
+    },
+  },
+  "Post:UG9zdDo1": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDo1",
+    },
+    "title": {
+      "$": "Some Blog post 5",
+    },
+  },
+  "Post:UG9zdDo2": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDo2",
+    },
+    "title": {
+      "$": "Some Blog post 6",
+    },
+  },
+  "Post:UG9zdDo3": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDo3",
+    },
+    "title": {
+      "$": "Some Blog post 7",
+    },
+  },
+  "Post:UG9zdDo4": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDo4",
+    },
+    "title": {
+      "$": "Some Blog post 8",
+    },
+  },
+  "Post:UG9zdDo5": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDo5",
+    },
+    "title": {
+      "$": "Some Blog post 9",
+    },
+  },
+  "Post:UG9zdDox": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDox",
+    },
+    "title": {
+      "$": "Some Blog post 1",
+    },
+  },
+  "Post:UG9zdDoxMA==": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDoxMA==",
+    },
+    "title": {
+      "$": "Some Blog post 10",
+    },
+  },
+  "Post:UG9zdDoy": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDoy",
+    },
+    "title": {
+      "$": "Some Blog post 2",
+    },
+  },
+  "Post:UG9zdDoz": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDoz",
+    },
+    "title": {
+      "$": "Some Blog post 3",
+    },
+  },
+  "posts": {
+    "{\\"first\\":\\"10\\"}": {
+      "nodes": {
+        "$": [
+          {
+            "$ref": "Post:UG9zdDox",
+          },
+          {
+            "$ref": "Post:UG9zdDoy",
+          },
+          {
+            "$ref": "Post:UG9zdDoz",
+          },
+          {
+            "$ref": "Post:UG9zdDo0",
+          },
+          {
+            "$ref": "Post:UG9zdDo1",
+          },
+          {
+            "$ref": "Post:UG9zdDo2",
+          },
+          {
+            "$ref": "Post:UG9zdDo3",
+          },
+          {
+            "$ref": "Post:UG9zdDo4",
+          },
+          {
+            "$ref": "Post:UG9zdDo5",
+          },
+          {
+            "$ref": "Post:UG9zdDoxMA==",
+          },
+        ],
+      },
+    },
+  },
+}
+`;
+
+exports[`mutation > syncs the mutation result with the cache 2`] = `
+{
+  "Post:UG9zdDo0": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDo0",
+    },
+    "title": {
+      "$": "Some Blog post 4",
+    },
+  },
+  "Post:UG9zdDo1": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDo1",
+    },
+    "title": {
+      "$": "Some Blog post 5",
+    },
+  },
+  "Post:UG9zdDo2": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDo2",
+    },
+    "title": {
+      "$": "Some Blog post 6",
+    },
+  },
+  "Post:UG9zdDo3": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDo3",
+    },
+    "title": {
+      "$": "Some Blog post 7",
+    },
+  },
+  "Post:UG9zdDo4": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDo4",
+    },
+    "title": {
+      "$": "Some Blog post 8",
+    },
+  },
+  "Post:UG9zdDo5": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDo5",
+    },
+    "title": {
+      "$": "Some Blog post 9",
+    },
+  },
+  "Post:UG9zdDox": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDox",
+    },
+    "title": {
+      "$": "Some Blog post 1",
+    },
+  },
+  "Post:UG9zdDoxMA==": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDoxMA==",
+    },
+    "title": {
+      "$": "Some Blog post 10",
+    },
+  },
+  "Post:UG9zdDoxMDI=": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDoxMDI=",
+    },
+    "title": {
+      "$": "Added post",
+    },
+  },
+  "Post:UG9zdDoy": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDoy",
+    },
+    "title": {
+      "$": "Some Blog post 2",
+    },
+  },
+  "Post:UG9zdDoz": {
+    "__typename": "Post",
+    "id": {
+      "$": "UG9zdDoz",
+    },
+    "title": {
+      "$": "Some Blog post 3",
+    },
+  },
+  "posts": {
+    "{\\"first\\":\\"10\\"}": {
+      "nodes": {
+        "$": [
+          {
+            "$ref": "Post:UG9zdDoxMDI=",
+          },
+          {
+            "$ref": "Post:UG9zdDox",
+          },
+          {
+            "$ref": "Post:UG9zdDoy",
+          },
+          {
+            "$ref": "Post:UG9zdDoz",
+          },
+          {
+            "$ref": "Post:UG9zdDo0",
+          },
+          {
+            "$ref": "Post:UG9zdDo1",
+          },
+          {
+            "$ref": "Post:UG9zdDo2",
+          },
+          {
+            "$ref": "Post:UG9zdDo3",
+          },
+          {
+            "$ref": "Post:UG9zdDo4",
+          },
+          {
+            "$ref": "Post:UG9zdDo5",
+          },
+        ],
+      },
+    },
+  },
+}
+`;
+
+exports[`mutation > syncs the mutation result with the cache 3`] = `
+{
+  "addPost": {
+    "post": {
+      "id": "UG9zdDoxMDI=",
+      "title": "Added post",
+    },
+    "query": {
+      "first10Posts": {
+        "nodes": [
+          {
+            "id": "UG9zdDoxMDI=",
+            "title": "Added post",
+          },
+          {
+            "id": "UG9zdDox",
+            "title": "Some Blog post 1",
+          },
+          {
+            "id": "UG9zdDoy",
+            "title": "Some Blog post 2",
+          },
+          {
+            "id": "UG9zdDoz",
+            "title": "Some Blog post 3",
+          },
+          {
+            "id": "UG9zdDo0",
+            "title": "Some Blog post 4",
+          },
+          {
+            "id": "UG9zdDo1",
+            "title": "Some Blog post 5",
+          },
+          {
+            "id": "UG9zdDo2",
+            "title": "Some Blog post 6",
+          },
+          {
+            "id": "UG9zdDo3",
+            "title": "Some Blog post 7",
+          },
+          {
+            "id": "UG9zdDo4",
+            "title": "Some Blog post 8",
+          },
+          {
+            "id": "UG9zdDo5",
+            "title": "Some Blog post 9",
+          },
+        ],
+      },
+    },
+  },
+}
+`;

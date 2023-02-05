@@ -1,5 +1,3 @@
-import type { OperationTypeNode } from 'graphql';
-
 type CacheKey = string;
 
 export interface ArgDef {
@@ -37,7 +35,7 @@ export interface VariableMeta {
 }
 
 export interface NormalizeMetaShape {
-  operation: OperationTypeNode;
+  operation: 'query' | 'mutation' | 'subscription';
   variables: VariableMeta[];
   fields: FieldDef[];
 }
