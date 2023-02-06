@@ -6,5 +6,8 @@ export default defineConfig({
       // Due to issue with GraphQL mjs import, should be fixed in ^17
       fallbackCJS: true,
     },
+    coverage: {
+      provider: 'c8',
+    },
   },
 });

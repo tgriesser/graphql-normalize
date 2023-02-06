@@ -1,5 +1,7 @@
 ## GraphQL Normalize
 
+Note: Still WIP, not ready for Production use
+
 Standalone, schema driven normalized caching, aimed at removing the need for the entire operation document and GraphQL `visit` utility functions when utilizing fully persisted queries.
 
 Based on trimmed down, pre-computed metadata generated in a compilation layer, so you don't need to provide the entire schema client side to have all necessary data.
