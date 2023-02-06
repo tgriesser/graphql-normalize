@@ -111,6 +111,7 @@ exports[`graphqlNormalize: read > builds a cache of values 1`] = `
   "posts": {
     "edges": [
       {
+        "cursor": "T2Zmc2V0Q29ubmVjdGlvbjow",
         "node": {
           "author": {
             "id": "VXNlcjox",
@@ -119,6 +120,7 @@ exports[`graphqlNormalize: read > builds a cache of values 1`] = `
         },
       },
       {
+        "cursor": "T2Zmc2V0Q29ubmVjdGlvbjox",
         "node": {
           "author": {
             "id": "VXNlcjoy",
@@ -127,6 +129,7 @@ exports[`graphqlNormalize: read > builds a cache of values 1`] = `
         },
       },
       {
+        "cursor": "T2Zmc2V0Q29ubmVjdGlvbjoy",
         "node": {
           "author": {
             "id": "VXNlcjox",
@@ -135,6 +138,7 @@ exports[`graphqlNormalize: read > builds a cache of values 1`] = `
         },
       },
       {
+        "cursor": "T2Zmc2V0Q29ubmVjdGlvbjoz",
         "node": {
           "author": {
             "id": "VXNlcjoy",
@@ -143,6 +147,7 @@ exports[`graphqlNormalize: read > builds a cache of values 1`] = `
         },
       },
       {
+        "cursor": "T2Zmc2V0Q29ubmVjdGlvbjo0",
         "node": {
           "author": {
             "id": "VXNlcjox",
@@ -151,6 +156,7 @@ exports[`graphqlNormalize: read > builds a cache of values 1`] = `
         },
       },
       {
+        "cursor": "T2Zmc2V0Q29ubmVjdGlvbjo1",
         "node": {
           "author": {
             "id": "VXNlcjoy",
@@ -159,6 +165,7 @@ exports[`graphqlNormalize: read > builds a cache of values 1`] = `
         },
       },
       {
+        "cursor": "T2Zmc2V0Q29ubmVjdGlvbjo2",
         "node": {
           "author": {
             "id": "VXNlcjox",
@@ -167,6 +174,7 @@ exports[`graphqlNormalize: read > builds a cache of values 1`] = `
         },
       },
       {
+        "cursor": "T2Zmc2V0Q29ubmVjdGlvbjo3",
         "node": {
           "author": {
             "id": "VXNlcjoy",
@@ -175,6 +183,7 @@ exports[`graphqlNormalize: read > builds a cache of values 1`] = `
         },
       },
       {
+        "cursor": "T2Zmc2V0Q29ubmVjdGlvbjo4",
         "node": {
           "author": {
             "id": "VXNlcjox",
@@ -183,6 +192,7 @@ exports[`graphqlNormalize: read > builds a cache of values 1`] = `
         },
       },
       {
+        "cursor": "T2Zmc2V0Q29ubmVjdGlvbjo5",
         "node": {
           "author": {
             "id": "VXNlcjoy",
@@ -191,6 +201,7 @@ exports[`graphqlNormalize: read > builds a cache of values 1`] = `
         },
       },
       {
+        "cursor": "T2Zmc2V0Q29ubmVjdGlvbjoxMA==",
         "node": {
           "author": {
             "id": "VXNlcjox",
@@ -199,6 +210,7 @@ exports[`graphqlNormalize: read > builds a cache of values 1`] = `
         },
       },
       {
+        "cursor": "T2Zmc2V0Q29ubmVjdGlvbjoxMQ==",
         "node": {
           "author": {
             "id": "VXNlcjoy",

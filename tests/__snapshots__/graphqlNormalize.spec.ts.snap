@@ -203,102 +203,6 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
       "$": "Some Blog post 3",
     },
   },
-  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo0": {
-    "__typename": "QueryPostsConnectionEdge",
-    "node": {
-      "$": {
-        "$ref": "Post:UG9zdDo1",
-      },
-    },
-  },
-  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo1": {
-    "__typename": "QueryPostsConnectionEdge",
-    "node": {
-      "$": {
-        "$ref": "Post:UG9zdDo2",
-      },
-    },
-  },
-  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo2": {
-    "__typename": "QueryPostsConnectionEdge",
-    "node": {
-      "$": {
-        "$ref": "Post:UG9zdDo3",
-      },
-    },
-  },
-  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo3": {
-    "__typename": "QueryPostsConnectionEdge",
-    "node": {
-      "$": {
-        "$ref": "Post:UG9zdDo4",
-      },
-    },
-  },
-  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo4": {
-    "__typename": "QueryPostsConnectionEdge",
-    "node": {
-      "$": {
-        "$ref": "Post:UG9zdDo5",
-      },
-    },
-  },
-  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo5": {
-    "__typename": "QueryPostsConnectionEdge",
-    "node": {
-      "$": {
-        "$ref": "Post:UG9zdDoxMA==",
-      },
-    },
-  },
-  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjow": {
-    "__typename": "QueryPostsConnectionEdge",
-    "node": {
-      "$": {
-        "$ref": "Post:UG9zdDox",
-      },
-    },
-  },
-  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjox": {
-    "__typename": "QueryPostsConnectionEdge",
-    "node": {
-      "$": {
-        "$ref": "Post:UG9zdDoy",
-      },
-    },
-  },
-  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoxMA==": {
-    "__typename": "QueryPostsConnectionEdge",
-    "node": {
-      "$": {
-        "$ref": "Post:UG9zdDoxMQ==",
-      },
-    },
-  },
-  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoxMQ==": {
-    "__typename": "QueryPostsConnectionEdge",
-    "node": {
-      "$": {
-        "$ref": "Post:UG9zdDoxMg==",
-      },
-    },
-  },
-  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoy": {
-    "__typename": "QueryPostsConnectionEdge",
-    "node": {
-      "$": {
-        "$ref": "Post:UG9zdDoz",
-      },
-    },
-  },
-  "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoz": {
-    "__typename": "QueryPostsConnectionEdge",
-    "node": {
-      "$": {
-        "$ref": "Post:UG9zdDo0",
-      },
-    },
-  },
   "User:VXNlcjox": {
     "__typename": "User",
     "id": {
@@ -427,40 +331,124 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
       "edges": {
         "$": [
           {
-            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjow",
+            "cursor": {
+              "$": "T2Zmc2V0Q29ubmVjdGlvbjow",
+            },
+            "node": {
+              "$": {
+                "$ref": "Post:UG9zdDox",
+              },
+            },
           },
           {
-            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjox",
+            "cursor": {
+              "$": "T2Zmc2V0Q29ubmVjdGlvbjox",
+            },
+            "node": {
+              "$": {
+                "$ref": "Post:UG9zdDoy",
+              },
+            },
           },
           {
-            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoy",
+            "cursor": {
+              "$": "T2Zmc2V0Q29ubmVjdGlvbjoy",
+            },
+            "node": {
+              "$": {
+                "$ref": "Post:UG9zdDoz",
+              },
+            },
           },
           {
-            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoz",
+            "cursor": {
+              "$": "T2Zmc2V0Q29ubmVjdGlvbjoz",
+            },
+            "node": {
+              "$": {
+                "$ref": "Post:UG9zdDo0",
+              },
+            },
           },
           {
-            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo0",
+            "cursor": {
+              "$": "T2Zmc2V0Q29ubmVjdGlvbjo0",
+            },
+            "node": {
+              "$": {
+                "$ref": "Post:UG9zdDo1",
+              },
+            },
           },
           {
-            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo1",
+            "cursor": {
+              "$": "T2Zmc2V0Q29ubmVjdGlvbjo1",
+            },
+            "node": {
+              "$": {
+                "$ref": "Post:UG9zdDo2",
+              },
+            },
           },
           {
-            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo2",
+            "cursor": {
+              "$": "T2Zmc2V0Q29ubmVjdGlvbjo2",
+            },
+            "node": {
+              "$": {
+                "$ref": "Post:UG9zdDo3",
+              },
+            },
           },
           {
-            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo3",
+            "cursor": {
+              "$": "T2Zmc2V0Q29ubmVjdGlvbjo3",
+            },
+            "node": {
+              "$": {
+                "$ref": "Post:UG9zdDo4",
+              },
+            },
           },
           {
-            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo4",
+            "cursor": {
+              "$": "T2Zmc2V0Q29ubmVjdGlvbjo4",
+            },
+            "node": {
+              "$": {
+                "$ref": "Post:UG9zdDo5",
+              },
+            },
           },
           {
-            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo5",
+            "cursor": {
+              "$": "T2Zmc2V0Q29ubmVjdGlvbjo5",
+            },
+            "node": {
+              "$": {
+                "$ref": "Post:UG9zdDoxMA==",
+              },
+            },
           },
           {
-            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoxMA==",
+            "cursor": {
+              "$": "T2Zmc2V0Q29ubmVjdGlvbjoxMA==",
+            },
+            "node": {
+              "$": {
+                "$ref": "Post:UG9zdDoxMQ==",
+              },
+            },
           },
           {
-            "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoxMQ==",
+            "cursor": {
+              "$": "T2Zmc2V0Q29ubmVjdGlvbjoxMQ==",
+            },
+            "node": {
+              "$": {
+                "$ref": "Post:UG9zdDoxMg==",
+              },
+            },
           },
         ],
       },
@@ -511,7 +499,7 @@ exports[`syncWithCache > syncs the query result with the cache 1`] = `
 
 exports[`syncWithCache > syncs the query result with the cache 2`] = `
 {
-  "added": 190,
+  "added": 202,
   "cache": {
     "Blog:QmxvZzox": {
       "__typename": "Blog",
@@ -702,102 +690,6 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
         "$": "Some Blog post 3",
       },
     },
-    "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo0": {
-      "__typename": "QueryPostsConnectionEdge",
-      "node": {
-        "$": {
-          "$ref": "Post:UG9zdDo1",
-        },
-      },
-    },
-    "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo1": {
-      "__typename": "QueryPostsConnectionEdge",
-      "node": {
-        "$": {
-          "$ref": "Post:UG9zdDo2",
-        },
-      },
-    },
-    "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo2": {
-      "__typename": "QueryPostsConnectionEdge",
-      "node": {
-        "$": {
-          "$ref": "Post:UG9zdDo3",
-        },
-      },
-    },
-    "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo3": {
-      "__typename": "QueryPostsConnectionEdge",
-      "node": {
-        "$": {
-          "$ref": "Post:UG9zdDo4",
-        },
-      },
-    },
-    "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo4": {
-      "__typename": "QueryPostsConnectionEdge",
-      "node": {
-        "$": {
-          "$ref": "Post:UG9zdDo5",
-        },
-      },
-    },
-    "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo5": {
-      "__typename": "QueryPostsConnectionEdge",
-      "node": {
-        "$": {
-          "$ref": "Post:UG9zdDoxMA==",
-        },
-      },
-    },
-    "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjow": {
-      "__typename": "QueryPostsConnectionEdge",
-      "node": {
-        "$": {
-          "$ref": "Post:UG9zdDox",
-        },
-      },
-    },
-    "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjox": {
-      "__typename": "QueryPostsConnectionEdge",
-      "node": {
-        "$": {
-          "$ref": "Post:UG9zdDoy",
-        },
-      },
-    },
-    "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoxMA==": {
-      "__typename": "QueryPostsConnectionEdge",
-      "node": {
-        "$": {
-          "$ref": "Post:UG9zdDoxMQ==",
-        },
-      },
-    },
-    "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoxMQ==": {
-      "__typename": "QueryPostsConnectionEdge",
-      "node": {
-        "$": {
-          "$ref": "Post:UG9zdDoxMg==",
-        },
-      },
-    },
-    "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoy": {
-      "__typename": "QueryPostsConnectionEdge",
-      "node": {
-        "$": {
-          "$ref": "Post:UG9zdDoz",
-        },
-      },
-    },
-    "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoz": {
-      "__typename": "QueryPostsConnectionEdge",
-      "node": {
-        "$": {
-          "$ref": "Post:UG9zdDo0",
-        },
-      },
-    },
     "User:VXNlcjox": {
       "__typename": "User",
       "id": {
@@ -926,40 +818,124 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
         "edges": {
           "$": [
             {
-              "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjow",
+              "cursor": {
+                "$": "T2Zmc2V0Q29ubmVjdGlvbjow",
+              },
+              "node": {
+                "$": {
+                  "$ref": "Post:UG9zdDox",
+                },
+              },
             },
             {
-              "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjox",
+              "cursor": {
+                "$": "T2Zmc2V0Q29ubmVjdGlvbjox",
+              },
+              "node": {
+                "$": {
+                  "$ref": "Post:UG9zdDoy",
+                },
+              },
             },
             {
-              "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoy",
+              "cursor": {
+                "$": "T2Zmc2V0Q29ubmVjdGlvbjoy",
+              },
+              "node": {
+                "$": {
+                  "$ref": "Post:UG9zdDoz",
+                },
+              },
             },
             {
-              "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoz",
+              "cursor": {
+                "$": "T2Zmc2V0Q29ubmVjdGlvbjoz",
+              },
+              "node": {
+                "$": {
+                  "$ref": "Post:UG9zdDo0",
+                },
+              },
             },
             {
-              "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo0",
+              "cursor": {
+                "$": "T2Zmc2V0Q29ubmVjdGlvbjo0",
+              },
+              "node": {
+                "$": {
+                  "$ref": "Post:UG9zdDo1",
+                },
+              },
             },
             {
-              "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo1",
+              "cursor": {
+                "$": "T2Zmc2V0Q29ubmVjdGlvbjo1",
+              },
+              "node": {
+                "$": {
+                  "$ref": "Post:UG9zdDo2",
+                },
+              },
             },
             {
-              "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo2",
+              "cursor": {
+                "$": "T2Zmc2V0Q29ubmVjdGlvbjo2",
+              },
+              "node": {
+                "$": {
+                  "$ref": "Post:UG9zdDo3",
+                },
+              },
             },
             {
-              "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo3",
+              "cursor": {
+                "$": "T2Zmc2V0Q29ubmVjdGlvbjo3",
+              },
+              "node": {
+                "$": {
+                  "$ref": "Post:UG9zdDo4",
+                },
+              },
             },
             {
-              "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo4",
+              "cursor": {
+                "$": "T2Zmc2V0Q29ubmVjdGlvbjo4",
+              },
+              "node": {
+                "$": {
+                  "$ref": "Post:UG9zdDo5",
+                },
+              },
             },
             {
-              "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjo5",
+              "cursor": {
+                "$": "T2Zmc2V0Q29ubmVjdGlvbjo5",
+              },
+              "node": {
+                "$": {
+                  "$ref": "Post:UG9zdDoxMA==",
+                },
+              },
             },
             {
-              "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoxMA==",
+              "cursor": {
+                "$": "T2Zmc2V0Q29ubmVjdGlvbjoxMA==",
+              },
+              "node": {
+                "$": {
+                  "$ref": "Post:UG9zdDoxMQ==",
+                },
+              },
             },
             {
-              "$ref": "QueryPostsConnectionEdge:T2Zmc2V0Q29ubmVjdGlvbjoxMQ==",
+              "cursor": {
+                "$": "T2Zmc2V0Q29ubmVjdGlvbjoxMQ==",
+              },
+              "node": {
+                "$": {
+                  "$ref": "Post:UG9zdDoxMg==",
+                },
+              },
             },
           ],
         },
@@ -1117,6 +1093,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
     "posts": {
       "edges": [
         {
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjow",
           "node": {
             "author": {
               "id": "VXNlcjox",
@@ -1125,6 +1102,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
           },
         },
         {
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjox",
           "node": {
             "author": {
               "id": "VXNlcjoy",
@@ -1133,6 +1111,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
           },
         },
         {
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjoy",
           "node": {
             "author": {
               "id": "VXNlcjox",
@@ -1141,6 +1120,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
           },
         },
         {
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjoz",
           "node": {
             "author": {
               "id": "VXNlcjoy",
@@ -1149,6 +1129,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
           },
         },
         {
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjo0",
           "node": {
             "author": {
               "id": "VXNlcjox",
@@ -1157,6 +1138,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
           },
         },
         {
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjo1",
           "node": {
             "author": {
               "id": "VXNlcjoy",
@@ -1165,6 +1147,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
           },
         },
         {
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjo2",
           "node": {
             "author": {
               "id": "VXNlcjox",
@@ -1173,6 +1156,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
           },
         },
         {
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjo3",
           "node": {
             "author": {
               "id": "VXNlcjoy",
@@ -1181,6 +1165,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
           },
         },
         {
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjo4",
           "node": {
             "author": {
               "id": "VXNlcjox",
@@ -1189,6 +1174,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
           },
         },
         {
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjo5",
           "node": {
             "author": {
               "id": "VXNlcjoy",
@@ -1197,6 +1183,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
           },
         },
         {
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjoxMA==",
           "node": {
             "author": {
               "id": "VXNlcjox",
@@ -1205,6 +1192,7 @@ exports[`syncWithCache > syncs the query result with the cache 2`] = `
           },
         },
         {
+          "cursor": "T2Zmc2V0Q29ubmVjdGlvbjoxMQ==",
           "node": {
             "author": {
               "id": "VXNlcjoy",

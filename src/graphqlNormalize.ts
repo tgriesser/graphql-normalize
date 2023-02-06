@@ -1,6 +1,6 @@
 import type { FieldDef, FieldMeta, NormalizeMetaShape } from './metadataShapes.js';
 import type { FormattedExecutionResult } from 'graphql';
-import { __typename } from './constants.js';
+import { NO_ARGS, __typename } from './constants.js';
 import { getArgsObj, printArgs } from './printArgs.js';
 import { makeCacheKey } from './makeCacheKey.js';
 
@@ -208,7 +208,7 @@ export function graphqlNormalize(options: graphqlNormalizeOptions): SyncWithCach
       if (cacheKeyVal) {
         set(cacheVal, atIndex, { $ref: cacheKeyVal });
         setIn(cache, stripRoot([cacheKeyVal, __typename]), typename);
-      } else {
+      } else if (!fields) {
         set(cacheVal, atIndex, resultVal[atIndex]);
       }
     }
@@ -350,9 +350,9 @@ export function graphqlNormalize(options: graphqlNormalizeOptions): SyncWithCach
         set(targetVal, __typename, get(cacheVal, __typename));
       } else if (typeof field === 'string') {
         if (isWrite) {
-          setIn(cacheVal, [field, '$'], getIn(resultVal, [field]));
+          setIn(cacheVal, [field, NO_ARGS], getIn(resultVal, [field]));
         }
-        set(targetVal, field, getIn(cacheVal, [field, '$']));
+        set(targetVal, field, getIn(cacheVal, [field, NO_ARGS]));
       } else if (shouldSkipField(field, meta, variableValues)) {
         delete targetVal[field.alias ?? field.name];
       } else {

@@ -7,7 +7,7 @@ export interface TypePolicies {
    * these keys to determine whether they exist on the type, and if so we
    * add them to the Document so we are able to cache against them
    *
-   * Defaults to "id", "uuid", "_id", "cursor"
+   * Defaults to "id", "uuid", "_id"
    */
   defaultKeys?: string[];
   /**
@@ -21,7 +21,7 @@ export interface TypePolicies {
 }
 
 export function getCacheKey(typePolicies: TypePolicies, objectType: GraphQLObjectType) {
-  const { typeKeys = {}, defaultKeys = ['id', 'uuid', '_id', 'cursor'] } = typePolicies;
+  const { typeKeys = {}, defaultKeys = ['id', 'uuid', '_id'] } = typePolicies;
   const designatedKeys = typeKeys[objectType.name];
   if (designatedKeys === null) {
     return null;

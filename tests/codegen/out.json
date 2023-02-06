@@ -43,10 +43,8 @@
           {
             "name": "edges",
             "list": 1,
-            "cacheKey": "QueryPostsConnectionEdge:cursor",
             "fields": [
               "cursor",
-              "__typename",
               {
                 "name": "node",
                 "cacheKey": "Post:id",
@@ -223,10 +221,7 @@
           {
             "name": "edges",
             "list": 1,
-            "cacheKey": "QueryPostsConnectionEdge:cursor",
             "fields": [
-              "cursor",
-              "__typename",
               {
                 "name": "node",
                 "cacheKey": "Post:id",

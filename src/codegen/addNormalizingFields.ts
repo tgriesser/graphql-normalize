@@ -28,7 +28,7 @@ export function addNormalizingFields(
   typePolicies: TypePolicies = {}
 ) {
   const missingTypes: string[] = [];
-  const { typeKeys = {}, defaultKeys = ['id', 'uuid', '_id', 'cursor'] } = typePolicies;
+  const { typeKeys = {}, defaultKeys = ['id', 'uuid', '_id'] } = typePolicies;
 
   for (const type of Object.keys(typeKeys)) {
     if (!schema.getType(type)) {

@@ -8,6 +8,7 @@ query Operation1($first: Int = 12, $nodeId: ID! = "", $hasNode: Boolean = false)
       }
     }
     edges {
+      cursor
       node {
         id
         author {

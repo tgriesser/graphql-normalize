@@ -10,8 +10,6 @@ exports[`generateNormalizedOperation > adds the necessary fields to properly nor
       }
     }
     edges {
-      cursor
-      __typename
       node {
         __typename
         author {

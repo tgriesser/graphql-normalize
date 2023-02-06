@@ -25,8 +25,8 @@ exports[`generateNormalizedMetadata > should generate the necessary metadata 1`]
           "name": "nodes",
         },
         {
-          "cacheKey": "QueryPostsConnectionEdge:cursor",
           "fields": [
+            "cursor",
             {
               "cacheKey": "Post:id",
               "fields": [
