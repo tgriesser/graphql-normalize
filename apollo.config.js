@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('path')
 
 module.exports = {
   client: {
@@ -8,4 +8,4 @@ module.exports = {
       localSchemaFile: path.join(__dirname, './tests/fixtures/schema.gql'),
     },
   },
-};
+}

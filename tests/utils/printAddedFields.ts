@@ -1,56 +1,52 @@
-import { DocumentNode, visit, print, Kind, OperationDefinitionNode, FieldNode, InlineFragmentNode } from 'graphql';
+import { DocumentNode, visit, print, Kind, OperationDefinitionNode, FieldNode, InlineFragmentNode } from 'graphql'
 
 /**
  * Utility function to print the "diff" of the two documents, removing any
  * fields that exist in both documents
  */
 export function printAddedFields(original: DocumentNode, changed: DocumentNode) {
-  const fieldPath: string[] = [];
+  const fieldPath: string[] = []
   return print(
     visit(changed, {
       InlineFragment: {
         enter(node) {
           if (node.typeCondition?.name) {
-            fieldPath.push(`$${node.typeCondition.name.value}`);
+            fieldPath.push(`$${node.typeCondition.name.value}`)
           }
         },
         leave(node) {
-          fieldPath.pop();
+          fieldPath.pop()
           if (node.selectionSet.selections.length === 0) {
-            return null;
+            return null
           }
         },
       },
       Field: {
         enter(node) {
-          fieldPath.push(node.alias?.value ?? node.name.value);
+          fieldPath.push(node.alias?.value ?? node.name.value)
         },
         leave(node) {
           if (!node.selectionSet) {
-            let currentPath = [...fieldPath];
-            let target = original.definitions[0] as
-              | OperationDefinitionNode
-              | FieldNode
-              | InlineFragmentNode
-              | undefined;
+            let currentPath = [...fieldPath]
+            let target = original.definitions[0] as OperationDefinitionNode | FieldNode | InlineFragmentNode | undefined
             while (currentPath.length) {
-              const current = currentPath.shift();
+              const current = currentPath.shift()
               target = target?.selectionSet?.selections.find((s): s is FieldNode | InlineFragmentNode => {
                 if (current?.startsWith('$')) {
-                  return s.kind === Kind.INLINE_FRAGMENT && s.typeCondition?.name.value === current.slice(1);
+                  return s.kind === Kind.INLINE_FRAGMENT && s.typeCondition?.name.value === current.slice(1)
                 }
-                return s.kind === Kind.FIELD && (s.alias?.value === current || s.name.value === current);
-              });
+                return s.kind === Kind.FIELD && (s.alias?.value === current || s.name.value === current)
+              })
             }
 
             if (target) {
-              fieldPath.pop();
-              return null;
+              fieldPath.pop()
+              return null
             }
           }
-          fieldPath.pop();
+          fieldPath.pop()
         },
       },
     })
-  );
+  )
 }

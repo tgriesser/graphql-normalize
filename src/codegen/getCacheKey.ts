@@ -1,4 +1,4 @@
-import type { GraphQLObjectType } from 'graphql';
+import type { GraphQLObjectType } from 'graphql'
 
 export interface TypePolicies {
   /**
@@ -9,7 +9,7 @@ export interface TypePolicies {
    *
    * Defaults to "id", "uuid", "_id"
    */
-  defaultKeys?: string[];
+  defaultKeys?: string[]
   /**
    * A Map of TypeNames to keys used to determine identity for the
    * object
@@ -17,26 +17,26 @@ export interface TypePolicies {
    * Set to "null" to indicate the type should never be cached
    * Set to "__typename" to indicate the object is a singleton
    */
-  typeKeys?: Record<string, string | string[] | null>;
+  typeKeys?: Record<string, string | string[] | null>
 }
 
 export function getCacheKey(typePolicies: TypePolicies, objectType: GraphQLObjectType) {
-  const { typeKeys = {}, defaultKeys = ['id', 'uuid', '_id'] } = typePolicies;
-  const designatedKeys = typeKeys[objectType.name];
+  const { typeKeys = {}, defaultKeys = ['id', 'uuid', '_id'] } = typePolicies
+  const designatedKeys = typeKeys[objectType.name]
   if (designatedKeys === null) {
-    return null;
+    return null
   }
   if (designatedKeys) {
     if (designatedKeys === '__typename') {
-      return objectType.name;
+      return objectType.name
     }
-    const keys = Array.isArray(designatedKeys) ? designatedKeys : [designatedKeys];
-    return `${objectType.name}:${keys}`;
+    const keys = Array.isArray(designatedKeys) ? designatedKeys : [designatedKeys]
+    return `${objectType.name}:${keys}`
   }
-  const objectKeys = Object.keys(objectType.getFields());
-  const cacheKey = defaultKeys.find((f) => objectKeys.includes(f));
+  const objectKeys = Object.keys(objectType.getFields())
+  const cacheKey = defaultKeys.find((f) => objectKeys.includes(f))
   if (cacheKey) {
-    return `${objectType.name}:${cacheKey}`;
+    return `${objectType.name}:${cacheKey}`
   }
-  return null;
+  return null
 }

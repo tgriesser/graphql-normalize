@@ -1,14 +1,14 @@
-import { optimizeDocuments } from '@graphql-tools/relay-operation-optimizer';
-import { DocumentNode, GraphQLSchema, Kind } from 'graphql';
-import { addNormalizingFields } from './addNormalizingFields';
-import type { TypePolicies } from './getCacheKey';
+import { optimizeDocuments } from '@graphql-tools/relay-operation-optimizer'
+import { DocumentNode, GraphQLSchema, Kind } from 'graphql'
+import { addNormalizingFields } from './addNormalizingFields'
+import type { TypePolicies } from './getCacheKey'
 
 export function generateNormalizedOperation(
   schema: GraphQLSchema,
   document: DocumentNode,
   typePolicies: TypePolicies = {}
 ) {
-  return generateNormalizedOperations(schema, [document], typePolicies)[0];
+  return generateNormalizedOperations(schema, [document], typePolicies)[0]
 }
 
 /**
@@ -20,12 +20,12 @@ export function generateNormalizedOperations(
   documents: DocumentNode[],
   typePolicies: TypePolicies = {}
 ) {
-  let toNormalize = documents;
+  let toNormalize = documents
   if (documents.some((o) => o.definitions.some((d) => d.kind === Kind.FRAGMENT_DEFINITION))) {
     toNormalize = optimizeDocuments(schema, documents, {
       noLocation: true,
       includeFragments: false,
-    });
+    })
   }
-  return addNormalizingFields(schema, toNormalize, typePolicies);
+  return addNormalizingFields(schema, toNormalize, typePolicies)
 }

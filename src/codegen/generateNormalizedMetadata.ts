@@ -1,4 +1,4 @@
-import { optimizeDocuments } from '@graphql-tools/relay-operation-optimizer';
+import { optimizeDocuments } from '@graphql-tools/relay-operation-optimizer'
 import {
   DocumentNode,
   GraphQLSchema,
@@ -18,7 +18,7 @@ import {
   getNamedType,
   assertObjectType,
   isEnumType,
-} from 'graphql';
+} from 'graphql'
 import type {
   FieldDef,
   FieldMeta,
@@ -26,16 +26,16 @@ import type {
   NormalizedDocShape,
   UnionMeta,
   VariableMeta,
-} from '../metadataShapes';
-import { TypePolicies, getCacheKey } from './getCacheKey';
-import { stringifyVariables } from '../stringifyVariables';
+} from '../metadataShapes'
+import { TypePolicies, getCacheKey } from './getCacheKey'
+import { stringifyVariables } from '../stringifyVariables'
 
 export function generateNormalizedMetadata(
   schema: GraphQLSchema,
   document: DocumentNode,
   typePolicies: TypePolicies = {}
 ) {
-  return generateNormalizedMetadataForDocs(schema, [document], typePolicies)[0].meta;
+  return generateNormalizedMetadataForDocs(schema, [document], typePolicies)[0].meta
 }
 
 /**
@@ -47,129 +47,129 @@ export function generateNormalizedMetadataForDocs(
   documents: DocumentNode[],
   typePolicies: TypePolicies = {}
 ): NormalizedDocShape[] {
-  let finalDocuments = documents;
+  let finalDocuments = documents
   if (documents.some((o) => o.definitions.some((d) => d.kind === Kind.FRAGMENT_DEFINITION))) {
     finalDocuments = optimizeDocuments(schema, documents, {
       noLocation: true,
       includeFragments: false,
-    });
+    })
   }
 
-  const normalizedDocs: NormalizedDocShape[] = [];
+  const normalizedDocs: NormalizedDocShape[] = []
 
-  const typeInfo = new TypeInfo(schema);
+  const typeInfo = new TypeInfo(schema)
   let normalizedDoc: NormalizeMetaShape = {
     operation: OperationTypeNode.QUERY,
     variables: [],
     fields: [],
-  };
+  }
 
-  let parentStack: Array<FieldMeta | UnionMeta | NormalizeMetaShape> = [];
-  let parentFieldDef: FieldMeta | NormalizeMetaShape | UnionMeta = normalizedDoc;
+  let parentStack: Array<FieldMeta | UnionMeta | NormalizeMetaShape> = []
+  let parentFieldDef: FieldMeta | NormalizeMetaShape | UnionMeta = normalizedDoc
 
   function popStack() {
-    const parent = parentStack.pop();
+    const parent = parentStack.pop()
     if (parent) {
-      parentFieldDef = parent;
+      parentFieldDef = parent
     }
   }
 
   function pushField(field: string | FieldDef) {
-    parentFieldDef.fields ??= [];
+    parentFieldDef.fields ??= []
     if (typeof field === 'string' && parentFieldDef.fields.includes(field)) {
-      return;
+      return
     }
-    parentFieldDef.fields.push(field);
+    parentFieldDef.fields.push(field)
     if (typeof field !== 'string') {
-      parentStack.push(parentFieldDef);
-      parentFieldDef = field;
+      parentStack.push(parentFieldDef)
+      parentFieldDef = field
     }
   }
 
   function normalizeArgs(nodes: readonly ArgumentNode[]) {
-    let hasVar = false;
-    const argsDef: Record<string, any> = {};
+    let hasVar = false
+    const argsDef: Record<string, any> = {}
     for (const arg of nodes) {
       if (arg.value.kind === Kind.VARIABLE) {
-        argsDef[`$${arg.value.name.value}`] = arg.name.value;
-        hasVar = true;
+        argsDef[`$${arg.value.name.value}`] = arg.name.value
+        hasVar = true
       } else {
-        argsDef[arg.name.value] = print(arg.value);
+        argsDef[arg.name.value] = print(arg.value)
       }
     }
-    return hasVar ? argsDef : stringifyVariables(argsDef);
+    return hasVar ? argsDef : stringifyVariables(argsDef)
   }
 
   const visitor = visitWithTypeInfo(typeInfo, {
     OperationDefinition: {
       enter(op) {
-        normalizedDoc.operation = op.operation;
+        normalizedDoc.operation = op.operation
       },
       leave(op) {
         normalizedDocs.push({
           name: op.name?.value ?? 'unnamed',
           meta: normalizedDoc,
-        });
+        })
         normalizedDoc = {
           operation: OperationTypeNode.QUERY,
           variables: [],
           fields: [],
-        };
-        parentFieldDef = normalizedDoc;
-        parentStack = [];
+        }
+        parentFieldDef = normalizedDoc
+        parentStack = []
       },
     },
     VariableDefinition(node) {
       const obj: VariableMeta = {
         name: node.variable.name.value,
-      };
-      if (node.defaultValue) {
-        obj.defaultValue = print(node.defaultValue);
       }
-      normalizedDoc.variables.push(obj);
+      if (node.defaultValue) {
+        obj.defaultValue = print(node.defaultValue)
+      }
+      normalizedDoc.variables.push(obj)
     },
     Field: {
       enter(node) {
-        const { gqlType, listDepth } = unpackType(typeInfo);
+        const { gqlType, listDepth } = unpackType(typeInfo)
 
         // If this is a boring ol scalar / enum, we push it as a string
         if (isSimpleField(node, typeInfo)) {
-          pushField(node.name.value);
-          return;
+          pushField(node.name.value)
+          return
         }
 
-        const fieldMeta: FieldMeta = { name: node.name.value };
-        pushField(fieldMeta);
+        const fieldMeta: FieldMeta = { name: node.name.value }
+        pushField(fieldMeta)
 
-        if (listDepth) fieldMeta.list = listDepth;
-        if (node.alias?.value) fieldMeta.alias = node.alias.value;
+        if (listDepth) fieldMeta.list = listDepth
+        if (node.alias?.value) fieldMeta.alias = node.alias.value
 
         if (isObjectType(gqlType)) {
-          const cacheKey = getCacheKey(typePolicies, gqlType);
+          const cacheKey = getCacheKey(typePolicies, gqlType)
           if (cacheKey) {
-            fieldMeta.cacheKey = cacheKey;
+            fieldMeta.cacheKey = cacheKey
           }
           if (gqlType.name === schema.getQueryType()?.name) {
-            fieldMeta.cacheKey = '$root';
+            fieldMeta.cacheKey = '$root'
           }
         }
         if (node.arguments?.length) {
-          fieldMeta.args = normalizeArgs(node.arguments);
+          fieldMeta.args = normalizeArgs(node.arguments)
         }
 
-        const skipDirective = node.directives?.find((d) => d.name.value === 'skip');
-        const includeDirective = node.directives?.find((d) => d.name.value === 'include');
+        const skipDirective = node.directives?.find((d) => d.name.value === 'skip')
+        const includeDirective = node.directives?.find((d) => d.name.value === 'include')
         if (skipDirective) {
-          fieldMeta.skip = normalizeArgs(skipDirective.arguments ?? []);
+          fieldMeta.skip = normalizeArgs(skipDirective.arguments ?? [])
         }
         if (includeDirective) {
-          fieldMeta.include = normalizeArgs(includeDirective.arguments ?? []);
+          fieldMeta.include = normalizeArgs(includeDirective.arguments ?? [])
         }
       },
       leave(node) {
         // Pop things back into place
         if (!isSimpleField(node, typeInfo)) {
-          popStack();
+          popStack()
         }
       },
     },
@@ -182,75 +182,75 @@ export function generateNormalizedMetadataForDocs(
         ) {
           const unionType: UnionMeta = {
             fields: [],
-          };
-          const outputType = getNamedType(typeInfo.getType());
-          const cacheKey = getCacheKey(typePolicies, assertObjectType(outputType));
+          }
+          const outputType = getNamedType(typeInfo.getType())
+          const cacheKey = getCacheKey(typePolicies, assertObjectType(outputType))
           if (cacheKey) {
-            unionType.cacheKey = cacheKey;
+            unionType.cacheKey = cacheKey
           }
 
-          parentFieldDef.possible ??= {};
-          parentFieldDef.possible[node.typeCondition?.name.value] = unionType;
-          parentStack.push(parentFieldDef);
-          parentFieldDef = unionType;
+          parentFieldDef.possible ??= {}
+          parentFieldDef.possible[node.typeCondition?.name.value] = unionType
+          parentStack.push(parentFieldDef)
+          parentFieldDef = unionType
         }
       },
       leave(node) {
         if (node.typeCondition?.name.value && isConcreteAbstract(node, typeInfo, schema)) {
-          popStack();
+          popStack()
         }
       },
     },
     FragmentDefinition() {
-      throw noFragments();
+      throw noFragments()
     },
-  });
+  })
 
   for (const doc of finalDocuments) {
-    visit(doc, visitor);
+    visit(doc, visitor)
   }
 
-  return normalizedDocs;
+  return normalizedDocs
 }
 
 function unpackType(typeInfo: TypeInfo) {
-  let listDepth = 0;
+  let listDepth = 0
   // We want to unwrap any list types, and make those the containing
-  let gqlType = typeInfo.getType();
+  let gqlType = typeInfo.getType()
   while (isWrappingType(gqlType)) {
     if (isListType(gqlType)) {
-      ++listDepth;
+      ++listDepth
     }
-    gqlType = gqlType.ofType;
+    gqlType = gqlType.ofType
   }
-  return { gqlType, listDepth };
+  return { gqlType, listDepth }
 }
 
 function isSimpleField(node: FieldNode, typeInfo: TypeInfo) {
-  const { gqlType, listDepth } = unpackType(typeInfo);
+  const { gqlType, listDepth } = unpackType(typeInfo)
   return (
     (isScalarType(gqlType) || isEnumType(gqlType)) &&
     !listDepth &&
     !node.alias &&
     !node.arguments?.length &&
     !node.directives?.some((d) => d.name.value === 'skip' || d.name.value === 'includes')
-  );
+  )
 }
 
 function noFragments() {
-  return new Error('Fragment definitions have been stripped');
+  return new Error('Fragment definitions have been stripped')
 }
 
 function isConcreteAbstract(node: InlineFragmentNode, typeInfo: TypeInfo, schema: GraphQLSchema) {
   if (node.typeCondition?.name) {
-    const parentTypeName = typeInfo.getParentType()?.name;
+    const parentTypeName = typeInfo.getParentType()?.name
     if (node.typeCondition.name.value !== parentTypeName) {
-      return isObjectType(schema.getType(node.typeCondition?.name.value));
+      return isObjectType(schema.getType(node.typeCondition?.name.value))
     }
   }
-  return false;
+  return false
 }
 
 function parentIsFieldMeta(parent: FieldMeta | NormalizeMetaShape | UnionMeta): parent is FieldMeta {
-  return 'name' in parent;
+  return 'name' in parent
 }

@@ -1,9 +1,9 @@
-import SchemaBuilder from '@pothos/core';
-import pluginRelay, { resolveArrayConnection } from '@pothos/plugin-relay';
-import pluginSimpleObjects from '@pothos/plugin-simple-objects';
-import { lexicographicSortSchema, printSchema } from 'graphql';
-import fs from 'fs';
-import path from 'path';
+import SchemaBuilder from '@pothos/core'
+import pluginRelay, { resolveArrayConnection } from '@pothos/plugin-relay'
+import pluginSimpleObjects from '@pothos/plugin-simple-objects'
+import { lexicographicSortSchema, printSchema } from 'graphql'
+import fs from 'fs'
+import path from 'path'
 
 import {
   BlogShape,
@@ -18,17 +18,17 @@ import {
   interleavedNodes,
   postsFixtures,
   usersFixtures,
-} from './fixtures';
+} from './fixtures'
 
 const builder = new SchemaBuilder<{
-  Context: {};
+  Context: {}
   Objects: {
-    Query: {};
-    Post: PostShape;
-    User: UserShape;
-    Comment: CommentShape;
-    Blog: BlogShape;
-  };
+    Query: {}
+    Post: PostShape
+    User: UserShape
+    Comment: CommentShape
+    Blog: BlogShape
+  }
 }>({
   plugins: [pluginRelay, pluginSimpleObjects],
   relayOptions: {
@@ -37,9 +37,9 @@ const builder = new SchemaBuilder<{
     cursorType: 'String',
     nodesOnConnection: true,
   },
-});
+})
 
-builder.queryType({});
+builder.queryType({})
 
 builder.queryFields((t) => ({
   enum: t.field({
@@ -62,21 +62,21 @@ builder.queryFields((t) => ({
   posts: t.connection({
     type: Post,
     resolve: (source, args) => {
-      return resolveArrayConnection({ args }, postsFixtures);
+      return resolveArrayConnection({ args }, postsFixtures)
     },
   }),
   homeItems: t.connection({
     type: HomeFeedItem,
     resolve: (source, args) => resolveArrayConnection({ args }, interleavedNodes),
   }),
-}));
+}))
 
 const Post = builder.node('Post', {
   id: {
     resolve: (o) => o.id,
   },
   loadMany(ids) {
-    return ids.map((id) => findPost(Number(id)));
+    return ids.map((id) => findPost(Number(id)))
   },
   fields: (t) => ({
     title: t.exposeString('title'),
@@ -97,24 +97,24 @@ const Post = builder.node('Post', {
         offset: t.arg.int(),
       },
       resolve: (source, args) => {
-        return commentsFixtures.slice(args.offset ?? 0, args.first);
+        return commentsFixtures.slice(args.offset ?? 0, args.first)
       },
     }),
   }),
-});
+})
 
 const User = builder.node('User', {
   id: {
     resolve: (o) => o.id,
   },
   loadMany(ids) {
-    return ids.map((id) => findUser(Number(id)));
+    return ids.map((id) => findUser(Number(id)))
   },
   fields: (t) => ({
     name: t.exposeString('name'),
     email: t.exposeString('name'),
   }),
-});
+})
 
 const Comment = builder.node('Comment', {
   id: {
@@ -127,14 +127,14 @@ const Comment = builder.node('Comment', {
       resolve: (source) => findUser(source.authorId),
     }),
   }),
-});
+})
 
 const Blog = builder.node('Blog', {
   id: {
     resolve: (o) => o.id,
   },
   loadMany(ids) {
-    return ids.map((id) => findBlog(Number(id)));
+    return ids.map((id) => findBlog(Number(id)))
   },
   fields: (t) => ({
     name: t.exposeString('name'),
@@ -147,32 +147,32 @@ const Blog = builder.node('Blog', {
         ),
     }),
   }),
-});
+})
 
 const AddPostMutationResult = builder.simpleObject('AddPostMutationResult', {
   fields: (t) => ({
     query: t.field({ type: 'Query' }),
     post: t.field({ type: Post }),
   }),
-});
+})
 
 builder.mutationType({
   fields: (t) => ({
     addPost: t.field({
       type: AddPostMutationResult,
       resolve: () => {
-        const post = addPost({ title: 'Added post' });
-        return { query: {}, post };
+        const post = addPost({ title: 'Added post' })
+        return { query: {}, post }
       },
     }),
   }),
-});
+})
 
 const HomeFeedItem = builder.unionType('HomeFeedItem', {
   types: ['Blog', 'Comment', 'Post', 'User'],
-});
+})
 
-export const schema = builder.toSchema();
-const printedSchema = printSchema(lexicographicSortSchema(schema));
+export const schema = builder.toSchema()
+const printedSchema = printSchema(lexicographicSortSchema(schema))
 
-fs.writeFileSync(path.join(__dirname, 'schema.gql'), printedSchema);
+fs.writeFileSync(path.join(__dirname, 'schema.gql'), printedSchema)

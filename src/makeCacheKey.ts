@@ -1,4 +1,4 @@
-import { stringifyVariables } from './stringifyVariables.js';
+import { stringifyVariables } from './stringifyVariables.js'
 
 /**
  * Given a cache key and an object, generates the normalized key.
@@ -7,12 +7,12 @@ import { stringifyVariables } from './stringifyVariables.js';
  * code generation functions
  */
 export function makeCacheKey(key: string, obj: any) {
-  const [type, fields] = key.split(':');
+  const [type, fields] = key.split(':')
   if (fields === undefined) {
-    return type;
+    return type
   }
   if (fields.indexOf(',') !== -1) {
-    return `${type}:${stringifyVariables(fields.split(',').map((k) => obj[k]))}`;
+    return `${type}:${stringifyVariables(fields.split(',').map((k) => obj[k]))}`
   }
-  return `${type}:${obj[fields]}`;
+  return `${type}:${obj[fields]}`
 }

@@ -11,8 +11,8 @@ import {
   isObjectType,
   visit,
   visitWithTypeInfo,
-} from 'graphql';
-import type { TypePolicies } from './getCacheKey';
+} from 'graphql'
+import type { TypePolicies } from './getCacheKey'
 
 /**
  * Adds the fields necessary to normalize the result on the client. Simpler
@@ -27,107 +27,107 @@ export function addNormalizingFields(
   operations: DocumentNode[],
   typePolicies: TypePolicies = {}
 ) {
-  const missingTypes: string[] = [];
-  const { typeKeys = {}, defaultKeys = ['id', 'uuid', '_id'] } = typePolicies;
+  const missingTypes: string[] = []
+  const { typeKeys = {}, defaultKeys = ['id', 'uuid', '_id'] } = typePolicies
 
   for (const type of Object.keys(typeKeys)) {
     if (!schema.getType(type)) {
-      missingTypes.push(type);
+      missingTypes.push(type)
     }
   }
 
   if (missingTypes.length) {
-    throw new Error(`Missing types ${missingTypes} seen in typeKeys`);
+    throw new Error(`Missing types ${missingTypes} seen in typeKeys`)
   }
 
   const rootTypeNames: string[] = [
     schema.getQueryType()?.name,
     schema.getMutationType()?.name,
     schema.getSubscriptionType()?.name,
-  ].filter((t): t is string => Boolean(t));
+  ].filter((t): t is string => Boolean(t))
 
-  const typeInfo = new TypeInfo(schema);
+  const typeInfo = new TypeInfo(schema)
 
   function hasField(node: SelectionSetNode, fieldName: string) {
-    return node.selections.some((s) => s.kind === Kind.FIELD && s.name.value === fieldName);
+    return node.selections.some((s) => s.kind === Kind.FIELD && s.name.value === fieldName)
   }
 
   function hasTypename(node: SelectionSetNode) {
-    return hasField(node, '__typename');
+    return hasField(node, '__typename')
   }
 
   function getCacheField(namedType: GraphQLObjectType) {
-    return Object.keys(namedType.getFields()).find((f) => defaultKeys.includes(f));
+    return Object.keys(namedType.getFields()).find((f) => defaultKeys.includes(f))
   }
 
   function hasCacheField(namedType: GraphQLObjectType) {
-    return getCacheField(namedType);
+    return getCacheField(namedType)
   }
 
   function getNeededFields(node: SelectionSetNode, namedType: GraphQLNamedOutputType) {
-    const neededFields: string[] = [];
+    const neededFields: string[] = []
     if (needsTypenameField(node, namedType)) {
-      neededFields.push('__typename');
+      neededFields.push('__typename')
     }
     if (isObjectType(namedType)) {
-      const fieldKeys = typeKeys[namedType.name];
+      const fieldKeys = typeKeys[namedType.name]
       if (fieldKeys) {
-        const needed = Array.isArray(fieldKeys) ? fieldKeys : [fieldKeys];
+        const needed = Array.isArray(fieldKeys) ? fieldKeys : [fieldKeys]
         for (const f of needed) {
           if (!hasField(node, f)) {
-            neededFields.push(f);
+            neededFields.push(f)
           }
         }
       } else {
-        const cacheField = getCacheField(namedType);
+        const cacheField = getCacheField(namedType)
         if (cacheField) {
-          neededFields.push(cacheField);
+          neededFields.push(cacheField)
         }
       }
     }
-    return neededFields;
+    return neededFields
   }
 
   function needsTypenameField(node: SelectionSetNode, namedType: GraphQLNamedOutputType) {
     if (hasTypename(node)) {
-      return false;
+      return false
     }
     if (typeKeys[namedType.name] === null) {
-      return false;
+      return false
     }
     if (typeKeys[namedType.name]) {
-      return true;
+      return true
     }
     if (isAbstractType(namedType)) {
-      return true;
+      return true
     }
     if (isObjectType(namedType) && hasCacheField(namedType)) {
-      return true;
+      return true
     }
-    return false;
+    return false
   }
 
   const visitor = visitWithTypeInfo(typeInfo, {
     SelectionSet(node) {
-      const currentType = typeInfo.getType();
+      const currentType = typeInfo.getType()
       if (!currentType) {
-        throw new Error(`Unknown type for selectionSet`);
+        throw new Error(`Unknown type for selectionSet`)
       }
-      const namedType = getNamedType(currentType);
-      const typeName = namedType.name;
+      const namedType = getNamedType(currentType)
+      const typeName = namedType.name
       if (rootTypeNames.includes(typeName)) {
-        return;
+        return
       }
-      let finalNode = node;
-      const neededFields = getNeededFields(node, namedType);
+      let finalNode = node
+      const neededFields = getNeededFields(node, namedType)
       for (const field of neededFields) {
-        finalNode = withField(finalNode, field);
+        finalNode = withField(finalNode, field)
       }
-      return finalNode;
+      return finalNode
     },
-  });
+  })
 
-  return operations.map((o) => visit(o, visitor));
+  return operations.map((o) => visit(o, visitor))
 }
 
 function withField(node: SelectionSetNode, name: string): SelectionSetNode {
@@ -143,5 +143,5 @@ function withField(node: SelectionSetNode, name: string): SelectionSetNode {
       },
       ...node.selections,
     ],
-  };
+  }
 }
