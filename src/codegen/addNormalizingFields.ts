@@ -4,6 +4,7 @@ import {
   GraphQLObjectType,
   GraphQLSchema,
   Kind,
+  SelectionNode,
   SelectionSetNode,
   TypeInfo,
   getNamedType,
@@ -123,7 +124,7 @@ export function addNormalizingFields(
       for (const field of neededFields) {
         finalNode = withField(finalNode, field)
       }
-      return finalNode
+      return { ...finalNode, selections: sortSelections(finalNode.selections) }
     },
   })
 
@@ -144,4 +145,29 @@ function withField(node: SelectionSetNode, name: string): SelectionSetNode {
       ...node.selections,
     ],
   }
+}
+
+// Ensures we have a stable selectionSet so we are able to stringify the query a bit better
+function sortSelections(selections: ReadonlyArray<SelectionNode>): ReadonlyArray<SelectionNode> {
+  return [...selections].sort((a, b) => {
+    if (a.kind !== b.kind) {
+      return a.kind === Kind.FIELD ? -1 : 1
+    }
+    if (a.kind === Kind.FIELD && b.kind === Kind.FIELD) {
+      const aName = a.alias?.value ?? a.name.value
+      const bName = b.alias?.value ?? b.name.value
+      if (aName === '__typename') return -1
+      if (bName === '__typename') return 1
+      return aName === bName ? 0 : aName > bName ? 1 : -1
+    }
+    if (a.kind === Kind.INLINE_FRAGMENT && b.kind === Kind.INLINE_FRAGMENT) {
+      const aName = a.typeCondition?.name.value ?? ''
+      const bName = b.typeCondition?.name.value ?? ''
+      return aName === bName ? 0 : aName > bName ? 1 : -1
+    }
+    if (a.kind === Kind.FRAGMENT_SPREAD) {
+      throw new Error('Unexpected fragment spread')
+    }
+    return a.kind === Kind.FIELD ? -1 : 1
+  })
 }

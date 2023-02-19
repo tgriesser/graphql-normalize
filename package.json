@@ -37,6 +37,13 @@
     }
   },
   "types": "./cjs/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "codegen": [
+        "./cjs/codegen.d.ts"
+      ]
+    }
+  },
   "keywords": [
     "graphql",
     "normalize",

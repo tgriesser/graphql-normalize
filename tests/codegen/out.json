@@ -24,23 +24,6 @@
         },
         "fields": [
           {
-            "name": "nodes",
-            "list": 1,
-            "cacheKey": "Post:id",
-            "fields": [
-              "id",
-              "__typename",
-              {
-                "name": "author",
-                "cacheKey": "User:id",
-                "fields": [
-                  "id",
-                  "__typename"
-                ]
-              }
-            ]
-          },
-          {
             "name": "edges",
             "list": 1,
             "fields": [
@@ -49,18 +32,35 @@
                 "name": "node",
                 "cacheKey": "Post:id",
                 "fields": [
-                  "id",
                   "__typename",
                   {
                     "name": "author",
                     "cacheKey": "User:id",
                     "fields": [
-                      "id",
-                      "__typename"
+                      "__typename",
+                      "id"
                     ]
-                  }
+                  },
+                  "id"
                 ]
               }
+            ]
+          },
+          {
+            "name": "nodes",
+            "list": 1,
+            "cacheKey": "Post:id",
+            "fields": [
+              "__typename",
+              {
+                "name": "author",
+                "cacheKey": "User:id",
+                "fields": [
+                  "__typename",
+                  "id"
+                ]
+              },
+              "id"
             ]
           }
         ]
@@ -75,8 +75,8 @@
             "list": 1,
             "cacheKey": "Post:id",
             "fields": [
-              "id",
               "__typename",
+              "id",
               "title"
             ]
           }
@@ -93,20 +93,20 @@
               "__typename"
             ],
             "possible": {
-              "Post": {
-                "fields": [
-                  "id",
-                  "__typename"
-                ],
-                "cacheKey": "Post:id"
-              },
               "Blog": {
                 "fields": [
-                  "id",
                   "__typename",
+                  "id",
                   "name"
                 ],
                 "cacheKey": "Blog:id"
+              },
+              "Post": {
+                "fields": [
+                  "__typename",
+                  "id"
+                ],
+                "cacheKey": "Post:id"
               }
             }
           }
@@ -122,8 +122,8 @@
         "list": 2,
         "cacheKey": "User:id",
         "fields": [
-          "id",
           "__typename",
+          "id",
           "name"
         ]
       },
@@ -140,20 +140,20 @@
           "__typename"
         ],
         "possible": {
+          "Post": {
+            "fields": [
+              "__typename",
+              "id"
+            ],
+            "cacheKey": "Post:id"
+          },
           "User": {
             "fields": [
-              "id",
               "__typename",
+              "id",
               "name"
             ],
             "cacheKey": "User:id"
-          },
-          "Post": {
-            "fields": [
-              "id",
-              "__typename"
-            ],
-            "cacheKey": "Post:id"
           }
         }
       }
@@ -202,23 +202,6 @@
         },
         "fields": [
           {
-            "name": "nodes",
-            "list": 1,
-            "cacheKey": "Post:id",
-            "fields": [
-              "id",
-              "__typename",
-              {
-                "name": "author",
-                "cacheKey": "User:id",
-                "fields": [
-                  "id",
-                  "__typename"
-                ]
-              }
-            ]
-          },
-          {
             "name": "edges",
             "list": 1,
             "fields": [
@@ -226,18 +209,35 @@
                 "name": "node",
                 "cacheKey": "Post:id",
                 "fields": [
-                  "id",
                   "__typename",
                   {
                     "name": "author",
                     "cacheKey": "User:id",
                     "fields": [
-                      "id",
-                      "__typename"
+                      "__typename",
+                      "id"
                     ]
-                  }
+                  },
+                  "id"
                 ]
               }
+            ]
+          },
+          {
+            "name": "nodes",
+            "list": 1,
+            "cacheKey": "Post:id",
+            "fields": [
+              "__typename",
+              {
+                "name": "author",
+                "cacheKey": "User:id",
+                "fields": [
+                  "__typename",
+                  "id"
+                ]
+              },
+              "id"
             ]
           }
         ]
@@ -255,20 +255,20 @@
           "__typename"
         ],
         "possible": {
+          "Post": {
+            "fields": [
+              "__typename",
+              "id"
+            ],
+            "cacheKey": "Post:id"
+          },
           "User": {
             "fields": [
-              "id",
               "__typename",
+              "id",
               "name"
             ],
             "cacheKey": "User:id"
-          },
-          "Post": {
-            "fields": [
-              "id",
-              "__typename"
-            ],
-            "cacheKey": "Post:id"
           }
         }
       }

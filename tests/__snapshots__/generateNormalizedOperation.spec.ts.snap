@@ -3,18 +3,18 @@
 exports[`generateNormalizedOperation > adds the necessary fields to properly normalize 1`] = `
 "query Operation1($first: Int = 12, $nodeId: ID! = \\"\\", $hasNode: Boolean = false) {
   posts(first: $first) {
-    nodes {
-      __typename
-      author {
-        __typename
-      }
-    }
     edges {
       node {
         __typename
         author {
           __typename
         }
+      }
+    }
+    nodes {
+      __typename
+      author {
+        __typename
       }
     }
   }
@@ -25,11 +25,11 @@ exports[`generateNormalizedOperation > adds the necessary fields to properly nor
   }
   currentNode: node(id: $nodeId) @include(if: $hasNode) {
     __typename
-    ... on User {
-      id
-    }
     ... on Post {
       __typename
+    }
+    ... on User {
+      id
     }
   }
   homeItems(first: 10) {
@@ -41,8 +41,8 @@ exports[`generateNormalizedOperation > adds the necessary fields to properly nor
     }
   }
   nestedUserList {
-    id
     __typename
+    id
   }
 }"
 `;
