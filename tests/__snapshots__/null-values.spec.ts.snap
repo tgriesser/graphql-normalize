@@ -1,0 +1,79 @@
+// Vitest Snapshot v1
+
+exports[`null values > caches correctly 1`] = `
+{
+  "Organization:T3JnYW5pemF0aW9uOmVjNzYzZmVjLTBiZTctNGJiMS04ODQyLWI0ZmIzMDcxNjAyYw==": {
+    "__typename": "Organization",
+    "id": {
+      "$": "T3JnYW5pemF0aW9uOmVjNzYzZmVjLTBiZTctNGJiMS04ODQyLWI0ZmIzMDcxNjAyYw==",
+    },
+    "name": {
+      "$": "Some Form",
+    },
+    "projects": {
+      "{\\"first\\":\\"100\\"}": {
+        "nodes": {
+          "$": [
+            {
+              "$ref": "Project:UHJvamVjdDo4ODFjNDNjZS1hN2FjLTQzNzEtOTI5MS1kYWFhMmViNmQyYTc=",
+            },
+          ],
+        },
+        "pageInfo": {
+          "$": {
+            "endCursor": {
+              "$": "T2Zmc2V0Q29ubmVjdGlvbjow",
+            },
+            "hasNextPage": {
+              "$": false,
+            },
+          },
+        },
+      },
+    },
+    "uuid": {
+      "$": "ec763fec-0be7-4bb1-8842-b4fb3071602c",
+    },
+  },
+  "Project:UHJvamVjdDo4ODFjNDNjZS1hN2FjLTQzNzEtOTI5MS1kYWFhMmViNmQyYTc=": {
+    "__typename": "Project",
+    "id": {
+      "$": "UHJvamVjdDo4ODFjNDNjZS1hN2FjLTQzNzEtOTI5MS1kYWFhMmViNmQyYTc=",
+    },
+    "name": {
+      "$": "My New Proj",
+    },
+    "uuid": {
+      "$": "881c43ce-a7ac-4371-9291-daaa2eb6d2a7",
+    },
+  },
+  "viewer": {
+    "$": {
+      "lastUsedOrganization": {
+        "$": null,
+      },
+      "organizations": {
+        "{\\"first\\":\\"100\\"}": {
+          "nodes": {
+            "$": [
+              {
+                "$ref": "Organization:T3JnYW5pemF0aW9uOmVjNzYzZmVjLTBiZTctNGJiMS04ODQyLWI0ZmIzMDcxNjAyYw==",
+              },
+            ],
+          },
+          "pageInfo": {
+            "$": {
+              "endCursor": {
+                "$": "T2Zmc2V0Q29ubmVjdGlvbjox",
+              },
+              "hasNextPage": {
+                "$": false,
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+}
+`;

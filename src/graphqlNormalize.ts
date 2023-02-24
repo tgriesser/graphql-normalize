@@ -294,6 +294,11 @@ export function graphqlNormalize(options: graphqlNormalizeOptions): SyncWithCach
           setIn(cacheVal, [field.name, argsKey], { $ref: cacheKeyVal })
           setIn(cache, stripRoot([cacheKeyVal, __typename]), typename)
         }
+        if (resultVal[resultName] === null) {
+          setIn(cacheVal, [field.name, argsKey], null)
+          set(targetVal, resultName, null)
+          return
+        }
       }
 
       if (fields) {
