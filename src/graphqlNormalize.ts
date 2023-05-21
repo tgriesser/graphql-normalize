@@ -235,6 +235,7 @@ export function graphqlNormalize(options: graphqlNormalizeOptions): SyncWithCach
     const { possible, cacheKey, fields } = field
     if (!cacheKey && !val?.$ref) {
       return {
+        val,
         typename: undefined,
         fields,
         cacheKeyVal: undefined,
@@ -245,6 +246,7 @@ export function graphqlNormalize(options: graphqlNormalizeOptions): SyncWithCach
       const possibleInfo = possible[typename]
       if (possibleInfo) {
         return {
+          val,
           typename,
           fields: possibleInfo.fields.concat(fields ?? []),
           cacheKeyVal: val.$ref,
@@ -252,6 +254,7 @@ export function graphqlNormalize(options: graphqlNormalizeOptions): SyncWithCach
       }
     }
     return {
+      val,
       typename,
       fields,
       cacheKeyVal: val.$ref,
@@ -265,6 +268,7 @@ export function graphqlNormalize(options: graphqlNormalizeOptions): SyncWithCach
       const possibleInfo = possible[typename]
       if (possibleInfo) {
         return {
+          val,
           typename,
           fields: possibleInfo.fields.concat(fields ?? []),
           cacheKeyVal: possibleInfo.cacheKey ? makeCacheKey(possibleInfo.cacheKey, val) : undefined,
@@ -272,6 +276,7 @@ export function graphqlNormalize(options: graphqlNormalizeOptions): SyncWithCach
       }
     }
     return {
+      val,
       typename,
       fields: fields,
       cacheKeyVal: cacheKey ? makeCacheKey(cacheKey, val) : undefined,
@@ -285,19 +290,23 @@ export function graphqlNormalize(options: graphqlNormalizeOptions): SyncWithCach
 
     const handleField = (writeConfig: HandleFieldConfig) => {
       const { cacheVal, resultVal, targetVal, field } = writeConfig
-      const { cacheKeyVal, fields, typename } = isRead
+
+      const { cacheKeyVal, fields, typename, val } = isRead
         ? readFieldMeta(field, getIn(cacheVal, [field.name, argsKey]))
         : writeFieldMeta(field, resultVal[resultName])
+
+      if (val === null) {
+        if (isWrite) {
+          setIn(cacheVal, [field.name, argsKey], null)
+        }
+        set(targetVal, resultName, null)
+        return
+      }
 
       if (isWrite) {
         if (cacheKeyVal) {
           setIn(cacheVal, [field.name, argsKey], { $ref: cacheKeyVal })
           setIn(cache, stripRoot([cacheKeyVal, __typename]), typename)
-        }
-        if (resultVal[resultName] === null) {
-          setIn(cacheVal, [field.name, argsKey], null)
-          set(targetVal, resultName, null)
-          return
         }
       }
 
